@@ -9,7 +9,6 @@ export default auth((req) => {
     isAuthPage ||
     pathname.startsWith("/api/auth") ||
     pathname.startsWith("/_next") ||
-    pathname.startsWith("/uploads") ||
     pathname === "/favicon.ico";
 
   if (!isLoggedIn && !isPublic && !pathname.startsWith("/api/")) {

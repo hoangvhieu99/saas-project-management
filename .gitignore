@@ -41,12 +41,7 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
 
-# local db & uploads
+# local sqlite
 prisma/dev.db
 prisma/dev.db-journal
-public/uploads/*
-!public/uploads/.gitkeep
-
-/app/generated/prisma

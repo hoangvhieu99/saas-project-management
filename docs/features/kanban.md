@@ -1,5 +1,7 @@
 # Feature: Kanban
 
+> **Status:** Deferred — Phase 2 (not in codebase yet)
+
 ## Feature Goal
 
 Core portfolio feature: project board with columns and tasks; drag-and-drop persists column + position across reload.

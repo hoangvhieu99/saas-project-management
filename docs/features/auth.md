@@ -1,5 +1,7 @@
 # Feature: Auth
 
+> **Status:** Implemented — Phase 0
+
 ## Feature Goal
 
 Users can register, sign in, sign out, and access protected app routes via Auth.js sessions.

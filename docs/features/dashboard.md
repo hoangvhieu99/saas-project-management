@@ -1,5 +1,7 @@
 # Feature: Dashboard
 
+> **Status:** Deferred — Phase 1 widgets (empty shell page exists only)
+
 ## Feature Goal
 
 Give signed-in users an at-a-glance home: workspaces, due-soon tasks, and simple activity — not a cluttered analytics suite.

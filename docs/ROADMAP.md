@@ -14,10 +14,10 @@
 
 ### Deliverables
 
-- [ ] `/docs` SSOT complete
-- [ ] Next.js + Tailwind + Shadcn + Prisma + Docker Postgres
-- [ ] Auth: register, login, logout, protected `(app)` layout
-- [ ] CI: lint + typecheck
+- [x] `/docs` SSOT complete
+- [x] Next.js + Tailwind + UI primitives + Prisma (SQLite local) + Auth shell
+- [x] Auth: register, login, logout, protected `(app)` layout
+- [x] CI: lint + typecheck
 - [ ] Workspace CRUD + `w/[slug]` + OWNER/MEMBER
 - [ ] Dashboard summary widgets
 - [ ] Profile basics (name, avatar URL)
@@ -26,7 +26,8 @@
 
 - [x] Docs SSOT (Session 0)
 - [x] App scaffold + Auth (Phase 0 freeze)
-- [ ] Workspace + Dashboard + Profile
+- [x] Foundation cleanup (docs / ignore / dead paths)
+- [ ] Workspace + Dashboard widgets + Profile
 
 ---
 

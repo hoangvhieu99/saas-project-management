@@ -1,5 +1,7 @@
 # Feature: Profile
 
+> **Status:** Deferred — Phase 1 / 4 (not in codebase yet)
+
 ## Feature Goal
 
 Users view and update their own profile (name, image URL) used across assignees and topbar.

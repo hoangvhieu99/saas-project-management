@@ -1,5 +1,7 @@
 # Feature: Settings
 
+> **Status:** Deferred — Phase 4 (not in codebase yet)
+
 ## Feature Goal
 
 Workspace and account settings: rename workspace, danger-zone delete (OWNER), and account preferences linked to Profile.

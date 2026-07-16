@@ -1,5 +1,7 @@
 # Feature: Calendar
 
+> **Status:** Deferred — Phase 3 (not in codebase yet)
+
 ## Feature Goal
 
 Month view of tasks by `dueDate`; clicking a task opens the same TaskDetail used by Kanban.

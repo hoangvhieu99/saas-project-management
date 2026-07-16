@@ -1,5 +1,7 @@
 # Feature: Workspace
 
+> **Status:** Deferred — Phase 1 (not in codebase yet)
+
 ## Feature Goal
 
 Authenticated users create and switch workspaces; all project data is scoped by workspace slug with membership checks.

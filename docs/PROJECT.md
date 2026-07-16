@@ -2,72 +2,68 @@
 
 ## Project overview
 
-SaaS Project Management — portfolio full-stack app inspired by Jira / Trello / ClickUp. Teams manage work in workspaces with Kanban boards, calendar views, comments, and light collaboration.
+**PulseBoard** — portfolio SaaS project management inspired by Jira / Trello / ClickUp.
 
 ## Business goal
 
-Ship a credible **portfolio demo** that proves end-to-end product skills: auth, multi-tenant workspace, interactive Kanban, clean architecture, tests, and Vercel deploy — enough for interview storytelling.
+Ship a credible portfolio demo: auth, multi-tenant workspace, Kanban, clean architecture, tests, Vercel deploy.
 
 ## Target users
 
-- Small teams / freelancers tracking tasks across projects
-- Hiring managers / interviewers evaluating the demo
-- The builder (learning path: Senior FE patterns in a real Next.js app)
+- Small teams / freelancers
+- Hiring managers reviewing the demo
+- The builder (Senior FE learning path)
 
-## Core features
+## Core features (roadmap)
 
-- Authentication (Credentials + optional Google OAuth)
-- Dashboard (summary widgets)
-- Workspace (CRUD, slug, membership)
-- Kanban (columns, tasks, drag-and-drop)
-- Calendar (tasks by `dueDate`)
-- Comments, Team, Notifications (in-app), File upload, Profile, Settings
+- Authentication (Credentials + optional Google OAuth) — **Phase 0 done**
+- Dashboard, Workspace, Kanban, Calendar
+- Comments, Team, Notifications, File upload, Profile, Settings
 
 ## MVP scope
 
-- [ ] Auth.js session (register / login / logout)
-- [ ] Workspace list + create + `w/[slug]` routing + OWNER/MEMBER roles
-- [ ] One board per project; task CRUD + DnD position persist
-- [ ] Calendar month view → open shared TaskDetail
-- [ ] Comments + team invite/add + in-app notification bell
-- [ ] Task attachments (Blob/Uploadthing)
+- [x] Auth.js session (register / login / logout) + empty protected shell
+- [ ] Workspace list + create + `w/[slug]` + OWNER/MEMBER
+- [ ] One board per project; task CRUD + DnD
+- [ ] Calendar month view → shared TaskDetail
+- [ ] Comments + team invite + in-app notification bell
+- [ ] Task attachments
 - [ ] Profile + workspace settings
-- [ ] Playwright happy path + Jest for pure logic + CI + Vercel
+- [ ] Playwright + Jest + CI + Vercel
 
 ## Non-MVP scope
 
-- [ ] Full Jira-style RBAC / custom workflows
-- [ ] WebSocket / realtime collaboration
-- [ ] Google Calendar sync, email digests, push notifications
-- [ ] Billing / subscriptions
-- [ ] Mobile native apps
-- [ ] Advanced reporting / burndown
+- Full Jira-style RBAC / custom workflows
+- WebSocket / realtime
+- Google Calendar sync, email digests, push
+- Billing / native apps / advanced reporting
 
 ## Folder conventions
 
-| Path | Purpose |
-|------|---------|
-| `app/` | Next.js App Router (auth + protected shells) |
-| `components/ui/` | Shadcn primitives |
-| `components/features/` | Feature UI (kanban, calendar, …) |
-| `lib/` | auth, db, validations, api-client |
-| `hooks/` | TanStack Query / feature hooks |
-| `stores/` | Zustand — UI state only |
-| `prisma/` | Schema + migrations |
-| `docs/` | Single source of truth (this folder) |
-| `e2e/` | Playwright |
-| `__tests__/` | Jest unit tests |
+| Path | Purpose | Status |
+|------|---------|--------|
+| `app/` | App Router | Present |
+| `components/ui/` | Shared primitives | Present |
+| `components/features/` | Feature UI | `auth/` only |
+| `components/layout/` | App shell | Present |
+| `lib/` | auth, db, validations, api-client | Present |
+| `stores/` | Zustand UI state | Present |
+| `prisma/` | Schema + migrations | Auth-only |
+| `docs/` | SSOT | Present |
+| `hooks/` | Feature hooks | Deferred |
+| `e2e/` | Playwright | Deferred (Phase 5) |
+| `__tests__/` | Jest | Deferred (Phase 5) |
 
 ## Coding philosophy
 
-1. **Contract first** — Zod + Prisma before UI polish.
-2. **Server for truth** — RSC/Prisma for reads; mutations via Server Actions or Route Handlers.
-3. **Client for interaction** — TanStack Query for cache after mount; Zustand only for ephemeral UI.
-4. **Authz everywhere** — membership check on every workspace-scoped query.
-5. **Small PRs / sessions** — one clear goal; update `SESSION.md` each session.
-6. **Portfolio honesty** — prefer working depth over fake breadth.
+1. Contract first — Zod + Prisma before UI polish.
+2. Server for truth — RSC/Prisma reads; Route Handlers / Actions for writes.
+3. Client for interaction — TanStack Query after mount; Zustand UI-only.
+4. Authz on every workspace-scoped query (from Phase 1).
+5. One session = one goal; update `SESSION.md`.
+6. Portfolio honesty — depth over fake breadth.
 
 ## TODO
 
-- [ ] Add product name / brand once UI direction is chosen
-- [ ] Screenshot gallery for README after Phase 3
+- [x] Brand name: PulseBoard
+- [ ] Screenshot gallery after Phase 3

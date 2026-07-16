@@ -1,82 +1,86 @@
 # STACK
 
-Each choice is portfolio- and mentor-friendly: one full-stack Next.js codebase, strong typing, and deployable to Vercel.
+Each choice is portfolio-friendly: one Next.js codebase, strong typing, Vercel-ready.
 
 ## Languages
 
 | Tech | Why |
 |------|-----|
-| **TypeScript** | Safer refactors, shared Zod/Prisma types, interview-ready code |
+| **TypeScript** | Safer refactors, shared Zod/Prisma types |
 
 ## Framework
 
 | Tech | Why |
 |------|-----|
-| **Next.js 15 (App Router)** | RSC + Route Handlers + deploy target; industry default for SaaS FE |
-| **React 19** | Matches Next 15; modern client/server component model |
+| **Next.js 15 (App Router)** | RSC + Route Handlers; SaaS default |
+| **React 19** | Matches Next 15 |
 
-## Libraries
+## Libraries (in use — Phase 0)
 
 | Tech | Why |
 |------|-----|
-| **TanStack Query** | Server-state cache, mutations, invalidation for Kanban |
-| **Zustand** | Tiny UI store; avoids Redux boilerplate |
-| **Axios** | Consistent client HTTP + interceptors |
-| **React Hook Form** | Performant forms |
-| **Zod** | Single validation source for client + server |
-| **Auth.js v5** | Session auth in Next without custom crypto |
-| **@dnd-kit** | Accessible Kanban DnD (add when building board) |
-| **date-fns** | Light date helpers for Calendar |
+| **TanStack Query** | Ready for server-state cache (Phase 1+) |
+| **Zustand** | Tiny UI store |
+| **Axios** | Client HTTP wrapper |
+| **React Hook Form** | Auth forms |
+| **Zod** | Shared validation |
+| **Auth.js v5** | Session auth |
+
+## Libraries (deferred)
+
+| Tech | Phase | Why later |
+|------|-------|-----------|
+| **@dnd-kit** | 2 | Kanban DnD |
+| **date-fns** | 3 | Calendar helpers |
 
 ## UI
 
 | Tech | Why |
 |------|-----|
-| **Tailwind CSS** | Fast iteration, consistent design tokens |
-| **Shadcn UI** | Accessible primitives you own (copy-in), not a black-box kit |
+| **Tailwind CSS** | Design tokens, fast iteration |
+| **Shadcn-style primitives** | Owned components under `components/ui/` (not full shadcn CLI inventory) |
 
 ## Database
 
 | Tech | Why |
 |------|-----|
-| **PostgreSQL** | Relational fit for membership, tasks, positions; free tiers (Neon/Supabase) |
-| **SQLite (local)** | Zero-deps local default when Docker unavailable — see ADR-006 |
+| **SQLite (local default)** | Zero-deps — ADR-006 |
+| **PostgreSQL (optional/prod)** | Via Docker Compose / managed free tier when switching provider |
 
 ## ORM
 
 | Tech | Why |
 |------|-----|
-| **Prisma** | Schema-first, migrations, great DX for portfolio pace |
+| **Prisma** | Schema-first migrations |
 
-## Deployment
-
-| Tech | Why |
-|------|-----|
-| **Vercel** | Native Next.js hosting |
-| **Docker Compose** | Local Postgres parity |
-| **GitHub Actions** | Lint/typecheck/test on PR |
-
-## Testing
+## Deployment / ops
 
 | Tech | Why |
 |------|-----|
-| **Playwright** | Critical user journeys (login → board → DnD) |
-| **Jest** | Pure units: Zod, reorder helpers |
+| **Vercel** | Target host (Phase 5) |
+| **Docker Compose** | Optional local Postgres |
+| **GitHub Actions** | Lint + typecheck on PR (Phase 0) |
 
-## Lint / Formatting
+## Testing (deferred — Phase 5)
 
 | Tech | Why |
 |------|-----|
-| **ESLint** (Next config) | Catch React/Next footguns |
-| **Prettier** (optional later) | Consistent formatting — TODO if not bundled |
+| **Playwright** | Critical journeys |
+| **Jest** | Pure unit helpers |
+
+## Lint
+
+| Tech | Why |
+|------|-----|
+| **ESLint** (Next config) | React/Next footguns |
 
 ## Package manager
 
 | Tech | Why |
 |------|-----|
-| **npm** | Default with `create-next-app`; simplest for solo portfolio |
+| **npm** | Default with create-next-app |
 
 ## TODO
 
-- [ ] Lock versions in package.json after scaffold
-- [ ] Decide Uploadthing vs Vercel Blob for attachments
+- [x] Lock stack to Phase 0 reality after freeze
+- [ ] Attachments storage choice in Phase 4

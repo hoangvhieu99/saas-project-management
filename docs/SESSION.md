@@ -6,19 +6,19 @@ Updated every coding session. AI assistants: read this first, then the relevant 
 
 ## Current Sprint
 
-Phase 0 — Foundation (frozen)
+Phase 0 — Foundation
 
 ## Current Goal
 
-Phase 0 freeze complete. Wait for approval before Phase 1.
+Foundation cleanup complete. Awaiting approval.
 
 ## Working Feature
 
-Foundation (Auth + shell)
+Foundation hygiene (docs + ignore + dead paths)
 
 ## Current Task
 
-None — session complete. Awaiting approval.
+None — session complete.
 
 ## Blocked
 
@@ -26,7 +26,7 @@ None
 
 ## Next Task
 
-Phase 1 only when explicitly requested: Workspace CRUD + membership + dashboard widgets.
+Only when explicitly requested (e.g. Phase 1 Workspace).
 
 ## Files Allowed To Change
 
@@ -35,13 +35,12 @@ Phase 1 only when explicitly requested: Workspace CRUD + membership + dashboard 
 ## Files Forbidden To Change
 
 - Do not auto-advance roadmap
-- Do not re-add deferred feature modules without an explicit session goal
+- Do not touch Auth / Workspace / Dashboard / business logic / testing without an explicit session
 
 ## Notes
 
-- Implementation freeze executed 2026-07-16
-- Auth-only Prisma schema; feature modules deferred
-- Working contract: one session = one goal = one review; STOP after task
+- Cleanup 2026-07-16: docs aligned to Phase 0 tree; stale gitignore/uploads path removed
+- Working contract: one session = one goal = STOP after task
 
 ---
 
@@ -50,10 +49,10 @@ Phase 1 only when explicitly requested: Workspace CRUD + membership + dashboard 
 | Date | Goal | Outcome |
 |------|------|---------|
 | 2026-07-16 | Docs SSOT | Done |
-| 2026-07-16 | Over-built MVP (rolled back) | Superseded by freeze |
-| 2026-07-16 | Execute Phase 0 freeze | Done — awaiting review |
+| 2026-07-16 | Phase 0 freeze | Done |
+| 2026-07-16 | Foundation cleanup | Done — awaiting review |
 
 ## TODO
 
-- [x] Phase 0 freeze
-- [ ] Await approval for Phase 1 session
+- [x] Foundation cleanup
+- [ ] Await next explicit session goal
