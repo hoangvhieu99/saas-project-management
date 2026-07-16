@@ -4,8 +4,10 @@
 
 ```
 app/
+  layout.tsx / page.tsx / globals.css
   (auth)/login|register
-  (app)/dashboard          # empty shell page
+  (app)/layout.tsx         # AuthenticatedShell → AppShell
+  (app)/dashboard          # content only (empty shell page)
   api/auth/[...nextauth]
   api/auth/register
 components/
@@ -13,7 +15,7 @@ components/
   layout/                  # AppShell, AuthenticatedShell
   providers.tsx
   ui/                      # shared primitives
-lib/                       # auth, db, validations, api-client, utils
+lib/                       # auth, authz, db, validations, api-client, api-helpers, utils
 stores/useUiStore.ts
 prisma/                    # Auth models only (User, Account, Session, …)
 docs/                      # SSOT
@@ -45,8 +47,11 @@ Later phases add: TanStack Query mutations, membership checks, Postgres (optiona
 
 ```
 RootLayout → Providers
-  └─ (auth) pages | (app) AuthenticatedShell → AppShell → page
+  └─ (auth) pages
+  └─ (app)/layout → AuthenticatedShell → AppShell → page
 ```
+
+`(app)/layout` owns the shell. Pages under `(app)` render content only.
 
 ## Server Components vs Client Components
 
@@ -70,17 +75,18 @@ Default to Server; `"use client"` only at interaction boundaries.
 ## API flow (Phase 0)
 
 1. `POST /api/auth/register` or Auth.js credentials
-2. Validate with Zod where applicable
+2. Validate with Zod (`registerSchema` / `loginSchema`) where applicable
 3. Session via Auth.js JWT
-4. Middleware protects `(app)` routes
+4. Middleware protects `(app)` page routes; Route Handlers must call `requireUser` (and membership from Phase 1)
 
 Membership / workspace steps deferred to Phase 1.
 
 ## Authentication flow
 
 1. Register/login via Auth.js (Credentials + optional Google)
-2. Session cookie; middleware protects `(app)`
-3. Unauthorized → redirect login or 401
+2. Credentials + login form share `loginSchema` in `lib/validations`
+3. Session cookie; middleware protects `(app)`
+4. Unauthorized → redirect login or 401
 
 ## Error handling
 

@@ -10,11 +10,11 @@ Phase 0 — Foundation
 
 ## Current Goal
 
-Foundation cleanup complete. Awaiting approval.
+Architecture freeze complete. Awaiting review.
 
 ## Working Feature
 
-Foundation hygiene (docs + ignore + dead paths)
+Architecture alignment (shell ownership + login schema SSOT + docs)
 
 ## Current Task
 
@@ -39,7 +39,7 @@ Only when explicitly requested (e.g. Phase 1 Workspace).
 
 ## Notes
 
-- Cleanup 2026-07-16: docs aligned to Phase 0 tree; stale gitignore/uploads path removed
+- Session 02 2026-07-16: `(app)/layout` owns AuthenticatedShell; single `loginSchema`; ARCHITECTURE aligned
 - Working contract: one session = one goal = STOP after task
 
 ---
@@ -51,8 +51,11 @@ Only when explicitly requested (e.g. Phase 1 Workspace).
 | 2026-07-16 | Docs SSOT | Done |
 | 2026-07-16 | Phase 0 freeze | Done |
 | 2026-07-16 | Foundation cleanup | Done — awaiting review |
+| 2026-07-16 | Session 01 architecture review | Done |
+| 2026-07-16 | Session 02 architecture freeze | Done — awaiting review |
 
 ## TODO
 
 - [x] Foundation cleanup
+- [x] Architecture freeze (Session 02)
 - [ ] Await next explicit session goal

@@ -3,13 +3,8 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
-import { z } from "zod";
 import { prisma } from "@/lib/db";
-
-const credentialsSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-});
+import { loginSchema } from "@/lib/validations";
 
 const providers = [
   Credentials({
@@ -19,7 +14,7 @@ const providers = [
       password: { label: "Password", type: "password" },
     },
     async authorize(credentials) {
-      const parsed = credentialsSchema.safeParse(credentials);
+      const parsed = loginSchema.safeParse(credentials);
       if (!parsed.success) return null;
 
       const user = await prisma.user.findUnique({
