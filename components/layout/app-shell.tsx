@@ -1,0 +1,66 @@
+"use client";
+
+import Link from "next/link";
+import { signOut } from "next-auth/react";
+import { LayoutDashboard, LogOut } from "lucide-react";
+import { Avatar } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+
+type ShellUser = {
+  id: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+};
+
+export function AppShell({
+  user,
+  children,
+}: {
+  user: ShellUser;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex min-h-screen bg-stone-50 text-stone-900">
+      <aside className="flex w-60 shrink-0 flex-col border-r border-stone-200 bg-white">
+        <div className="border-b border-stone-100 px-4 py-4">
+          <Link href="/dashboard" className="text-lg font-semibold tracking-tight text-teal-900">
+            PulseBoard
+          </Link>
+        </div>
+
+        <nav className="flex flex-1 flex-col gap-1 p-3">
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-2 rounded-md bg-teal-50 px-3 py-2 text-sm font-medium text-teal-900"
+          >
+            <LayoutDashboard className="h-4 w-4" />
+            Dashboard
+          </Link>
+        </nav>
+      </aside>
+
+      <div className="flex min-w-0 flex-1 flex-col">
+        <header className="flex h-14 items-center justify-end gap-2 border-b border-stone-200 bg-white px-4">
+          <div className="flex items-center gap-2 rounded-md px-2 py-1">
+            <Avatar name={user.name} image={user.image} />
+            <div className="hidden sm:block">
+              <p className="text-sm font-medium leading-none">{user.name ?? "User"}</p>
+              <p className="text-xs text-stone-500">{user.email}</p>
+            </div>
+          </div>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            aria-label="Sign out"
+            onClick={() => signOut({ callbackUrl: "/login" })}
+          >
+            <LogOut className="h-4 w-4 text-stone-600" />
+          </Button>
+        </header>
+        <main className="flex-1 overflow-auto p-6">{children}</main>
+      </div>
+    </div>
+  );
+}
