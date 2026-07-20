@@ -8,6 +8,7 @@ type KanbanBoardColumn = {
   tasks: {
     id: string;
     title: string;
+    position: number;
     priority: TaskPriority;
     dueDate: Date | null;
     assignee: {
@@ -19,16 +20,25 @@ type KanbanBoardColumn = {
 };
 
 type KanbanBoardProps = {
+  workspaceSlug: string;
+  projectId: string;
   projectName: string;
   columns: KanbanBoardColumn[];
 };
 
-export function KanbanBoard({ projectName, columns }: KanbanBoardProps) {
+export function KanbanBoard({
+  workspaceSlug,
+  projectId,
+  projectName,
+  columns,
+}: KanbanBoardProps) {
   return (
     <div className="space-y-4">
       <div className="space-y-1">
         <h1 className="text-2xl font-semibold tracking-tight text-stone-900">{projectName}</h1>
-        <p className="text-sm text-stone-500">Read-only board — drag and drop lands in a later session.</p>
+        <p className="text-sm text-stone-500">
+          Add tasks per column — drag and drop lands in a later session.
+        </p>
       </div>
 
       {columns.length === 0 ? (
@@ -38,7 +48,14 @@ export function KanbanBoard({ projectName, columns }: KanbanBoardProps) {
       ) : (
         <div className="flex gap-4 overflow-x-auto pb-2">
           {columns.map((column) => (
-            <KanbanColumn key={column.id} name={column.name} tasks={column.tasks} />
+            <KanbanColumn
+              key={column.id}
+              workspaceSlug={workspaceSlug}
+              projectId={projectId}
+              columnId={column.id}
+              name={column.name}
+              tasks={column.tasks}
+            />
           ))}
         </div>
       )}

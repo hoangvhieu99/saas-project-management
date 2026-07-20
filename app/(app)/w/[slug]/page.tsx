@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getWorkspaceBySlug } from "@/app/actions/workspace/queries";
 import { listProjects } from "@/app/actions/project/queries";
+import { CreateProjectDialog } from "@/components/features/kanban/create-project-dialog";
 
 export default async function WorkspacePage({
   params,
@@ -18,7 +19,7 @@ export default async function WorkspacePage({
           {workspace.name}
         </h1>
         <p className="text-sm text-stone-500">
-          Workspace shell — open a project board or add more in a later session.
+          Open a project board or create a new one.
         </p>
         <p className="text-sm text-stone-600">
           Slug <span className="font-medium text-stone-800">{workspace.slug}</span>
@@ -28,12 +29,16 @@ export default async function WorkspacePage({
       </div>
 
       <div className="space-y-3">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-stone-500">Projects</h2>
+        <div className="flex items-center justify-between gap-3">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-stone-500">Projects</h2>
+          <CreateProjectDialog workspaceSlug={slug} />
+        </div>
 
         {projects.length === 0 ? (
-          <p className="rounded-lg border border-dashed border-stone-200 px-4 py-6 text-center text-sm text-stone-500">
-            No projects yet. Create project UI lands in a later session.
-          </p>
+          <div className="space-y-3 rounded-lg border border-dashed border-stone-200 px-4 py-6 text-center">
+            <p className="text-sm text-stone-500">No projects yet. Create one to get a Kanban board.</p>
+            <CreateProjectDialog workspaceSlug={slug} triggerLabel="Create first project" />
+          </div>
         ) : (
           <ul className="divide-y divide-stone-200 rounded-lg border border-stone-200 bg-white">
             {projects.map((project) => (

@@ -1,6 +1,6 @@
 # ARCHITECTURE
 
-## Current tree (Session 11 — Kanban board UI read-only)
+## Current tree (Session 12 — Kanban create project/task UI)
 
 ```
 app/
@@ -10,16 +10,17 @@ app/
     (app)/dashboard
     (app)/profile
     (app)/w/[slug]/
-      projects/[projectSlug]/   # board page
+      projects/[projectSlug]/   # board page + create task
   actions/
     workspace/
     profile/
-    project/               # list, get-by-slug (+ assignee), create project/task
+    project/               # list, get-by-slug, create project/task
   api/auth/[...nextauth]
   api/auth/register
 components/
   features/
     auth/ | dashboard/ | profile/ | workspace/ | kanban/
+      # create-project-form/dialog, create-task-form, board/column/card
   layout/ | ui/
 lib/
   auth/ | workspace/ | project/ | shared/
@@ -34,7 +35,7 @@ docs/
 
 - Workspace settings UI (rename / delete)
 - Kanban DnD (`@dnd-kit`, `moveTask`)
-- Create project / create task UI forms
+- TaskDetail drawer
 - `hooks/` — when feature queries need shared hooks
 - `e2e/`, `__tests__/` — Phase 5
 

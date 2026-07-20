@@ -22,5 +22,12 @@ export default async function ProjectBoardPage({
     throw error;
   }
 
-  return <KanbanBoard projectName={project.name} columns={project.columns} />;
+  return (
+    <KanbanBoard
+      workspaceSlug={workspaceSlug}
+      projectId={project.id}
+      projectName={project.name}
+      columns={project.columns}
+    />
+  );
 }

@@ -173,3 +173,40 @@ app/actions/project/queries.ts # getProjectBySlug include assignee
 
 - (Session 11 chưa thêm learning file riêng — pattern mirror Session 05 workspace routes)
 
+---
+
+## Session 12 — Kanban create project + create task UI (2026-07-20)
+
+### Mục tiêu session
+
+Wire **mutations UI tối thiểu**: form tạo project (seed columns), form tạo task per column trên board Session 11. Không DnD, không TaskDetail.
+
+### Đã thêm
+
+```
+components/features/kanban/
+  create-project-form.tsx
+  create-project-dialog.tsx
+  create-task-form.tsx
+  KanbanColumn.tsx   # client + CreateTaskForm
+  KanbanBoard.tsx    # pass workspaceSlug, projectId
+app/(app)/w/[slug]/page.tsx   # CreateProjectDialog + empty CTA
+```
+
+- Create project: mirror `CreateWorkspaceForm` — CONFLICT slug, redirect board
+- Create task: inline form per column; `createTaskFormSchema` UI-only (`title`); full payload assemble trong `onSubmit`
+- Position append: `max(tasks.position) + 1` client-side
+- Nullable payload: `description`, `dueDate`, `assigneeId` gửi `null` (schema union chấp nhận null)
+
+### Quyết định (Design Review + approve có điều kiện)
+
+1. **`createTaskFormSchema` trong component** — không thêm domain schema; reuse `taskTitleSchema`
+2. **Gửi `null` cho optional fields** — `createTaskSchema` required keys nhưng value nullable
+3. **`disabled={isSubmitting}`** trên form controls
+4. **Không sửa `mutations.ts`** — `revalidatePath(/w/{slug})` đủ MVP
+
+### Cố ý chưa làm
+
+- DnD, `moveTask`, TaskDetail, update task UI
+- Assignee picker, due date picker
+

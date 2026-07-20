@@ -1,9 +1,13 @@
+"use client";
+
 import type { TaskPriority } from "@prisma/client";
+import { CreateTaskForm } from "@/components/features/kanban/create-task-form";
 import { KanbanTaskCard } from "@/components/features/kanban/KanbanTaskCard";
 
 type KanbanColumnTask = {
   id: string;
   title: string;
+  position: number;
   priority: TaskPriority;
   dueDate: Date | null;
   assignee: {
@@ -14,11 +18,25 @@ type KanbanColumnTask = {
 };
 
 type KanbanColumnProps = {
+  workspaceSlug: string;
+  projectId: string;
+  columnId: string;
   name: string;
   tasks: KanbanColumnTask[];
 };
 
-export function KanbanColumn({ name, tasks }: KanbanColumnProps) {
+function nextTaskPosition(tasks: KanbanColumnTask[]): number {
+  if (tasks.length === 0) return 0;
+  return Math.max(...tasks.map((task) => task.position)) + 1;
+}
+
+export function KanbanColumn({
+  workspaceSlug,
+  projectId,
+  columnId,
+  name,
+  tasks,
+}: KanbanColumnProps) {
   return (
     <section className="flex w-72 shrink-0 flex-col rounded-lg border border-stone-200 bg-stone-50">
       <header className="flex items-center justify-between border-b border-stone-200 px-3 py-2">
@@ -42,6 +60,13 @@ export function KanbanColumn({ name, tasks }: KanbanColumnProps) {
             />
           ))
         )}
+
+        <CreateTaskForm
+          workspaceSlug={workspaceSlug}
+          projectId={projectId}
+          columnId={columnId}
+          nextPosition={nextTaskPosition(tasks)}
+        />
       </div>
     </section>
   );
