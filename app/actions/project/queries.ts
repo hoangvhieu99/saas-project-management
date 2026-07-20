@@ -34,6 +34,11 @@ export async function getProjectBySlug(workspaceSlug: string, projectSlug: strin
         include: {
           tasks: {
             orderBy: { position: "asc" },
+            include: {
+              assignee: {
+                select: { id: true, name: true, image: true },
+              },
+            },
           },
         },
       },

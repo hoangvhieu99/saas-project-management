@@ -14,7 +14,7 @@ Phase 2 — Kanban execution + UI
 
 ## Goal hiện tại
 
-Session 10 đã xong (Kanban CRUD Server Actions). Coding session tiếp theo xem `NEXT_SESSION.md` — **không tự advance**.
+Session 11 đã xong (Kanban board UI read-only). Coding session tiếp theo xem `NEXT_SESSION.md` — **không tự advance**.
 
 ## Feature đang làm
 
@@ -40,6 +40,7 @@ Không
 
 - Session 09: `lib/project/` validators + authz
 - Session 10: `app/actions/project/` CRUD; `requireColumnInProject`; seed columns trong createProject
+- Session 11: board UI read-only; route `/w/[slug]/projects/[projectSlug]`; assignee include trong query
 
 ---
 
@@ -64,9 +65,11 @@ Không
 | 2026-07-20 | Session 08 Kanban schema | Xong |
 | 2026-07-20 | Session 09 Kanban validation + authz | Xong |
 | 2026-07-20 | Session 10 Kanban CRUD Server Actions | Xong |
+| 2026-07-20 | Session 11 Kanban board UI read-only | Xong |
 
 ## TODO
 
 - [x] Session 08–09 Kanban foundation
 - [x] Session 10 — Kanban CRUD actions
-- [ ] Session 11 — xem `NEXT_SESSION.md`
+- [x] Session 11 — Kanban board UI read-only
+- [ ] Session 12 — xem `NEXT_SESSION.md`

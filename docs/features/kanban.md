@@ -1,6 +1,6 @@
 # Feature: Kanban
 
-> **Trạng thái:** Đang làm — Phase 2 (Session 10: CRUD Server Actions đã land; UI/DnD chưa)
+> **Trạng thái:** Đang làm — Phase 2 (Session 11: board UI read-only; DnD/create form chưa)
 
 ## Mục tiêu feature
 
@@ -25,10 +25,10 @@ Board Kanban portfolio: cột + task, DnD persist position sau reload; TaskDetai
 
 ## UI requirements
 
-- [ ] Column list + task cards
+- [x] Column list + task cards (read-only board)
 - [ ] DnD `@dnd-kit`
 - [ ] Create task per column
-- [ ] Loading / empty / error
+- [x] Loading / empty / error (empty per column + notFound gate)
 - [ ] Drag overlay (Zustand UI ok)
 
 ## API requirements
@@ -71,7 +71,8 @@ Migration: `20260720073433_kanban_foundation`
 - [x] Validation + authz (Session 09)
 - [x] CRUD Server Actions foundation (Session 10)
 - [x] Default columns seed trong `createProject`
-- [ ] Task CRUD UI + DnD
+- [x] Board UI read-only (Session 11)
+- [ ] Task create UI + DnD
 - [ ] TaskDetail shared
 
 ## Known issues
@@ -88,5 +89,6 @@ Migration: `20260720073433_kanban_foundation`
 - [x] Validators + authz `lib/project/`
 - [x] Server Actions `app/actions/project/`
 - [x] Assignee chỉ member workspace (create/update task)
+- [x] Board read-only UI + assignee display
 - [ ] Create task → column (UI)
 - [ ] Drag → reload persist

@@ -1,6 +1,6 @@
 # ARCHITECTURE
 
-## Current tree (Session 10 — Kanban CRUD actions)
+## Current tree (Session 11 — Kanban board UI read-only)
 
 ```
 app/
@@ -10,15 +10,16 @@ app/
     (app)/dashboard
     (app)/profile
     (app)/w/[slug]/
+      projects/[projectSlug]/   # board page
   actions/
     workspace/
     profile/
-    project/               # list, get-by-slug, create project/task
+    project/               # list, get-by-slug (+ assignee), create project/task
   api/auth/[...nextauth]
   api/auth/register
 components/
   features/
-    auth/ | dashboard/ | profile/ | workspace/
+    auth/ | dashboard/ | profile/ | workspace/ | kanban/
   layout/ | ui/
 lib/
   auth/ | workspace/ | project/ | shared/
@@ -32,8 +33,8 @@ docs/
 ## Planned later (not in tree yet)
 
 - Workspace settings UI (rename / delete)
-- `components/features/kanban/` — board UI (Phase 2)
-- `components/features/kanban/` — board UI (Phase 2)
+- Kanban DnD (`@dnd-kit`, `moveTask`)
+- Create project / create task UI forms
 - `hooks/` — when feature queries need shared hooks
 - `e2e/`, `__tests__/` — Phase 5
 

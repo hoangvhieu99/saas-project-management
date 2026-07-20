@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { getWorkspaceBySlug } from "@/app/actions/workspace/queries";
+import { listProjects } from "@/app/actions/project/queries";
 
 export default async function WorkspacePage({
   params,
@@ -7,20 +9,50 @@ export default async function WorkspacePage({
 }) {
   const { slug } = await params;
   const { workspace, role } = await getWorkspaceBySlug(slug);
+  const projects = await listProjects(slug);
 
   return (
-    <div className="mx-auto max-w-2xl space-y-3">
-      <h1 className="text-2xl font-semibold tracking-tight text-stone-900">
-        {workspace.name}
-      </h1>
-      <p className="text-sm text-stone-500">
-        Workspace shell — boards and calendar land in later phases.
-      </p>
-      <p className="text-sm text-stone-600">
-        Slug <span className="font-medium text-stone-800">{workspace.slug}</span>
-        {" · "}
-        Role <span className="font-medium text-stone-800">{role}</span>
-      </p>
+    <div className="mx-auto max-w-2xl space-y-6">
+      <div className="space-y-3">
+        <h1 className="text-2xl font-semibold tracking-tight text-stone-900">
+          {workspace.name}
+        </h1>
+        <p className="text-sm text-stone-500">
+          Workspace shell — open a project board or add more in a later session.
+        </p>
+        <p className="text-sm text-stone-600">
+          Slug <span className="font-medium text-stone-800">{workspace.slug}</span>
+          {" · "}
+          Role <span className="font-medium text-stone-800">{role}</span>
+        </p>
+      </div>
+
+      <div className="space-y-3">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-stone-500">Projects</h2>
+
+        {projects.length === 0 ? (
+          <p className="rounded-lg border border-dashed border-stone-200 px-4 py-6 text-center text-sm text-stone-500">
+            No projects yet. Create project UI lands in a later session.
+          </p>
+        ) : (
+          <ul className="divide-y divide-stone-200 rounded-lg border border-stone-200 bg-white">
+            {projects.map((project) => (
+              <li key={project.id}>
+                <Link
+                  href={`/w/${slug}/projects/${project.slug}`}
+                  className="flex items-center justify-between gap-3 px-4 py-3 hover:bg-stone-50"
+                >
+                  <div>
+                    <p className="text-sm font-medium text-stone-900">{project.name}</p>
+                    <p className="text-xs text-stone-500">/{project.slug}</p>
+                  </div>
+                  <span className="text-xs font-medium text-stone-400">Open board</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }

@@ -133,3 +133,43 @@ lib/project/authz.ts
 ---
 
 <!-- Session 11+ sẽ append bên dưới dòng này -->
+
+## Session 11 — Kanban board UI read-only (2026-07-20)
+
+### Mục tiêu session
+
+Gắn **UI board tối thiểu read-only** vào route workspace: list projects, mở board theo project slug, hiển thị columns + tasks từ Server Actions Session 10. Không DnD, không create form phức tạp.
+
+### Đã thêm
+
+```
+app/(app)/w/[slug]/projects/[projectSlug]/page.tsx
+components/features/kanban/
+  KanbanBoard.tsx
+  KanbanColumn.tsx
+  KanbanTaskCard.tsx
+app/(app)/w/[slug]/page.tsx   # list projects + link board
+app/actions/project/queries.ts # getProjectBySlug include assignee
+```
+
+- Route board: `/w/[slug]/projects/[projectSlug]` (thay gợi ý `/p/` trong learning Session 08 — chưa từng implement)
+- Board page: try/catch `NOT_FOUND` → `notFound()`; `UNAUTHORIZED` → redirect (defensive — xem review)
+- `KanbanTaskCard`: title, priority badge, dueDate, assignee avatar/name
+
+### Quyết định (Design Review + approve có điều kiện)
+
+1. **Route `/projects/[projectSlug]`** — tự mô tả resource, giữ `/w/[slug]` làm shell entry
+2. **Include assignee trong `getProjectBySlug`** — select `id`, `name`, `image`; không fetch client-side
+3. **`UNAUTHORIZED` trên board page là defensive** — chỉ từ `requireUser()`; middleware + layout đã gate auth
+4. **Component split** Board / Column / TaskCard — presentational, không business logic
+
+### Cố ý chưa làm
+
+- DnD, `@dnd-kit`, `moveTask`
+- TaskDetail drawer
+- Create project / create task form UI
+
+### Learning liên quan
+
+- (Session 11 chưa thêm learning file riêng — pattern mirror Session 05 workspace routes)
+
