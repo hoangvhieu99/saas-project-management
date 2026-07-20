@@ -1,51 +1,443 @@
 ---
-description: Standard development workflow
+description: Standard Development Workflow
 alwaysApply: true
 ---
 
 # Development Workflow
 
-Mọi cuộc hội thoại tuân theo workflow này.
+Mọi cuộc hội thoại liên quan đến coding phải tuân theo workflow này.
 
-## Trước khi code
-
-Đọc theo thứ tự:
-
-1. `docs/SESSION.md`
-2. `docs/ARCHITECTURE.md` (nếu liên quan kiến trúc)
-3. Feature hiện tại: `docs/features/*.md` + `docs/explanations/*.md`
-4. Chỉ các source file liên quan task
-
-Không quét cả repo trừ khi được yêu cầu rõ.
+Không được bỏ qua bước.
+Không được tự chuyển sang bước tiếp theo.
 
 ---
 
-## Planning
+# 1. Reading Phase
 
-Trước khi implement luôn giải thích (tiếng Việt):
+Trước khi phân tích hoặc viết code, đọc theo đúng thứ tự dưới đây.
 
-- Hiểu yêu cầu như thế nào
-- File sẽ sửa
-- Rủi ro
-- Kế hoạch triển khai
-- **WHY trước HOW** — trade-off, lựa chọn bị loại
+## 1. SESSION
 
-Chờ duyệt rồi mới code.
+Đọc:
+
+```
+docs/SESSION.md
+```
+
+Mục đích:
+
+- biết session gần nhất
+- biết trạng thái hiện tại
+- biết project đang dừng ở đâu
 
 ---
 
-## Implementation
+## 2. NEXT SESSION (SSOT)
 
-Chỉ làm đúng scope đã duyệt. Một session = một goal = STOP.
+Đọc:
+
+```
+docs/NEXT_SESSION.md
+```
+
+Đây là **Single Source of Truth** cho session kế tiếp.
+
+Không được suy luận session mới từ:
+
+- ROADMAP
+- Chat history
+- TODO cũ
+- Ý kiến của AI
+
+Nếu NEXT_SESSION ghi:
+
+```
+Waiting for human.
+```
+
+→ STOP.
+
+Không tạo Design Review.
+
+Không đề xuất implementation.
+
+Chờ người dùng giao session mới.
 
 ---
 
-## Sau implementation
+## 3. Context
 
-Bắt buộc:
+Đọc:
 
-1. Cập nhật toàn bộ docs theo `04-documentation.mdc` (tiếng Việt)
-2. Tóm tắt công việc đã làm
-3. **STOP** — không tự sang session tiếp theo
+```
+docs/ROADMAP.md
+```
 
-Không tiếp tục tự động.
+Chỉ để hiểu:
+
+- roadmap
+- phase
+- mục tiêu dài hạn
+
+ROADMAP **không quyết định scope của session**.
+
+Nếu ROADMAP khác NEXT_SESSION:
+
+NEXT_SESSION luôn đúng.
+
+---
+
+## 4. Reading Order
+
+Đọc các tài liệu được chỉ định trong NEXT_SESSION.
+
+Ví dụ:
+
+- Feature
+- Explanation
+- ADR
+- Learning
+- Architecture
+
+Không đọc tài liệu không liên quan.
+
+---
+
+## 5. Source Code
+
+Chỉ đọc các source file liên quan tới task.
+
+Không quét toàn bộ repository.
+
+Nếu thiếu thông tin:
+
+→ hỏi người dùng gửi thêm file.
+
+Không tự suy luận cấu trúc project.
+
+---
+
+# 2. Consistency Check
+
+Sau khi đọc tài liệu.
+
+Kiểm tra:
+
+- NEXT_SESSION ↔ SESSION
+- NEXT_SESSION ↔ Feature Contract
+- NEXT_SESSION ↔ ADR
+- NEXT_SESSION ↔ Architecture
+
+Nếu phát hiện mâu thuẫn:
+
+STOP.
+
+Giải thích.
+
+Chờ approval.
+
+Không được code.
+
+---
+
+# 3. Design Review
+
+Trước khi implement luôn tạo Design Review.
+
+Viết bằng tiếng Việt.
+
+Bao gồm tối thiểu:
+
+## Goal
+
+## Scope
+
+## Out of Scope
+
+## Understanding
+
+## Files sẽ sửa
+
+## Kiến trúc bị ảnh hưởng
+
+## Alternatives
+
+Giải thích vì sao chọn.
+
+Giải thích vì sao loại các phương án còn lại.
+
+## Trade-offs
+
+WHY trước HOW.
+
+## Risks
+
+## Verify Plan
+
+TypeScript
+
+ESLint
+
+Build
+
+## Documentation Plan
+
+File nào sẽ cập nhật.
+
+## Definition of Done
+
+Session được xem là hoàn thành khi nào.
+
+---
+
+Sau Design Review:
+
+STOP.
+
+Chờ người dùng approve.
+
+Không implement.
+
+---
+
+# 4. Implementation
+
+Chỉ implement sau khi được approve rõ ràng.
+
+Nguyên tắc:
+
+- Một session = một goal
+- Không scope creep
+- Không tự thêm feature
+- Không tự refactor ngoài scope
+- Không tự mở roadmap tiếp theo
+
+Nếu phát hiện cần thay đổi lớn:
+
+STOP.
+
+Giải thích.
+
+Chờ approval.
+
+---
+
+# 5. Verify
+
+Sau khi code xong.
+
+Bắt buộc kiểm tra:
+
+- TypeScript
+- ESLint
+- next build
+
+Nếu có lỗi:
+
+Session chưa hoàn thành.
+
+Không cập nhật trạng thái Completed.
+
+---
+
+# 6. Documentation
+
+Sau khi Verify thành công.
+
+Cập nhật tài liệu theo:
+
+```
+.cursor/rules/04-documentation.mdc
+```
+
+Tối thiểu:
+
+- docs/features/
+- docs/explanations/
+- docs/learning/
+- docs/reviews/
+- docs/SESSION.md
+- docs/NEXT_SESSION.md
+
+Nếu có thay đổi kiến trúc:
+
+- docs/ARCHITECTURE.md
+- docs/PROJECT.md
+
+Nếu có quyết định mới:
+
+- ADR
+- DECISIONS.md
+
+---
+
+# 7. NEXT_SESSION
+
+Trước khi kết thúc session.
+
+Bắt buộc overwrite:
+
+```
+docs/NEXT_SESSION.md
+```
+
+Không append.
+
+Chỉ chứa đúng một trong hai trường hợp:
+
+## Có session tiếp theo
+
+Mô tả session kế tiếp.
+
+Hoặc
+
+## Waiting
+
+```
+Waiting for human.
+```
+
+Không chứa lịch sử.
+
+Không chứa nhiều session.
+
+Không tự mở session nếu người dùng chưa yêu cầu.
+
+---
+
+# 8. Output
+
+Sau khi hoàn thành.
+
+Xuất đúng format:
+
+```
+Session XX — hoàn thành
+
+Đã làm
+...
+
+Files
+...
+
+Verify
+
+✓ TypeScript
+
+✓ ESLint
+
+✓ Build
+
+Documentation
+
+✓ SESSION
+
+✓ NEXT_SESSION
+
+✓ Feature
+
+✓ Review
+
+✓ Learning
+
+✓ ADR (nếu có)
+
+Definition of Done
+
+✓ Code
+
+✓ Quality
+
+✓ Documentation
+
+STOP.
+```
+
+Không tự implement NEXT_SESSION.
+
+---
+
+# 9. Session Ownership
+
+AI không được:
+
+- tự tạo session mới
+- tự chia session
+- tự gộp nhiều session
+- tự đổi Goal
+- tự đổi Scope
+- tự implement NEXT_SESSION
+
+Session chỉ được bắt đầu khi:
+
+- người dùng giao rõ ràng
+
+hoặc
+
+- NEXT_SESSION được người dùng yêu cầu thực hiện.
+
+---
+
+# 10. Workflow Summary
+
+```
+User yêu cầu
+        │
+        ▼
+Đọc SESSION
+        │
+        ▼
+Đọc NEXT_SESSION (SSOT)
+        │
+        ▼
+Đọc Feature / ADR / Architecture
+        │
+        ▼
+Đọc source file liên quan
+        │
+        ▼
+Consistency Check
+        │
+        ▼
+Design Review
+        │
+        ▼
+STOP
+        │
+        ▼
+User Approve
+        │
+        ▼
+Implement
+        │
+        ▼
+Verify
+        │
+        ▼
+Documentation
+        │
+        ▼
+Update SESSION
+        │
+        ▼
+Overwrite NEXT_SESSION
+        │
+        ▼
+Output Summary
+        │
+        ▼
+STOP
+```
+
+---
+
+# Golden Rules
+
+- `NEXT_SESSION.md` là SSOT cho session kế tiếp.
+- Không phụ thuộc chat history.
+- Không suy luận roadmap.
+- WHY trước HOW.
+- Một session = một goal.
+- Documentation quan trọng ngang code.
+- Session chỉ hoàn thành khi Definition of Done đạt 100%.
+- Sau khi hoàn thành phải STOP.

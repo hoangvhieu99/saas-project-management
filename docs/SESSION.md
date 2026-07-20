@@ -1,8 +1,10 @@
 # SESSION
 
-Cập nhật mỗi coding session. AI/dev: đọc file này trước, rồi `features/*.md` + `explanations/*.md`.
+Cập nhật mỗi coding session. AI/dev: đọc file này trước, rồi **`docs/NEXT_SESSION.md`**, rồi feature/explanation theo Reading Order trong NEXT.
 
 **Ngôn ngữ tài liệu: tiếng Việt.**
+
+**Session kế tiếp (SSOT):** [`docs/NEXT_SESSION.md`](./NEXT_SESSION.md) — không suy luận từ ROADMAP hay chat.
 
 ---
 
@@ -12,7 +14,7 @@ Workspace Foundation
 
 ## Goal hiện tại
 
-Session 03 đã xong: refactor `lib/` → Domain-Oriented Modules (ADR-010). Chờ session tường minh tiếp theo (Workspace CRUD — không tự advance).
+Session 04 đã xong (Workspace CRUD server). Coding session tiếp theo xem `NEXT_SESSION.md` — **không tự advance**.
 
 ## Feature đang làm
 
@@ -20,31 +22,28 @@ Workspace — `docs/features/workspace.md` · lịch sử `docs/explanations/wor
 
 ## Task hiện tại
 
-Không — Session 03 đã STOP.
+Không — chờ Design Review + approve theo `NEXT_SESSION.md`.
 
 ## Blocked
 
 Không
 
-## Task tiếp theo
-
-- Session Workspace CRUD / UI / routes — **chỉ khi được yêu cầu rõ**
-- Không tự mở feature khác
-
 ## Files được phép sửa
 
-- Không — session đã đóng
+- Không — cho đến khi session trong `NEXT_SESSION.md` được approve implement
 
 ## Files cấm sửa
 
-- Không tự advance roadmap
-- Không thêm Workspace CRUD / UI / API nếu chưa có session tường minh
+- Không tự advance roadmap / tự implement NEXT mà chưa approve
+- Không thêm Workspace UI / routes `/w/[slug]` nếu chưa được duyệt Design Review
 
 ## Notes
 
 - Session 01: Prisma Workspace + Membership
-- Session 02: `lib/workspace` validators + authz (WorkspaceContext)
-- Session 03 (2026-07-20): move Auth → `lib/auth/`, infra → `lib/shared/`; rename `validators.ts`; ADR-010; **không** đổi business logic
+- Session 02: validators + WorkspaceContext authz
+- Session 03: Domain-Oriented `lib/` (ADR-010)
+- Session 04: Server Actions CRUD tại `app/actions/workspace/` (queries + mutations)
+- Docs (2026-07-20): learning `06-server-actions.md`
 
 ---
 
@@ -61,6 +60,8 @@ Không
 | 2026-07-20 | Khung tài liệu TV + backfill Session 01 | Xong |
 | 2026-07-20 | Session 02 validation + authz (`lib/workspace`) | Xong |
 | 2026-07-20 | Session 03 Architecture refactor Domain Modules | Xong |
+| 2026-07-20 | Thêm `NEXT_SESSION.md` handoff | Xong |
+| 2026-07-20 | Session 04 Workspace CRUD (server) | Xong |
 
 ## TODO
 
@@ -70,4 +71,6 @@ Không
 - [x] Backfill docs Session 01
 - [x] Session 02 — validations + authz helpers
 - [x] Session 03 — Domain-Oriented `lib/` (ADR-010)
-- [ ] Session CRUD / UI / routes (khi được giao)
+- [x] `NEXT_SESSION.md` handoff
+- [x] Session 04 — Workspace CRUD (server)
+- [ ] Session 05 — xem `NEXT_SESSION.md`

@@ -49,7 +49,8 @@ Ship a credible portfolio demo: auth, multi-tenant workspace, Kanban, clean arch
 | `lib/` | Domain modules (`auth/`, `workspace/`) + `shared/` infra | Present (ADR-010) |
 | `stores/` | Zustand UI state | Present |
 | `prisma/` | Schema + migrations | Auth + Workspace models |
-| `docs/` | SSOT | Present |
+| `docs/` | SSOT (SESSION, **NEXT_SESSION**, features, …) | Present |
+| `docs/NEXT_SESSION.md` | Handoff — đúng **một** session kế tiếp | Present |
 | `hooks/` | Feature hooks | Deferred |
 | `e2e/` | Playwright | Deferred (Phase 5) |
 | `__tests__/` | Jest | Deferred (Phase 5) |
@@ -60,8 +61,22 @@ Ship a credible portfolio demo: auth, multi-tenant workspace, Kanban, clean arch
 2. Server for truth — RSC/Prisma reads; Route Handlers / Actions for writes.
 3. Client for interaction — TanStack Query after mount; Zustand UI-only.
 4. Authz on every workspace-scoped query (from Phase 1).
-5. One session = one goal; update `SESSION.md`.
+5. One session = one goal; update `SESSION.md` rồi overwrite `NEXT_SESSION.md`.
 6. Portfolio honesty — depth over fake breadth.
+
+## Documentation structure
+
+| Doc | Role |
+|-----|------|
+| `SESSION.md` | Snapshot + log session vừa đóng |
+| `NEXT_SESSION.md` | SSOT session kế tiếp (overwrite, không lịch sử) |
+| `ROADMAP.md` | Phase dài hạn |
+| `ARCHITECTURE.md` | Cây + quy ước kỹ thuật |
+| `features/` | Contract feature |
+| `explanations/` | Lịch sử build (append) |
+| `decisions/` | ADR |
+| `learning/` | Mentorship |
+| `reviews/` | Review sau session |
 
 ## TODO
 

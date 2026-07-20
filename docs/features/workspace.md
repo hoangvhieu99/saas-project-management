@@ -1,6 +1,6 @@
 # Feature: Workspace
 
-> **Trạng thái:** Đang làm — Phase 1 (Session 02: validation + authz helpers đã land; chưa CRUD/UI)
+> **Trạng thái:** Đang làm — Phase 1 (Session 04: CRUD server đã land; chưa UI/routes)
 
 ## Mục tiêu feature
 
@@ -11,9 +11,9 @@ User đã đăng nhập tạo và chuyển workspace; mọi dữ liệu dự án
 | Khu vực | Trạng thái | Ghi chú |
 |---------|------------|---------|
 | Prisma models + migration | **Đã land** | Session 01 — `20260716062526_workspace_foundation` |
-| Zod validations (name, slug create; name-only update) | **Đã land** | Session 02 — `lib/workspace/validators.ts` (rename Session 03) |
+| Zod validations (name, slug create; name-only update) | **Đã land** | Session 02 — `lib/workspace/validators.ts` |
 | Membership authz helpers (WorkspaceContext) | **Đã land** | Session 02 — `lib/workspace/authz.ts` |
-| CRUD (Server Actions / API) | **Hoãn** | Cần session tường minh |
+| CRUD (Server Actions) | **Đã land** | Session 04 — `app/actions/workspace/{queries,mutations}.ts` |
 | UI (create, switcher, empty state) | **Hoãn** | Cần session tường minh |
 | Routes `/w/[slug]/...` | **Hoãn** | Cần session tường minh |
 
@@ -39,9 +39,17 @@ User đã đăng nhập tạo và chuyển workspace; mọi dữ liệu dự án
 - [x] `lib/` Domain-Oriented Modules (ADR-010): `auth/`, `workspace/`, `shared/`
 - [x] Rename quy ước `validators.ts`
 
+### Đã land (Session 04 — 2026-07-20)
+
+- [x] Queries: `listWorkspaces`, `getWorkspaceBySlug` — `app/actions/workspace/queries.ts`
+- [x] Mutations: `createWorkspace`, `updateWorkspace`, `deleteWorkspace` — `app/actions/workspace/mutations.ts`
+- [x] Create: `$transaction` Workspace + Membership `OWNER`
+- [x] Delete: chỉ xóa Workspace (Membership Cascade)
+- [x] `api-helpers`: map `NOT_FOUND`, `CONFLICT`
+- [x] Learning: `06-server-actions.md`
+
 ### Hoãn
 
-- [ ] Create / list / get-by-slug / update / delete
 - [ ] Dialog/form tạo workspace
 - [ ] List / switcher workspace
 - [ ] Empty state khi user chưa có workspace
@@ -59,7 +67,8 @@ User đã đăng nhập tạo và chuyển workspace; mọi dữ liệu dự án
 - Người tạo trở thành `OWNER`
 - Role: chỉ `OWNER` | `MEMBER`
 - Slug unique; mọi query theo slug phải có membership
-- Đoán slug mà không phải member → 403/404 (không leak tồn tại)
+- Đoán slug mà không phải member → `NOT_FOUND` (không leak tồn tại)
+- MEMBER update/delete → `FORBIDDEN`
 
 ## UI requirements
 
@@ -69,8 +78,8 @@ User đã đăng nhập tạo và chuyển workspace; mọi dữ liệu dự án
 
 ## API requirements
 
-- [ ] Create / list / get-by-slug / update / delete
-- [ ] Luôn verify membership phía server
+- [x] Create / list / get-by-slug / update / delete (Server Actions)
+- [x] Luôn verify membership phía server
 
 ## Database models
 
@@ -87,7 +96,7 @@ User đã đăng nhập tạo và chuyển workspace; mọi dữ liệu dự án
 - Name: bắt buộc
 - Slug: kebab lowercase, unique, URL-safe
 
-> Validator: `lib/workspace/validators.ts`. Uniqueness slug vẫn ở DB.
+> Validator: `lib/workspace/validators.ts`. Uniqueness slug vẫn ở DB (`CONFLICT` khi P2002).
 
 ## Permission rules
 
@@ -97,24 +106,24 @@ User đã đăng nhập tạo và chuyển workspace; mọi dữ liệu dự án
 | Update / delete workspace | ✓ | ✗ |
 | Invite members | ✓ | TBD |
 
-> Helper sẵn: `requireWorkspaceContext` / `requireWorkspaceOwner`. Enforce trên CRUD/API vẫn chờ session sau.
+> Enforce trên Server Actions Session 04 qua `requireWorkspaceContext` / `requireWorkspaceOwner`.
 
 ## State management
 
-- List: RSC hoặc TanStack Query
-- Active slug: URL param (source of truth)
+- List: RSC hoặc TanStack Query (UI chưa land)
+- Active slug: URL param (source of truth) — chờ routes
 
 ## Pending tasks
 
 - [x] Prisma models + migrate
 - [x] Tài liệu Session 01 (learning / ADR / explanations / review)
 - [x] Zod + WorkspaceContext authz helpers (Session 02)
-- [ ] CRUD + check membership server-side
+- [x] CRUD + check membership server-side (Session 04)
 - [ ] UI create + switcher + routes `/w/[slug]`
 
 ## Known issues
 
-- Chưa có (ở tầng schema)
+- Chưa có (ở tầng schema + server CRUD)
 
 ## Future improvements
 
@@ -125,13 +134,14 @@ User đã đăng nhập tạo và chuyển workspace; mọi dữ liệu dự án
 - [x] Prisma schema khớp hợp đồng (Workspace + Membership + roles)
 - [x] Migration `workspace_foundation` apply sạch
 - [x] Zod + WorkspaceContext authz (`lib/workspace`)
-- [ ] Create + mở theo slug
-- [ ] Non-member không đọc được (enforce trên CRUD/API)
-- [ ] Chỉ OWNER được xóa (enforce trên CRUD/API)
+- [x] Create + đọc theo slug (Server Actions)
+- [x] Non-member không đọc được (enforce trên actions)
+- [x] Chỉ OWNER được xóa (enforce trên actions)
+- [ ] UI create + switcher + `/w/[slug]`
 
 ## Tài liệu liên quan
 
 - Lịch sử: `docs/explanations/workspace.md`
 - ADR: `docs/decisions/ADR-008-workspace-membership-model.md`, `ADR-010-domain-oriented-module-architecture.md`
-- Học: `docs/learning/01-project-structure.md`, `02-prisma.md`, `03-validation.md`, `05-authorization.md`
-- Review: `docs/reviews/session-01-review.md`, `session-02-review.md`, `session-03-review.md`
+- Học: `docs/learning/01-project-structure.md`, `02-prisma.md`, `03-validation.md`, `05-authorization.md`, `06-server-actions.md`
+- Review: `docs/reviews/session-01-review.md` … `session-04-review.md`

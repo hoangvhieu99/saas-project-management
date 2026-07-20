@@ -128,4 +128,41 @@ Thống nhất `lib/` theo **Lightweight Domain-Oriented Modules** (ADR-010). Kh
 
 ---
 
-<!-- Session 04+ sẽ append bên dưới dòng này -->
+## Session 04 — Workspace CRUD server (2026-07-20)
+
+### Mục tiêu session
+
+Thêm **CRUD Workspace phía server** (create / list / get-by-slug / update name / delete). Không UI, không route `/w/[slug]`.
+
+### Đã thêm
+
+```
+app/actions/workspace/
+  queries.ts     # listWorkspaces, getWorkspaceBySlug
+  mutations.ts   # createWorkspace, updateWorkspace, deleteWorkspace
+```
+
+- `lib/shared/api-helpers.ts` — map `NOT_FOUND` (404), `CONFLICT` (409)
+- Learning: `docs/learning/06-server-actions.md`
+
+### Quyết định trong session (Design Review đã duyệt)
+
+1. **Execution vs domain:** Server Actions ở `app/actions/workspace/`; `lib/workspace/` chỉ validators + authz + barrel.
+2. **Không `ActionResult`:** throw `UNAUTHORIZED` / `FORBIDDEN` / `NOT_FOUND` (+ `CONFLICT` cho slug trùng).
+3. **Tách queries / mutations** — dễ mở rộng.
+4. **Create** bắt buộc `prisma.$transaction()` — Workspace + Membership `OWNER`.
+5. **Delete** chỉ xóa `Workspace`; Membership nhờ `onDelete: Cascade`.
+
+### Cố ý chưa làm
+
+- UI dialog / switcher / empty state
+- Route group `/w/[slug]` + layout
+- Đổi slug, invite, schema mới
+
+### Learning liên quan
+
+- `docs/learning/06-server-actions.md`
+
+---
+
+<!-- Session 05+ sẽ append bên dưới dòng này -->

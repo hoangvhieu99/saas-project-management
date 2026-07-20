@@ -7,27 +7,57 @@ alwaysApply: true
 
 Tài liệu là bộ nhớ của dự án. Không dựa vào lịch sử chat.
 
-**Ngôn ngữ bắt buộc: tiếng Việt** cho mọi file trong `docs/` (SESSION, learning, decisions, explanations, reviews, features).
+**Ngôn ngữ bắt buộc: tiếng Việt** cho mọi file trong `docs/` (SESSION, NEXT_SESSION, learning, decisions, explanations, reviews, features).
+
+## Vai trò nhanh
+
+| File | Vai trò |
+|------|---------|
+| `SESSION.md` | Snapshot session vừa đóng + log |
+| `NEXT_SESSION.md` | **Chỉ** session kế tiếp (overwrite, không lịch sử) |
+| `ROADMAP.md` | Phase dài hạn |
+| `features/` | Contract feature |
+| `explanations/` | Lịch sử build (append) |
+| `decisions/` | ADR |
+| `learning/` | Mentorship |
+| `reviews/` | Review sau session |
+
+## Trước khi bắt đầu bất kỳ session nào
+
+AI phải đọc theo thứ tự:
+
+1. docs/SESSION.md
+2. docs/NEXT_SESSION.md
+3. docs/ROADMAP.md
+4. docs/features/<feature>.md
+5. docs/explanations/<feature>.md
+6. ADR liên quan
+7. docs/ARCHITECTURE.md
+
+Không được tự suy luận roadmap nếu NEXT_SESSION.md đã tồn tại.
 
 ## Sau mỗi session hoàn thành — cập nhật TẤT CẢ
 
-1. `docs/SESSION.md` — goal, done, files, problems, decisions, status, next, TODO
-2. `docs/learning/` — khái niệm mới → tạo/cập nhật file dạy Junior
-3. `docs/decisions/ADR-XXX-*.md` — mỗi quyết định kiến trúc = 1 ADR riêng
-4. `docs/explanations/<feature>.md` — **append** lịch sử feature (không xóa nội dung cũ)
-5. `docs/reviews/session-XX-review.md` — review Senior Engineer
-6. `docs/features/<feature>.md` — trạng thái feature (append/cập nhật, không xóa lịch sử)
+1. `docs/features/<feature>.md`
+2. `docs/explanations/<feature>.md` — **append**
+3. `docs/learning/` — nếu có khái niệm mới
+4. `docs/reviews/session-XX-review.md`
+5. `docs/decisions/ADR-XXX-*.md` — nếu có quyết định kiến trúc
+6. `docs/SESSION.md` — goal, done, log, status
+7. `docs/NEXT_SESSION.md` — **overwrite** session kế (hoặc Waiting for human)
 
-Nếu thay đổi kiến trúc tổng thể: cập nhật thêm `docs/ARCHITECTURE.md`.
+Nếu thay đổi kiến trúc tổng thể: cập nhật thêm `docs/ARCHITECTURE.md` / `PROJECT.md`.
 
 ## Nguyên tắc
 
 - Không xóa giải thích cũ — chỉ append / bổ sung
 - Teaching = quan trọng ngang coding
-- Session chưa xong nếu thiếu bất kỳ mục checklist ở trên
-- Giữ `docs/DECISIONS.md` như mục lục trỏ tới file ADR chi tiết khi có
+- Session chưa xong nếu thiếu checklist trên (kể cả NEXT_SESSION)
+- `NEXT_SESSION.md` là SSOT cho “làm gì tiếp” — không nhét chi tiết đó vào SESSION
+- Giữ `docs/DECISIONS.md` như mục lục ADR
 
 ## Không làm
 
 - Không kết thúc session chỉ với code + SESSION.md
-- Không viết tài liệu tiếng Anh (trừ tên kỹ thuật: Prisma, slug, OWNER…)
+- Không tự mở session trong NEXT mà chưa được người approve
+- Không viết tài liệu tiếng Anh trong `docs/` (trừ tên kỹ thuật: Prisma, slug, OWNER…)

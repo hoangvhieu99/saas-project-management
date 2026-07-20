@@ -2,6 +2,8 @@
 
 90-day portfolio plan (~10–15h/week). Maps to detailed mentor phases in the project plan.
 
+**Session kế tiếp (chi tiết scope):** xem `docs/NEXT_SESSION.md` — không suy luận implementation từ checkbox bên dưới.
+
 ---
 
 ## Phase 1 — Foundation + Workspace (Days 1–28)

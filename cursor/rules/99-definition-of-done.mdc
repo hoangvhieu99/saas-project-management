@@ -1,28 +1,196 @@
 ---
-description: Definition of Done — checklist bắt buộc trước khi kết thúc session
+description: Definition of Done — checklist bắt buộc trước khi kết thúc một coding session
 alwaysApply: true
 ---
 
-# Definition of Done
+# Definition of Done (DoD)
 
-Một Session chỉ hoàn thành khi:
+Một **Session chỉ được phép kết thúc** khi hoàn thành **đầy đủ** các mục dưới đây.
 
-- Yêu cầu đã implement đủ scope đã duyệt
-- TypeScript không lỗi
-- ESLint không lỗi
-- Build không gãy
-- Thay đổi nằm trong scope đã duyệt
-- Sẵn sàng cho một Git commit
+---
 
-Và **toàn bộ tài liệu tiếng Việt** đã cập nhật:
+# 1. Code
 
-- [ ] `docs/SESSION.md`
-- [ ] `docs/learning/` (khái niệm mới)
-- [ ] `docs/decisions/ADR-*.md` (nếu có quyết định kiến trúc)
-- [ ] `docs/explanations/<feature>.md` (append)
-- [ ] `docs/reviews/session-XX-review.md`
+- [ ] Đã implement đúng **scope đã được duyệt**
+- [ ] Không thêm feature ngoài scope
+- [ ] Không tự advance roadmap
+- [ ] Không thay đổi architecture nếu chưa được approve
+- [ ] Không để TODO phát sinh mà không ghi vào tài liệu
+
+---
+
+# 2. Quality
+
+- [ ] TypeScript không lỗi
+- [ ] ESLint không lỗi
+- [ ] Build thành công (`next build`)
+- [ ] Không còn import lỗi
+- [ ] Không còn file chết / code không dùng
+
+---
+
+# 3. Documentation
+
+Cập nhật **toàn bộ tài liệu tiếng Việt** (trừ thuật ngữ kỹ thuật).
+
+## Feature
+
 - [ ] `docs/features/<feature>.md`
 
-Nếu thiếu bất kỳ điều kiện nào:
+## History
 
-Session **CHƯA** hoàn thành. Dừng và báo phần còn thiếu.
+- [ ] `docs/explanations/<feature>.md` (append)
+
+## Learning
+
+- [ ] `docs/learning/`
+
+Nếu session có kiến thức mới.
+
+## Review
+
+- [ ] `docs/reviews/session-XX-review.md`
+
+## Decisions
+
+Nếu session có quyết định ảnh hưởng kiến trúc hoặc coding convention.
+
+- [ ] `docs/decisions/ADR-XXX-*.md`
+- [ ] `docs/DECISIONS.md` (mục lục ADR)
+
+## Snapshot
+
+- [ ] `docs/SESSION.md`
+
+## Next session
+
+- [ ] `docs/NEXT_SESSION.md`
+
+**Luôn overwrite.**
+
+Không append.
+
+Chỉ chứa đúng **một session kế tiếp** hoặc:
+
+
+Waiting for human.
+
+
+---
+
+# 4. Architecture documents
+
+Nếu session thay đổi kiến trúc hoặc cấu trúc project.
+
+- [ ] `docs/ARCHITECTURE.md`
+- [ ] `docs/PROJECT.md`
+- [ ] `docs/ROADMAP.md` (nếu milestone thay đổi)
+
+---
+
+# 5. Verify
+
+AI phải tự kiểm tra:
+
+- [ ] Cấu trúc thư mục khớp Architecture
+- [ ] Không còn tài liệu mâu thuẫn nhau
+- [ ] SESSION và NEXT_SESSION không xung đột
+- [ ] Feature contract khớp implementation
+
+Nếu phát hiện mâu thuẫn:
+
+**STOP**
+
+Giải thích.
+
+Chờ approval.
+
+---
+
+# 6. Output bắt buộc
+
+Trước khi kết thúc session phải xuất đúng format:
+
+
+Session XX — hoàn thành
+
+Đã làm:
+...
+
+Files:
+...
+
+Verify:
+✓ TypeScript
+✓ ESLint
+✓ Build
+
+Documentation:
+✓ SESSION
+✓ NEXT_SESSION
+✓ Feature
+✓ Review
+✓ Learning
+✓ ADR (nếu có)
+
+Definition of Done
+✓ Code
+✓ Quality
+✓ Documentation
+
+STOP.
+
+
+Không được tự mở session mới.
+
+---
+
+# 7. Sau khi DoD hoàn thành
+
+Ngay trước khi STOP, AI phải cập nhật:
+
+`docs/NEXT_SESSION.md`
+
+File này là **Single Source of Truth** cho session kế tiếp.
+
+Session tiếp theo luôn bắt đầu bằng:
+
+1. Đọc `docs/NEXT_SESSION.md`
+2. Đọc `docs/SESSION.md`
+3. Đọc các file được NEXT_SESSION yêu cầu
+4. Review
+5. Chờ approval
+6. Mới được code
+
+Không được tự quyết định session tiếp theo từ ROADMAP hay chat history.
+
+---
+
+# Session chưa hoàn thành nếu
+
+Một trong các điều sau xảy ra:
+
+- thiếu tài liệu
+- build lỗi
+- eslint lỗi
+- type lỗi
+- NEXT_SESSION chưa cập nhật
+- SESSION chưa cập nhật
+- feature contract chưa cập nhật
+- review chưa có
+- ADR cần nhưng chưa viết
+
+=> Báo rõ phần còn thiếu.
+
+Không được ghi "Session hoàn thành".
+
+---
+
+# STOP Rule
+
+Sau khi hoàn thành DoD:
+
+- STOP
+- Không tự implement nội dung trong `NEXT_SESSION.md`
+- Không tự mở Session mới
+- Chờ người dùng yêu cầu rõ ràng

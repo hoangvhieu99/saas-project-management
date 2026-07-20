@@ -6,15 +6,15 @@ Tài liệu dạy Junior Developer. Mỗi khái niệm mới trong session → c
 
 | File | Chủ đề | Session giới thiệu |
 |------|--------|--------------------|
-| [01-project-structure.md](./01-project-structure.md) | Cấu trúc repo & docs | Docs framework |
+| [01-project-structure.md](./01-project-structure.md) | Cấu trúc repo, docs, handoff `NEXT_SESSION` | Docs framework |
 | [02-prisma.md](./02-prisma.md) | Prisma ORM, model, migration | Session 01 |
 | [03-validation.md](./03-validation.md) | Zod validation (Workspace schemas) | Session 02 |
 | [05-authorization.md](./05-authorization.md) | Authz membership / WorkspaceContext | Session 02 |
+| [06-server-actions.md](./06-server-actions.md) | Server Actions, queries/mutations, error throw | Session 04 |
 
 ## Sẽ bổ sung khi session tương ứng land
 
 - `04-authentication.md` — Auth.js
-- `06-server-actions.md`
 - `07-api.md`
 - `08-react-query.md`
 - `09-clean-architecture.md` — so sánh với Domain Modules (ADR-010); chỉ khi cần đào sâu

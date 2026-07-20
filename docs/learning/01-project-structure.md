@@ -43,7 +43,11 @@ SaaS-Project-Management/
 ├── prisma/
 │   ├── schema.prisma
 │   └── migrations/
-├── docs/                # SSOT (SESSION, learning, decisions, …)
+├── docs/                # SSOT
+│   ├── SESSION.md       # session vừa đóng
+│   ├── NEXT_SESSION.md  # handoff — session kế tiếp (overwrite)
+│   ├── learning/ …
+│   └── …
 └── cursor/rules/
 ```
 
@@ -63,6 +67,7 @@ SaaS-Project-Management/
 | Schema Zod workspace | `lib/workspace/validators.ts` |
 | requireUser | `lib/auth/authz.ts` |
 | Biết session đang làm gì | `docs/SESSION.md` |
+| Biết session **tiếp theo** phải làm gì | `docs/NEXT_SESSION.md` |
 | Vì sao Domain Modules | `docs/decisions/ADR-010-*.md` |
 | Học Prisma | `docs/learning/02-prisma.md` |
 
@@ -72,13 +77,13 @@ SaaS-Project-Management/
 docs/SESSION.md
        │
        ▼
-docs/features/<feature>.md
+docs/NEXT_SESSION.md     ← SSOT scope session kế
        │
        ▼
-docs/explanations/<feature>.md
+Reading Order trong NEXT (ROADMAP → feature → explanation → ADR → ARCHITECTURE)
        │
        ▼
-Chỉ sửa các file trong "Files Allowed"
+Design Review → chờ approve → chỉ sửa đúng Scope
 ```
 
 ## Ưu điểm
@@ -104,9 +109,10 @@ Chỉ sửa các file trong "Files Allowed"
 
 ## Best practices
 
-- Một session = một goal = cập nhật docs trước khi STOP
+- Một session = một goal = cập nhật docs + overwrite `NEXT_SESSION.md` trước khi STOP
 - Không xóa giải thích cũ trong `explanations/` — chỉ append
 - Tên thư mục ổn định; tránh rename hàng loạt không cần thiết
+- Không suy luận session kế từ ROADMAP nếu đã có `NEXT_SESSION.md`
 
 ## Đọc thêm
 

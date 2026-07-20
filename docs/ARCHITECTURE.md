@@ -1,13 +1,16 @@
 # ARCHITECTURE
 
-## Current tree (Session 03 — Domain-Oriented `lib/`)
+## Current tree (Session 04 — Workspace CRUD server)
 
 ```
 app/
   layout.tsx / page.tsx / globals.css
   (auth)/login|register
   (app)/layout.tsx         # AuthenticatedShell → AppShell
-  (app)/dashboard
+    (app)/dashboard
+  actions/workspace/       # Server Actions (execution layer)
+    queries.ts             # list, get-by-slug
+    mutations.ts           # create, update, delete
   api/auth/[...nextauth]
   api/auth/register
 components/
@@ -20,14 +23,14 @@ lib/
     auth.ts                # NextAuth config
     authz.ts               # requireUser
     validators.ts          # login / register Zod
-  workspace/               # Workspace domain
+  workspace/               # Workspace domain (no "use server")
     authz.ts
     validators.ts
     index.ts               # barrel (re-exports)
   shared/                  # infrastructure only
     db.ts
     api-client.ts
-    api-helpers.ts
+    api-helpers.ts         # UNAUTHORIZED / FORBIDDEN / NOT_FOUND / CONFLICT
     utils.ts               # cn, slugify
 stores/useUiStore.ts
 prisma/
@@ -36,7 +39,7 @@ docs/
 
 ## Planned later (not in tree yet)
 
-- `app/(app)/w/[slug]/...` — Phase 1+
+- `app/(app)/w/[slug]/...` — Phase 1+ (Session 05 handoff)
 - `components/features/{workspace,kanban,calendar,…}` — by phase
 - `lib/project/`, `lib/task/`, … — same domain module pattern
 - `hooks/` — when feature queries need shared hooks
@@ -44,21 +47,39 @@ docs/
 
 ## Lightweight Domain-Oriented Modules
 
-- **Domain** (`lib/<domain>/`): validators, authz, và logic nghiệp vụ của domain đó.
+- **Domain** (`lib/<domain>/`): validators, authz, và logic nghiệp vụ của domain đó (không `"use server"`).
+- **Execution**: Server Actions tại `app/actions/<domain>/` (queries / mutations) — gọi domain + Prisma.
 - **Shared** (`lib/shared/`): chỉ infrastructure (DB client, HTTP helpers, `cn` / `slugify`).
 - **UI**: `components/features/<feature>/` — không nhét business vào UI primitives.
 - **Không** dùng Repository / Service layer / Clean Architecture / DDD Aggregates (ADR-010).
 
 Feature specs: `docs/features/*.md`. Schema: `prisma/schema.prisma`.
 
+## Documentation roles
+
+| Doc | Role |
+|-----|------|
+| `docs/SESSION.md` | Snapshot session vừa đóng + log |
+| `docs/NEXT_SESSION.md` | Handoff — **một** session kế tiếp (overwrite) |
+| `docs/ROADMAP.md` | Phase dài hạn (không thay NEXT) |
+| `docs/features/` | Contract feature |
+| `docs/explanations/` | Lịch sử build (append) |
+| `docs/decisions/` | ADR |
+| `docs/learning/` | Mentorship |
+| `docs/reviews/` | Review sau session |
+
+Workflow: đọc SESSION → NEXT_SESSION → Design Review → approve → implement → docs → overwrite NEXT → STOP.
+
 ## Data flow
 
 ```
 Browser → Auth forms / Auth.js
-       → Prisma (`lib/shared/db`) → SQLite (local default)
+       → Server Actions (`app/actions/workspace/...`)
+            → requireUser + lib/workspace authz/validators
+            → Prisma (`lib/shared/db`) → SQLite (local default)
 ```
 
-Later: TanStack Query mutations; mọi path workspace-scoped gọi `lib/workspace/authz`.
+Later: UI forms + TanStack Query; mọi path workspace-scoped gọi `lib/workspace/authz`.
 
 ## Component hierarchy
 
@@ -103,9 +124,11 @@ Default to Server; `"use client"` only at interaction boundaries.
 
 ## Error handling
 
-- Zod failures → 400
-- Unauthenticated → 401 / redirect
-- Forbidden / Not found (workspace) → session API sau sẽ map từ helper throw
+- Zod failures → throw message (Server Action) hoặc 400 (Route Handler)
+- Unauthenticated → `UNAUTHORIZED` → 401 / redirect
+- Forbidden → `FORBIDDEN` → 403
+- Not found (workspace / non-member) → `NOT_FOUND` → 404
+- Unique conflict (slug) → `CONFLICT` → 409
 - Unexpected → log + 500
 
 ## File naming conventions
