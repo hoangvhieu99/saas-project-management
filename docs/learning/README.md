@@ -15,6 +15,7 @@ Tài liệu dạy Junior Developer. Mỗi khái niệm mới trong session → c
 | [08-profile-session-update.md](./08-profile-session-update.md) | JWT `token.picture` vs `image`, `session.update()` | Session 07 |
 | [09-prisma-kanban-models.md](./09-prisma-kanban-models.md) | Project/BoardColumn/Task, SetNull assignee | Session 08 |
 | [10-project-authz.md](./10-project-authz.md) | Project/task authz, assignee membership, IDOR guard | Session 09 |
+| [11-project-server-actions.md](./11-project-server-actions.md) | Kanban CRUD actions + nested column verify | Session 10 |
 
 ## Sẽ bổ sung khi session tương ứng land
 

@@ -92,6 +92,32 @@ export async function requireTaskInProject(
 }
 
 /**
+ * Require that the column belongs to the exact project inside the exact workspace.
+ * One nested where-chain closes IDOR when createTask receives mismatched projectId/columnId.
+ */
+export async function requireColumnInProject(
+  workspaceId: string,
+  projectId: string,
+  columnId: string,
+): Promise<BoardColumn> {
+  const column = await prisma.boardColumn.findFirst({
+    where: {
+      id: columnId,
+      projectId,
+      project: {
+        workspaceId,
+      },
+    },
+  });
+
+  if (!column) {
+    throw new Error("NOT_FOUND");
+  }
+
+  return column;
+}
+
+/**
  * Nullable assignee is allowed. Non-member assignee is rejected at app-layer before CRUD lands.
  */
 export async function assertAssigneeInWorkspace(

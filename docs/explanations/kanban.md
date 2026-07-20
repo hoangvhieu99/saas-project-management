@@ -94,4 +94,42 @@ lib/project/
 
 ---
 
-<!-- Session 10+ sẽ append bên dưới dòng này -->
+## Session 10 — CRUD Server Actions (2026-07-20)
+
+### Mục tiêu session
+
+Thêm **execution layer** Kanban: queries + mutations tại `app/actions/project/`. Không UI, không DnD.
+
+### Đã thêm
+
+```
+app/actions/project/
+  queries.ts    # listProjects, getProjectBySlug
+  mutations.ts  # createProject, createTask, updateTask
+
+lib/project/authz.ts
+  requireColumnInProject  # nested verify column + projectId + workspaceId
+```
+
+- `createProject`: transaction Project + seed Todo/Doing/Done
+- `createTask`: `requireColumnInProject` single nested query (columnId + projectId + workspace)
+- `updateTask`: `requireTaskInProject` + `assertAssigneeInWorkspace` khi có assigneeId
+- Slug conflict → `CONFLICT`
+
+### Quyết định trong session
+
+1. **Defer `createBoardColumn`** — seed đủ foundation
+2. **Không `moveTask`** — session DnD sau
+3. **Không delete** project/task/column
+
+### Cố ý chưa làm
+
+- Board UI, routes, DnD, TaskDetail
+
+### Learning liên quan
+
+- `docs/learning/11-project-server-actions.md`
+
+---
+
+<!-- Session 11+ sẽ append bên dưới dòng này -->

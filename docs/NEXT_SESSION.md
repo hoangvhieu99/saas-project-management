@@ -9,17 +9,17 @@
 
 ## Session
 
-Session 10 — Kanban CRUD Server Actions (`app/actions/project/`)
+Session 11 — Kanban board UI (read-only foundation)
 
 ## Goal
 
-Thêm **Server Actions CRUD tối thiểu** cho Project/BoardColumn/Task trên nền `lib/project/` Session 09. Bắt đầu execution layer Phase 2 — **không UI, không DnD**.
+Gắn **UI board tối thiểu** vào route workspace: list projects, mở board theo project slug, hiển thị columns + tasks từ Server Actions Session 10. **Không DnD, không create task form phức tạp** — chốt chi tiết Design Review.
 
 ## Why this session
 
-- Session 09 đã land validators + authz `lib/project/`.
-- Pattern đã chứng minh: Session 04 CRUD sau Session 02 authz/validators.
-- CRUD server là bước cần trước UI board và DnD.
+- Session 10 đã land CRUD server + seed columns.
+- Pattern Session 05: UI sau CRUD server.
+- Cần board visible trước khi mở DnD session.
 
 ## Reading Order
 
@@ -27,61 +27,47 @@ Thêm **Server Actions CRUD tối thiểu** cho Project/BoardColumn/Task trên n
 2. `docs/NEXT_SESSION.md` (file này)
 3. `docs/features/kanban.md`
 4. `docs/explanations/kanban.md`
-5. `docs/reviews/session-09-review.md`
-6. `lib/project/`
-7. `app/actions/workspace/` (pattern tham chiếu Session 04)
-8. `prisma/schema.prisma`
+5. `docs/reviews/session-10-review.md`
+6. `app/actions/project/`
+7. `app/(app)/w/[slug]/` (shell hiện tại)
 
 ## Prerequisites
 
-- [x] Session 08 — Kanban schema + migration
-- [x] Session 09 — `lib/project/` validators + authz
+- [x] Session 08–10 — schema, authz, CRUD actions
 
 ## Scope
 
-- Chốt ở Design Review: `app/actions/project/queries.ts`, `mutations.ts`
-- CRUD tối thiểu:
-  - list projects theo workspace
-  - get project theo slug
-  - create project
-  - create/update task
-  - create column nếu cần cho foundation
-- **Bắt buộc** reuse `lib/project/` authz/validators, gồm `assertAssigneeInWorkspace` và `requireTaskInProject`
-- **Không** routes/UI/DnD
+- Chốt Design Review: route project board, components `components/features/kanban/`
+- Hiển thị board từ `getProjectBySlug`
+- Có thể: list projects trong workspace shell, link vào board
+- **Không** `@dnd-kit`, **không** `moveTask`
 
 ## Out of Scope
 
-- Board UI, DnD, Zustand
-- TaskDetail drawer/sheet
-- Calendar, comments, invite
-- Repository / Service layer
+- DnD, optimistic UI, Zustand drag overlay
+- TaskDetail drawer
+- Calendar, comments
 
 ## Expected Files
 
-- `app/actions/project/queries.ts`, `mutations.ts`
-- Có thể update nhẹ `lib/project/` nếu Design Review phát hiện thiếu helper nhỏ
-- `docs/reviews/session-10-review.md`
-- `docs/SESSION.md`, `docs/NEXT_SESSION.md`
-- Feature/explanation/learning cập nhật nếu cần
+- Route/page board under `/w/[slug]/...`
+- `components/features/kanban/...`
+- Docs review, SESSION, NEXT
 
 ## Deliverables
 
-- [ ] CRUD Server Actions trong Scope
+- [ ] UI trong Scope
 - [ ] Docs đầy đủ
 - [ ] `tsc` / lint / build xanh
 
 ## Risks
 
-- Scope creep sang UI/DnD — giữ server-only
-- Quên gọi `assertAssigneeInWorkspace` khi create/update task
-- Quên dùng `requireTaskInProject(..., projectId, taskId)` gây IDOR giữa sibling projects
+- Scope creep sang DnD — giữ read/display + minimal create nếu approve
 
 ## Success Criteria
 
-- Queries/mutations khớp kanban contract foundation
-- Task create/update bắt buộc enforce assignee membership
-- Lookup task trong project dùng đúng helper chặn IDOR
-- Không UI/DnD trong session
+- Member mở board thấy columns + tasks từ data thật
+- Không DnD trong session
 - Docs + NEXT cập nhật; STOP
 
 ## Completion Workflow
@@ -89,7 +75,7 @@ Thêm **Server Actions CRUD tối thiểu** cho Project/BoardColumn/Task trên n
 1. Verify TypeScript  
 2. Verify ESLint  
 3. Verify Build  
-4. Update Feature / Explanation / Learning / Review  
+4. Update docs  
 5. Update SESSION.md  
 6. Overwrite NEXT_SESSION.md  
 7. STOP  

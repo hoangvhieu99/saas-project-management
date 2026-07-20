@@ -1,6 +1,6 @@
 # ARCHITECTURE
 
-## Current tree (Session 08 — Kanban schema)
+## Current tree (Session 10 — Kanban CRUD actions)
 
 ```
 app/
@@ -13,6 +13,7 @@ app/
   actions/
     workspace/
     profile/
+    project/               # list, get-by-slug, create project/task
   api/auth/[...nextauth]
   api/auth/register
 components/
@@ -20,7 +21,7 @@ components/
     auth/ | dashboard/ | profile/ | workspace/
   layout/ | ui/
 lib/
-  auth/ | workspace/ | shared/ | project/
+  auth/ | workspace/ | project/ | shared/
 stores/useUiStore.ts
 prisma/
   schema.prisma            # + Project, BoardColumn, Task, TaskPriority
@@ -32,7 +33,7 @@ docs/
 
 - Workspace settings UI (rename / delete)
 - `components/features/kanban/` — board UI (Phase 2)
-- `app/actions/project/` — CRUD execution (after Session 09 authz)
+- `components/features/kanban/` — board UI (Phase 2)
 - `hooks/` — when feature queries need shared hooks
 - `e2e/`, `__tests__/` — Phase 5
 

@@ -1,6 +1,6 @@
 # Feature: Kanban
 
-> **Trạng thái:** Đang làm — Phase 2 (Session 08: schema Project/BoardColumn/Task đã land; UI/API chưa)
+> **Trạng thái:** Đang làm — Phase 2 (Session 10: CRUD Server Actions đã land; UI/DnD chưa)
 
 ## Mục tiêu feature
 
@@ -20,7 +20,8 @@ Board Kanban portfolio: cột + task, DnD persist position sau reload; TaskDetai
 - Position integer trên cột (task) và project (column order)
 - Assignee optional; dueDate optional
 - Project slug unique trong workspace
-- Xóa user assignee → `assigneeId` null (`onDelete: SetNull`) — **chưa** validate assignee ∈ workspace tại schema (Session 09)
+- `createProject` seed 3 cột mặc định: Todo, Doing, Done
+- Xóa user assignee → `assigneeId` null (`onDelete: SetNull`); assignee validate ở app layer
 
 ## UI requirements
 
@@ -32,56 +33,50 @@ Board Kanban portfolio: cột + task, DnD persist position sau reload; TaskDetai
 
 ## API requirements
 
-- [ ] CRUD project / columns / tasks
-- [ ] `moveTask` (columnId + position)
-- [ ] Membership-gated
+- [x] Queries: `listProjects`, `getProjectBySlug`
+- [x] Mutations: `createProject`, `createTask`, `updateTask`
+- [ ] `moveTask` (columnId + position) — session sau
+- [x] Membership-gated qua `lib/project/` authz
 
 ## Database models
 
 **Đã land (Session 08):**
 
 - `TaskPriority` — `LOW`, `MEDIUM`, `HIGH`
-- `Project` — `id`, `workspaceId`, `name`, `slug`, timestamps; `@@unique([workspaceId, slug])`
-- `BoardColumn` — `id`, `projectId`, `name`, `position`
-- `Task` — `id`, `columnId`, `title`, `description?`, `position`, `dueDate?`, `priority`, `assigneeId?`; assignee FK **`onDelete: SetNull`**
+- `Project`, `BoardColumn`, `Task` — xem schema
 
 Migration: `20260720073433_kanban_foundation`
 
-**Chưa có:** Comment, attachment, seed default columns
-
 ## Validation rules
 
-- Project name required; project slug lowercase kebab-case
-- Column name required; position non-negative
-- Title required; position non-negative
-- Priority enum LOW|MEDIUM|HIGH
-- `assigneeId`: cuid hoặc null; **Session 09** validate membership ở app layer
+- Project name + slug kebab-case
+- Task title required; position non-negative; priority enum
+- `assigneeId`: cuid hoặc null + `assertAssigneeInWorkspace`
 
 ## Permission rules
 
 - Member CRUD task trong workspace (MVP)
-- OWNER/MEMBER đều move task (MVP)
-- `requireProjectContext(userId, workspaceSlug, projectSlug)` → member + project thuộc workspace
-- `requireTaskInProject(userId, workspaceSlug, projectId, taskId)` → task phải thuộc **đúng project** trong workspace (chặn IDOR giữa sibling projects)
-- `assertAssigneeInWorkspace(assigneeId, workspaceId)` → non-member assignee = `FORBIDDEN`
+- `requireProjectContext`, `requireTaskInProject`, `requireColumnInProject` — chặn IDOR sibling projects
+- `assertAssigneeInWorkspace` → non-member assignee = `FORBIDDEN`
 
 ## State management
 
-- Board: TanStack Query + RSC initial
+- Board: TanStack Query + RSC initial (session UI sau)
 - Drag overlay: Zustand only
 - Persist: mutation + invalidate
 
 ## Pending tasks
 
 - [x] Models + migration (Session 08)
-- [x] Validation + authz assignee membership (Session 09)
-- [ ] Default columns Todo/Doing/Done (seed hoặc create-project)
+- [x] Validation + authz (Session 09)
+- [x] CRUD Server Actions foundation (Session 10)
+- [x] Default columns seed trong `createProject`
 - [ ] Task CRUD UI + DnD
 - [ ] TaskDetail shared
 
 ## Known issues
 
-- DB **không tự enforce** assignee ∈ workspace; Session 09 đã thêm helper app-layer và Session 10 CRUD phải bắt buộc gọi helper này
+- Stale assignee nếu user bị remove khỏi workspace — read hiển thị tùy UI session sau
 
 ## Future improvements
 
@@ -90,9 +85,8 @@ Migration: `20260720073433_kanban_foundation`
 ## Checklist
 
 - [x] Schema khớp Project → BoardColumn → Task
-- [x] Project scoped `workspaceId`
-- [x] assignee `onDelete: SetNull`
 - [x] Validators + authz `lib/project/`
-- [ ] Create task → column
+- [x] Server Actions `app/actions/project/`
+- [x] Assignee chỉ member workspace (create/update task)
+- [ ] Create task → column (UI)
 - [ ] Drag → reload persist
-- [ ] Assignee chỉ member workspace

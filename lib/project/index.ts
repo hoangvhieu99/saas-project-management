@@ -21,6 +21,7 @@ export {
 export {
   requireProjectContext,
   requireTaskInProject,
+  requireColumnInProject,
   assertAssigneeInWorkspace,
   type ProjectContext,
   type TaskContext,
