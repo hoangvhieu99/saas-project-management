@@ -1,13 +1,13 @@
 # ARCHITECTURE
 
-## Current tree (Session 05 — Workspace UI + `/w/[slug]`)
+## Current tree (Session 06 — Dashboard summary widgets)
 
 ```
 app/
   layout.tsx / page.tsx / globals.css
   (auth)/login|register
   (app)/layout.tsx         # AuthenticatedShell → AppShell
-    (app)/dashboard
+    (app)/dashboard        # list + summary stat widgets
     (app)/w/[slug]/         # membership gate layout + shell page
   actions/workspace/       # Server Actions (execution layer)
     queries.ts             # list, get-by-slug
@@ -17,6 +17,7 @@ app/
 components/
   features/
     auth/                  # login / register forms
+    dashboard/             # summary stat widgets
     workspace/             # create, switcher, empty state
   layout/
   providers.tsx

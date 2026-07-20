@@ -9,53 +9,53 @@
 
 ## Session
 
-Session 06 — Dashboard summary widgets
+Session 07 — Profile basics (name, avatar URL)
 
 ## Goal
 
-Thêm **widget tóm tắt tối thiểu** trên Dashboard (đã có list workspace), dựa trên dữ liệu workspace/membership hiện có — không mở Kanban/Calendar/Profile.
+Cho phép user đã đăng nhập **xem và cập nhật profile cơ bản** (name, avatar URL) — Phase 1 ROADMAP item còn lại trước Phase 2 Kanban.
 
 ## Why this session
 
-- Session 05 đã land shell workspace + `/w/[slug]`.
-- ROADMAP Phase 1 còn Dashboard summary widgets trước Profile.
-- Một goal rõ: **dashboard có giá trị tóm tắt**, không nhét board/task.
+- Session 06 đã land dashboard summary widgets.
+- ROADMAP Phase 1 còn Profile basics sau Dashboard widgets.
+- Profile là nền cho assignee display sau này (Phase 2+).
 
 ## Reading Order
 
 1. `docs/SESSION.md`
 2. `docs/NEXT_SESSION.md` (file này)
 3. `docs/ROADMAP.md` (context Phase — không tự mở rộng scope)
-4. `docs/features/workspace.md`
-5. `docs/explanations/workspace.md`
-6. `docs/ARCHITECTURE.md`
-7. `docs/learning/07-workspace-routes.md`
+4. `docs/features/profile.md`
+5. `docs/ARCHITECTURE.md`
+6. `prisma/schema.prisma` (User model hiện tại)
 
 ## Prerequisites
 
-- [x] Session 01–04 — schema, validators, authz, Server Actions
-- [x] Session 05 — UI + `/w/[slug]` + layout gate
+- [x] Session 01–05 — workspace foundation + UI
+- [x] Session 06 — dashboard summary widgets
 
 ## Scope
 
-- Widget tóm tắt trên `/dashboard` (ví dụ: số workspace, workspace gần đây / role OWNER vs MEMBER — chốt ở Design Review)
-- Tái sử dụng `listWorkspaces` (và queries hiện có) — không Prisma trong Client Component
-- Cập nhật docs bắt buộc (feature nếu đụng contract, explanation, learning nếu khái niệm mới, review, SESSION, overwrite NEXT)
+- Chốt chi tiết ở **Design Review** (route `/profile` hoặc modal, form RHF + Zod, Server Action update user)
+- User chỉ sửa profile của chính mình
+- Avatar: URL string (không upload file trong session này trừ Design Review approve khác)
+- Cập nhật docs bắt buộc (feature, explanation, review, SESSION, overwrite NEXT)
 
 ## Out of Scope
 
-- Profile (name, avatar)
-- Kanban, Calendar, Project/Task models
-- Workspace settings rename/delete UI
-- Invite members
-- Schema / migration mới (trừ Design Review phát hiện thiếu — dừng hỏi)
+- Email change
+- Kanban, Calendar, Task models
+- Workspace settings / invite
+- File upload / S3
+- Schema migration lớn (trừ Design Review phát hiện thiếu field — dừng hỏi)
 - Repository / Service / Clean Architecture
 
 ## Expected Files
 
-- `app/(app)/dashboard/page.tsx` và/hoặc `components/features/dashboard/...`
-- Có thể chỉnh nhẹ shell nếu cần entry
-- `docs/reviews/session-06-review.md`
+- Route hoặc page profile + `components/features/profile/...`
+- Server Action hoặc route handler update (chốt Design Review)
+- `docs/reviews/session-07-review.md`
 - `docs/SESSION.md`, `docs/NEXT_SESSION.md`
 - Feature/explanation/learning chỉ khi thực sự đụng
 
@@ -70,13 +70,13 @@ Thêm **widget tóm tắt tối thiểu** trên Dashboard (đã có list workspa
 
 ## Risks
 
-- Scope creep sang Profile / Kanban — giữ widget summary only
-- Invent dữ liệu giả (task count) khi chưa có model Task — **không** bịa; chỉ aggregate từ Workspace/Membership
+- Scope creep sang avatar upload / email change
+- Session refresh sau update name — chốt UX ở Design Review
 
 ## Success Criteria
 
-- Dashboard còn empty/list workspace **và** có summary widgets hữu ích từ dữ liệu thật
-- Không có Profile / Kanban / Calendar / settings workspace trong session
+- User đăng nhập sửa được name + avatar URL; hiển thị cập nhật trong shell/menu
+- Không Kanban / workspace settings trong session
 - Docs + NEXT_SESSION đã cập nhật; STOP
 
 ## Completion Workflow

@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { WorkspaceRole } from "@prisma/client";
 import { auth } from "@/lib/auth/auth";
 import { listWorkspaces } from "@/app/actions/workspace/queries";
+import { DashboardSummary } from "@/components/features/dashboard/dashboard-summary";
 import { WorkspaceEmptyState } from "@/components/features/workspace/workspace-empty-state";
 import { CreateWorkspaceDialog } from "@/components/features/workspace/create-workspace-dialog";
 
@@ -15,6 +17,10 @@ export default async function DashboardPage() {
     return <WorkspaceEmptyState />;
   }
 
+  const total = workspaces.length;
+  const ownerCount = workspaces.filter(({ role }) => role === WorkspaceRole.OWNER).length;
+  const memberCount = total - ownerCount;
+
   return (
     <div className="mx-auto max-w-2xl space-y-6">
       <div className="flex items-start justify-between gap-4">
@@ -26,6 +32,8 @@ export default async function DashboardPage() {
         </div>
         <CreateWorkspaceDialog />
       </div>
+
+      <DashboardSummary total={total} ownerCount={ownerCount} memberCount={memberCount} />
 
       <ul className="divide-y divide-stone-200 rounded-lg border border-stone-200 bg-white">
         {workspaces.map(({ workspace, role }) => (

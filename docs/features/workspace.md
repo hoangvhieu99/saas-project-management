@@ -1,6 +1,6 @@
 # Feature: Workspace
 
-> **Trạng thái:** Đang làm — Phase 1 (Session 05: UI + `/w/[slug]` đã land; settings rename/delete và widgets chưa)
+> **Trạng thái:** Đang làm — Phase 1 (Session 06: dashboard summary widgets đã land; settings rename/delete chưa)
 
 ## Mục tiêu feature
 
@@ -56,6 +56,12 @@ User đã đăng nhập tạo và chuyển workspace; mọi dữ liệu dự án
 - [x] AppShell + Dashboard gắn list / empty / create
 - [x] `revalidatePath` sau `createWorkspace`; CONFLICT → toast + gợi ý slug
 - [x] Learning: `07-workspace-routes.md`
+
+### Đã land (Session 06 — 2026-07-20)
+
+- [x] Dashboard summary widgets (aggregate từ `listWorkspaces` trên `/dashboard`)
+- [x] Member count = `total - ownerCount` (future-proof role model)
+- [x] Feature contract: `docs/features/dashboard.md`
 
 ### Hoãn
 

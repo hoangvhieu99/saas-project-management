@@ -22,7 +22,7 @@
 - [x] CI: lint + typecheck
 - [x] `lib/` Domain-Oriented modules (ADR-010) — Auth + Workspace + shared
 - [x] Workspace CRUD + `w/[slug]` + OWNER/MEMBER
-- [ ] Dashboard summary widgets
+- [x] Dashboard summary widgets
 - [ ] Profile basics (name, avatar URL)
 
 ### Completed
@@ -33,7 +33,8 @@
 - [x] Session 01–02 Workspace schema + validators/authz
 - [x] Session 03 Architecture refactor (`lib/` domain modules)
 - [x] Session 04–05 Workspace CRUD server + UI `/w/[slug]`
-- [ ] Dashboard widgets + Profile
+- [x] Session 06 Dashboard summary widgets
+- [ ] Profile basics
 
 ---
 

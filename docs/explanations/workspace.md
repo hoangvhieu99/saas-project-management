@@ -210,4 +210,41 @@ components/features/workspace/
 
 ---
 
-<!-- Session 06+ sẽ append bên dưới dòng này -->
+## Session 06 — Dashboard summary widgets (2026-07-20)
+
+### Mục tiêu session
+
+Thêm **widget tóm tắt tối thiểu** trên `/dashboard` từ dữ liệu Workspace/Membership hiện có. Không Profile, Kanban, Task model.
+
+### Đã thêm
+
+```
+components/features/dashboard/
+  dashboard-summary.tsx
+  summary-stat-card.tsx
+
+app/(app)/dashboard/page.tsx   # derive counts + render summary row
+```
+
+- Stat cards: **Workspaces** (total), **Owner** (count `OWNER`), **Member** (`total - ownerCount`)
+- Empty state giữ nguyên — không render summary khi zero workspace
+- Tái sử dụng `listWorkspaces()` — không action/query mới
+
+### Quyết định (Design Review + approve)
+
+1. **Member count = total - ownerCount** — không đếm riêng `MEMBER`; chống lệch khi role model mở rộng.
+2. **Không** widget task/due-soon placeholder — chỉ aggregate thật.
+3. **Không** dedupe fetch shell + dashboard trong session này.
+
+### Cố ý chưa làm
+
+- Profile, Kanban, Calendar, settings workspace UI
+- Schema/migration, action summary riêng
+
+### Feature liên quan
+
+- `docs/features/dashboard.md` — cập nhật contract Phase 1
+
+---
+
+<!-- Session 07+ sẽ append bên dưới dòng này -->
