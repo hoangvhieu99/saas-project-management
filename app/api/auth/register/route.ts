@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { prisma } from "@/lib/db";
-import { registerSchema } from "@/lib/validations";
-import { handleApiError } from "@/lib/api-helpers";
+import { prisma } from "@/lib/shared/db";
+import { registerSchema } from "@/lib/auth/validators";
+import { handleApiError } from "@/lib/shared/api-helpers";
 
 export async function POST(request: Request) {
   try {

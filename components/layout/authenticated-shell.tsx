@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
+import { auth } from "@/lib/auth/auth";
 import { AppShell } from "@/components/layout/app-shell";
 
 export async function AuthenticatedShell({ children }: { children: React.ReactNode }) {

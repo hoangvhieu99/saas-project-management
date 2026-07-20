@@ -5,7 +5,7 @@ export {
   updateWorkspaceSchema,
   type CreateWorkspaceInput,
   type UpdateWorkspaceInput,
-} from "./validation";
+} from "./validators";
 
 export {
   requireWorkspaceContext,

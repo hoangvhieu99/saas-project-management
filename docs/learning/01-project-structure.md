@@ -33,29 +33,38 @@ Cấu trúc tốt = **tìm đúng chỗ trong vài giây**.
 ```
 SaaS-Project-Management/
 ├── app/                 # Next.js App Router (pages, layouts, route handlers)
-├── components/          # UI React dùng lại
-├── lib/                 # Helper dùng chung (db client, auth helpers…)
+├── components/
+│   ├── features/        # UI theo feature (auth, workspace, …)
+│   └── ui/              # primitives
+├── lib/                 # Domain modules + shared infra (ADR-010)
+│   ├── auth/            # NextAuth, requireUser, login/register Zod
+│   ├── workspace/       # WorkspaceContext authz + Zod
+│   └── shared/          # db, api-*, utils (cn, slugify) — không business
 ├── prisma/
-│   ├── schema.prisma    # Mô hình dữ liệu
-│   └── migrations/      # Lịch sử thay đổi DB
-├── docs/                # Bộ nhớ dự án (bắt buộc cập nhật mỗi session)
-│   ├── SESSION.md
-│   ├── learning/        # Bài học cho Junior
-│   ├── decisions/       # ADR — quyết định kiến trúc
-│   ├── explanations/    # Lịch sử từng feature
-│   ├── reviews/         # Review sau mỗi session
-│   └── features/        # Hợp đồng / trạng thái feature
-└── cursor/rules/        # Quy tắc cho AI + team
+│   ├── schema.prisma
+│   └── migrations/
+├── docs/                # SSOT (SESSION, learning, decisions, …)
+└── cursor/rules/
 ```
+
+## `lib/` — Domain vs Shared
+
+| Đặt ở đâu | Ví dụ |
+|-----------|--------|
+| `lib/<domain>/` | `validators.ts`, `authz.ts` của Auth / Workspace / Project sau này |
+| `lib/shared/` | `db.ts`, `api-helpers.ts`, `utils.ts` |
+| **Không** đặt | Business rule trong `shared/`; túi `validations/` chung mọi domain |
 
 ## Ví dụ trong dự án này
 
 | Muốn làm gì | Đi đâu |
 |-------------|--------|
 | Thêm bảng Workspace | `prisma/schema.prisma` + migration |
+| Schema Zod workspace | `lib/workspace/validators.ts` |
+| requireUser | `lib/auth/authz.ts` |
 | Biết session đang làm gì | `docs/SESSION.md` |
-| Hiểu vì sao có Membership | `docs/decisions/ADR-008-*.md` |
-| Học Prisma từ đầu | `docs/learning/02-prisma.md` |
+| Vì sao Domain Modules | `docs/decisions/ADR-010-*.md` |
+| Học Prisma | `docs/learning/02-prisma.md` |
 
 ## Luồng đọc khi bắt đầu task
 
@@ -102,5 +111,6 @@ Chỉ sửa các file trong "Files Allowed"
 ## Đọc thêm
 
 - `docs/ARCHITECTURE.md`
+- `docs/decisions/ADR-010-domain-oriented-module-architecture.md`
 - `docs/learning/02-prisma.md`
 - Next.js App Router docs (chính thức)

@@ -22,6 +22,16 @@ Architecture Decision Records (ADR). Newest first.
 
 ---
 
+### ADR-010: Lightweight Domain-Oriented Module Architecture
+
+- **Date:** 2026-07-20
+- **Decision:** `lib/` tổ chức theo domain (`auth/`, `workspace/`, …) + `shared/` chỉ infra; không Clean/DDD/Repository.
+- **Reason:** Thống nhất hybrid sau Session 02; scale Phase 1–2; khớp rule folder-by-domain.
+- **Alternative:** Giữ hybrid; Full Clean Architecture.
+- **Impact:** Mọi domain mới follow cùng pattern; import path đổi; CRUD viết trên nền này.
+- **Status:** Accepted
+- **Chi tiết:** `docs/decisions/ADR-010-domain-oriented-module-architecture.md`
+
 ### ADR-009: Bộ tài liệu mentorship tiếng Việt (learning / ADR file / explanations / reviews)
 
 - **Date:** 2026-07-20

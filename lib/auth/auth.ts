@@ -3,8 +3,8 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
-import { prisma } from "@/lib/db";
-import { loginSchema } from "@/lib/validations";
+import { prisma } from "@/lib/shared/db";
+import { loginSchema } from "@/lib/auth/validators";
 
 const providers = [
   Credentials({

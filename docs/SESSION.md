@@ -12,7 +12,7 @@ Workspace Foundation
 
 ## Goal hiện tại
 
-Session 02 đã xong: `lib/workspace` (Zod + WorkspaceContext authz). Chờ session tường minh tiếp theo (CRUD hoặc architecture refactor — không tự advance).
+Session 03 đã xong: refactor `lib/` → Domain-Oriented Modules (ADR-010). Chờ session tường minh tiếp theo (Workspace CRUD — không tự advance).
 
 ## Feature đang làm
 
@@ -20,7 +20,7 @@ Workspace — `docs/features/workspace.md` · lịch sử `docs/explanations/wor
 
 ## Task hiện tại
 
-Không — Session 02 đã STOP.
+Không — Session 03 đã STOP.
 
 ## Blocked
 
@@ -28,8 +28,8 @@ Không
 
 ## Task tiếp theo
 
-- Session CRUD workspace **hoặc** session refactor Domain-Oriented cho Auth/shared — **chỉ khi được yêu cầu rõ**
-- Không tự mở UI/API/routes
+- Session Workspace CRUD / UI / routes — **chỉ khi được yêu cầu rõ**
+- Không tự mở feature khác
 
 ## Files được phép sửa
 
@@ -39,14 +39,12 @@ Không
 
 - Không tự advance roadmap
 - Không thêm Workspace CRUD / UI / API nếu chưa có session tường minh
-- Không migrate `lib/auth*` / `lib/shared` nếu chưa có session refactor tường minh
 
 ## Notes
 
-- Session 01 (2026-07-16): `Workspace` + `Membership` + `WorkspaceRole`; migration `workspace_foundation`
-- Session docs (2026-07-20): khung learning / decisions / explanations / reviews
-- Session 02 (2026-07-20): `lib/workspace/{validation,authz,index}.ts`; learning 03 + 05; **không** ADR; **không** đổi `api-helpers`
-- Hybrid tạm: Auth flat, Workspace theo domain — chấp nhận đến session refactor
+- Session 01: Prisma Workspace + Membership
+- Session 02: `lib/workspace` validators + authz (WorkspaceContext)
+- Session 03 (2026-07-20): move Auth → `lib/auth/`, infra → `lib/shared/`; rename `validators.ts`; ADR-010; **không** đổi business logic
 
 ---
 
@@ -62,13 +60,14 @@ Không
 | 2026-07-16 | Session 01 Workspace Prisma models | Xong |
 | 2026-07-20 | Khung tài liệu TV + backfill Session 01 | Xong |
 | 2026-07-20 | Session 02 validation + authz (`lib/workspace`) | Xong |
+| 2026-07-20 | Session 03 Architecture refactor Domain Modules | Xong |
 
 ## TODO
 
 - [x] Foundation cleanup
 - [x] Architecture freeze
 - [x] Session 01 Workspace Prisma models
-- [x] Backfill docs Session 01 (learning, ADR-008, explanations, review)
+- [x] Backfill docs Session 01
 - [x] Session 02 — validations + authz helpers
+- [x] Session 03 — Domain-Oriented `lib/` (ADR-010)
 - [ ] Session CRUD / UI / routes (khi được giao)
-- [ ] Session architecture refactor Auth/shared (khi được giao)

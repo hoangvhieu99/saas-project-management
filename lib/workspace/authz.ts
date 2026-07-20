@@ -1,6 +1,6 @@
 import type { Membership, Workspace } from "@prisma/client";
 import { WorkspaceRole } from "@prisma/client";
-import { prisma } from "@/lib/db";
+import { prisma } from "@/lib/shared/db";
 
 /**
  * Authenticated access to one workspace for a user.

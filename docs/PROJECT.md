@@ -46,9 +46,9 @@ Ship a credible portfolio demo: auth, multi-tenant workspace, Kanban, clean arch
 | `components/ui/` | Shared primitives | Present |
 | `components/features/` | Feature UI | `auth/` only |
 | `components/layout/` | App shell | Present |
-| `lib/` | auth, db, validations, api-client | Present |
+| `lib/` | Domain modules (`auth/`, `workspace/`) + `shared/` infra | Present (ADR-010) |
 | `stores/` | Zustand UI state | Present |
-| `prisma/` | Schema + migrations | Auth-only |
+| `prisma/` | Schema + migrations | Auth + Workspace models |
 | `docs/` | SSOT | Present |
 | `hooks/` | Feature hooks | Deferred |
 | `e2e/` | Playwright | Deferred (Phase 5) |

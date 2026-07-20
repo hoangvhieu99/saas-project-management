@@ -27,7 +27,7 @@ Form / Server Action / API body
 
 Workspace có `name` (hiển thị) và `slug` (URL). Sai format slug (chữ hoa, space, ký tự lạ) sẽ làm hỏng routing `/w/[slug]` sau này. Validate **trước** khi viết CRUD.
 
-Schema Workspace nằm tại `lib/workspace/validation.ts` — theo domain, không nhét vào túi `lib/validations` chung của Auth.
+Schema Workspace nằm tại `lib/workspace/validators.ts` — theo domain (ADR-010), không nhét vào túi validations chung.
 
 ## Ưu điểm
 
@@ -45,12 +45,12 @@ Schema Workspace nằm tại `lib/workspace/validation.ts` — theo domain, khô
 | Được | Mất |
 |------|-----|
 | Hợp đồng input sớm | Session CRUD vẫn phải bắt lỗi unique slug từ Prisma |
-| Domain folder rõ | Auth vẫn dùng `lib/validations` (hybrid tạm — refactor sau) |
+| Domain folder rõ | Auth schemas ở `lib/auth/validators.ts` (Session 03) |
 
 ## Ví dụ THẬT — Session 02
 
 ```ts
-// lib/workspace/validation.ts (rút gọn ý)
+// lib/workspace/validators.ts (rút gọn ý)
 createWorkspaceSchema  // { name, slug }
 updateWorkspaceSchema  // { name } — chỉ đổi tên; không đổi slug trong session này
 ```

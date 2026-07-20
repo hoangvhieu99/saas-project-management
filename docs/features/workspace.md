@@ -11,7 +11,7 @@ User đã đăng nhập tạo và chuyển workspace; mọi dữ liệu dự án
 | Khu vực | Trạng thái | Ghi chú |
 |---------|------------|---------|
 | Prisma models + migration | **Đã land** | Session 01 — `20260716062526_workspace_foundation` |
-| Zod validations (name, slug create; name-only update) | **Đã land** | Session 02 — `lib/workspace/validation.ts` |
+| Zod validations (name, slug create; name-only update) | **Đã land** | Session 02 — `lib/workspace/validators.ts` (rename Session 03) |
 | Membership authz helpers (WorkspaceContext) | **Đã land** | Session 02 — `lib/workspace/authz.ts` |
 | CRUD (Server Actions / API) | **Hoãn** | Cần session tường minh |
 | UI (create, switcher, empty state) | **Hoãn** | Cần session tường minh |
@@ -29,10 +29,15 @@ User đã đăng nhập tạo và chuyển workspace; mọi dữ liệu dự án
 
 ### Đã land (Session 02 — 2026-07-20)
 
-- [x] `lib/workspace/validation.ts` — create `{ name, slug }`; update `{ name }` only
+- [x] `lib/workspace/validators.ts` — create `{ name, slug }`; update `{ name }` only
 - [x] `lib/workspace/authz.ts` — `WorkspaceContext`, `requireWorkspaceContext`, `requireWorkspaceOwner`
 - [x] `lib/workspace/index.ts` — public exports
 - [x] Learning: `03-validation.md`, `05-authorization.md`
+
+### Đã land (Session 03 — 2026-07-20)
+
+- [x] `lib/` Domain-Oriented Modules (ADR-010): `auth/`, `workspace/`, `shared/`
+- [x] Rename quy ước `validators.ts`
 
 ### Hoãn
 
@@ -82,7 +87,7 @@ User đã đăng nhập tạo và chuyển workspace; mọi dữ liệu dự án
 - Name: bắt buộc
 - Slug: kebab lowercase, unique, URL-safe
 
-> Validator: `lib/workspace/validation.ts` (Session 02). Uniqueness slug vẫn ở DB.
+> Validator: `lib/workspace/validators.ts`. Uniqueness slug vẫn ở DB.
 
 ## Permission rules
 
@@ -127,6 +132,6 @@ User đã đăng nhập tạo và chuyển workspace; mọi dữ liệu dự án
 ## Tài liệu liên quan
 
 - Lịch sử: `docs/explanations/workspace.md`
-- ADR: `docs/decisions/ADR-008-workspace-membership-model.md`
-- Học: `docs/learning/02-prisma.md`, `03-validation.md`, `05-authorization.md`
-- Review: `docs/reviews/session-01-review.md`, `docs/reviews/session-02-review.md`
+- ADR: `docs/decisions/ADR-008-workspace-membership-model.md`, `ADR-010-domain-oriented-module-architecture.md`
+- Học: `docs/learning/01-project-structure.md`, `02-prisma.md`, `03-validation.md`, `05-authorization.md`
+- Review: `docs/reviews/session-01-review.md`, `session-02-review.md`, `session-03-review.md`

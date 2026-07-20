@@ -104,4 +104,28 @@ lib/workspace/
 
 ---
 
-<!-- Session 03+ sẽ append bên dưới dòng này -->
+---
+
+## Session 03 — Architecture refactor Domain Modules (2026-07-20)
+
+### Mục tiêu session
+
+Thống nhất `lib/` theo **Lightweight Domain-Oriented Modules** (ADR-010). Không CRUD, không đổi business logic.
+
+### Đã đổi (liên quan Workspace)
+
+- `lib/workspace/validation.ts` → `lib/workspace/validators.ts` (rename quy ước)
+- `lib/workspace/authz.ts` import `prisma` từ `@/lib/shared/db`
+- Auth/infra flat đã chuyển: `lib/auth/*`, `lib/shared/*`
+
+### Cố ý chưa làm
+
+- Workspace CRUD / UI / routes
+
+### ADR
+
+- `docs/decisions/ADR-010-domain-oriented-module-architecture.md`
+
+---
+
+<!-- Session 04+ sẽ append bên dưới dòng này -->

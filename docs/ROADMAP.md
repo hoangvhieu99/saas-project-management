@@ -18,6 +18,7 @@
 - [x] Next.js + Tailwind + UI primitives + Prisma (SQLite local) + Auth shell
 - [x] Auth: register, login, logout, protected `(app)` layout
 - [x] CI: lint + typecheck
+- [x] `lib/` Domain-Oriented modules (ADR-010) — Auth + Workspace + shared
 - [ ] Workspace CRUD + `w/[slug]` + OWNER/MEMBER
 - [ ] Dashboard summary widgets
 - [ ] Profile basics (name, avatar URL)
@@ -27,7 +28,9 @@
 - [x] Docs SSOT (Session 0)
 - [x] App scaffold + Auth (Phase 0 freeze)
 - [x] Foundation cleanup (docs / ignore / dead paths)
-- [ ] Workspace + Dashboard widgets + Profile
+- [x] Session 01–02 Workspace schema + validators/authz
+- [x] Session 03 Architecture refactor (`lib/` domain modules)
+- [ ] Workspace CRUD + Dashboard widgets + Profile
 
 ---
 

@@ -17,4 +17,4 @@ Tài liệu dạy Junior Developer. Mỗi khái niệm mới trong session → c
 - `06-server-actions.md`
 - `07-api.md`
 - `08-react-query.md`
-- `09-clean-architecture.md`
+- `09-clean-architecture.md` — so sánh với Domain Modules (ADR-010); chỉ khi cần đào sâu
