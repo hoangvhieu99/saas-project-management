@@ -56,4 +56,42 @@ Workspace ──< Project ──< BoardColumn ──< Task
 
 ---
 
-<!-- Session 09+ sẽ append bên dưới dòng này -->
+## Session 09 — Validation + authz helpers (2026-07-20)
+
+### Mục tiêu session
+
+Thêm **Zod validators** và **authz helpers** cho Project/Task trước CRUD Kanban. Đóng nợ Session 08: `assigneeId` phải là member của workspace project.
+
+### Đã thêm
+
+```
+lib/project/
+  validators.ts
+  authz.ts
+  index.ts
+```
+
+- Validators: project create/update, board column create, task create/update
+- Authz: `requireProjectContext`, `requireTaskInProject`, `assertAssigneeInWorkspace`
+- `requireTaskInProject` dùng **single nested-where query** theo `taskId` + `projectId` + `workspaceId` để chặn IDOR giữa nhiều project cùng workspace
+
+### Quyết định trong session
+
+1. **Assignee invalid → `FORBIDDEN`** (không `NOT_FOUND`)
+2. **`requireTaskInProject` verify theo `projectId`** chứ không chỉ workspace scope
+3. `assigneeId` nullable; empty string normalize thành `null`
+4. Đổi slug project ngoài scope Session 09 (mirror Workspace Session 02)
+
+### Cố ý chưa làm
+
+- Server Actions / CRUD
+- Routes / board UI / DnD
+- Seed Todo / Doing / Done
+
+### Learning liên quan
+
+- `docs/learning/10-project-authz.md`
+
+---
+
+<!-- Session 10+ sẽ append bên dưới dòng này -->

@@ -9,17 +9,17 @@
 
 ## Session
 
-Session 09 — Kanban validation + authz (`lib/project/`)
+Session 10 — Kanban CRUD Server Actions (`app/actions/project/`)
 
 ## Goal
 
-Thêm **Zod validators** và **authz helpers** cho Project/Task scoped workspace — mirror Session 02 Workspace. **Bắt buộc đóng nợ Session 08:** validate `assigneeId` theo workspace membership trước khi có CRUD.
+Thêm **Server Actions CRUD tối thiểu** cho Project/BoardColumn/Task trên nền `lib/project/` Session 09. Bắt đầu execution layer Phase 2 — **không UI, không DnD**.
 
 ## Why this session
 
-- Session 08 land schema; DB **không** enforce assignee ∈ workspace.
-- Pattern đã chứng minh: Session 02 authz trước Session 04 CRUD.
-- ROADMAP Phase 2 CRUD/DnD cần cửa authz project/task.
+- Session 09 đã land validators + authz `lib/project/`.
+- Pattern đã chứng minh: Session 04 CRUD sau Session 02 authz/validators.
+- CRUD server là bước cần trước UI board và DnD.
 
 ## Reading Order
 
@@ -27,52 +27,61 @@ Thêm **Zod validators** và **authz helpers** cho Project/Task scoped workspace
 2. `docs/NEXT_SESSION.md` (file này)
 3. `docs/features/kanban.md`
 4. `docs/explanations/kanban.md`
-5. `docs/decisions/ADR-011-kanban-data-model.md`
-6. `docs/decisions/ADR-008-workspace-membership-model.md`
-7. `lib/workspace/` (pattern tham chiếu Session 02)
+5. `docs/reviews/session-09-review.md`
+6. `lib/project/`
+7. `app/actions/workspace/` (pattern tham chiếu Session 04)
 8. `prisma/schema.prisma`
 
 ## Prerequisites
 
 - [x] Session 08 — Kanban schema + migration
+- [x] Session 09 — `lib/project/` validators + authz
 
 ## Scope
 
-- Chốt chi tiết Design Review: `lib/project/validators.ts`, `authz.ts`, `index.ts`
-- **Bắt buộc:** helper/rule validate `assigneeId` (nullable) — assignee phải có Membership workspace của project
-- ProjectContext hoặc tương đương (member + project thuộc workspace slug)
-- **Không** Server Actions, routes, UI
+- Chốt ở Design Review: `app/actions/project/queries.ts`, `mutations.ts`
+- CRUD tối thiểu:
+  - list projects theo workspace
+  - get project theo slug
+  - create project
+  - create/update task
+  - create column nếu cần cho foundation
+- **Bắt buộc** reuse `lib/project/` authz/validators, gồm `assertAssigneeInWorkspace` và `requireTaskInProject`
+- **Không** routes/UI/DnD
 
 ## Out of Scope
 
-- CRUD project/task/columns
-- Board UI, DnD
-- Seed default columns
+- Board UI, DnD, Zustand
+- TaskDetail drawer/sheet
+- Calendar, comments, invite
 - Repository / Service layer
 
 ## Expected Files
 
-- `lib/project/validators.ts`, `authz.ts`, `index.ts`
-- `docs/reviews/session-09-review.md`
+- `app/actions/project/queries.ts`, `mutations.ts`
+- Có thể update nhẹ `lib/project/` nếu Design Review phát hiện thiếu helper nhỏ
+- `docs/reviews/session-10-review.md`
 - `docs/SESSION.md`, `docs/NEXT_SESSION.md`
 - Feature/explanation/learning cập nhật nếu cần
 
 ## Deliverables
 
-- [ ] `lib/project/` trong Scope
+- [ ] CRUD Server Actions trong Scope
 - [ ] Docs đầy đủ
 - [ ] `tsc` / lint / build xanh
 
 ## Risks
 
-- Scope creep sang CRUD/UI — giữ lib-only
-- Assignee validation thiếu edge case (null ok, user removed from workspace) — chốt Design Review
+- Scope creep sang UI/DnD — giữ server-only
+- Quên gọi `assertAssigneeInWorkspace` khi create/update task
+- Quên dùng `requireTaskInProject(..., projectId, taskId)` gây IDOR giữa sibling projects
 
 ## Success Criteria
 
-- Validators + authz helpers khớp kanban contract
-- **assigneeId membership rule** có test/manual spec rõ trong review
-- Không CRUD/UI trong session
+- Queries/mutations khớp kanban contract foundation
+- Task create/update bắt buộc enforce assignee membership
+- Lookup task trong project dùng đúng helper chặn IDOR
+- Không UI/DnD trong session
 - Docs + NEXT cập nhật; STOP
 
 ## Completion Workflow

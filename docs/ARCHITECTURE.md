@@ -20,8 +20,7 @@ components/
     auth/ | dashboard/ | profile/ | workspace/
   layout/ | ui/
 lib/
-  auth/ | workspace/ | shared/
-  project/                 # planned Session 09 — validators + authz
+  auth/ | workspace/ | shared/ | project/
 stores/useUiStore.ts
 prisma/
   schema.prisma            # + Project, BoardColumn, Task, TaskPriority

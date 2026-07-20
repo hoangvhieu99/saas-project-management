@@ -10,11 +10,11 @@ Cập nhật mỗi coding session. AI/dev: đọc file này trước, rồi **`d
 
 ## Sprint hiện tại
 
-Phase 2 — Kanban foundation
+Phase 2 — Kanban domain foundation
 
 ## Goal hiện tại
 
-Session 08 đã xong (Kanban schema). Coding session tiếp theo xem `NEXT_SESSION.md` — **không tự advance**.
+Session 09 đã xong (Kanban validation + authz). Coding session tiếp theo xem `NEXT_SESSION.md` — **không tự advance**.
 
 ## Feature đang làm
 
@@ -39,8 +39,8 @@ Không
 ## Notes
 
 - Session 08: Project/BoardColumn/Task + `TaskPriority`; assignee `onDelete: SetNull`
-- ADR-011; migration `kanban_foundation`
-- **Nợ Session 09:** validate `assigneeId` theo workspace membership
+- Session 09: `lib/project/` validators + authz; assignee membership + task/project IDOR guard
+- Session 10 sẽ mở CRUD Server Actions trên nền `lib/project/`
 
 ---
 
@@ -63,9 +63,11 @@ Không
 | 2026-07-20 | Session 06 Dashboard summary widgets | Xong |
 | 2026-07-20 | Session 07 Profile basics | Xong |
 | 2026-07-20 | Session 08 Kanban schema | Xong |
+| 2026-07-20 | Session 09 Kanban validation + authz | Xong |
 
 ## TODO
 
 - [x] Phase 1 (Sessions 01–07)
 - [x] Session 08 — Kanban schema
-- [ ] Session 09 — xem `NEXT_SESSION.md`
+- [x] Session 09 — Kanban validation + authz
+- [ ] Session 10 — xem `NEXT_SESSION.md`

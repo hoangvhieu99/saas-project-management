@@ -51,15 +51,19 @@ Migration: `20260720073433_kanban_foundation`
 
 ## Validation rules
 
-- Title required (Session API sau)
-- Position non-negative (Session API sau)
+- Project name required; project slug lowercase kebab-case
+- Column name required; position non-negative
+- Title required; position non-negative
 - Priority enum LOW|MEDIUM|HIGH
-- **Session 09:** assigneeId phải là member của workspace project
+- `assigneeId`: cuid hoặc null; **Session 09** validate membership ở app layer
 
 ## Permission rules
 
 - Member CRUD task trong workspace (MVP)
 - OWNER/MEMBER đều move task (MVP)
+- `requireProjectContext(userId, workspaceSlug, projectSlug)` → member + project thuộc workspace
+- `requireTaskInProject(userId, workspaceSlug, projectId, taskId)` → task phải thuộc **đúng project** trong workspace (chặn IDOR giữa sibling projects)
+- `assertAssigneeInWorkspace(assigneeId, workspaceId)` → non-member assignee = `FORBIDDEN`
 
 ## State management
 
@@ -70,14 +74,14 @@ Migration: `20260720073433_kanban_foundation`
 ## Pending tasks
 
 - [x] Models + migration (Session 08)
-- [ ] Validation + authz assignee membership (Session 09)
+- [x] Validation + authz assignee membership (Session 09)
 - [ ] Default columns Todo/Doing/Done (seed hoặc create-project)
 - [ ] Task CRUD UI + DnD
 - [ ] TaskDetail shared
 
 ## Known issues
 
-- **assigneeId chưa validate theo workspace membership ở DB** — chuyển Session 09 (`lib/project/` authz)
+- DB **không tự enforce** assignee ∈ workspace; Session 09 đã thêm helper app-layer và Session 10 CRUD phải bắt buộc gọi helper này
 
 ## Future improvements
 
@@ -88,6 +92,7 @@ Migration: `20260720073433_kanban_foundation`
 - [x] Schema khớp Project → BoardColumn → Task
 - [x] Project scoped `workspaceId`
 - [x] assignee `onDelete: SetNull`
+- [x] Validators + authz `lib/project/`
 - [ ] Create task → column
 - [ ] Drag → reload persist
 - [ ] Assignee chỉ member workspace

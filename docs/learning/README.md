@@ -14,6 +14,7 @@ Tài liệu dạy Junior Developer. Mỗi khái niệm mới trong session → c
 | [07-workspace-routes.md](./07-workspace-routes.md) | Dynamic `/w/[slug]`, layout gate, CONFLICT UX | Session 05 |
 | [08-profile-session-update.md](./08-profile-session-update.md) | JWT `token.picture` vs `image`, `session.update()` | Session 07 |
 | [09-prisma-kanban-models.md](./09-prisma-kanban-models.md) | Project/BoardColumn/Task, SetNull assignee | Session 08 |
+| [10-project-authz.md](./10-project-authz.md) | Project/task authz, assignee membership, IDOR guard | Session 09 |
 
 ## Sẽ bổ sung khi session tương ứng land
 
