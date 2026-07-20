@@ -165,4 +165,49 @@ app/actions/workspace/
 
 ---
 
-<!-- Session 05+ sẽ append bên dưới dòng này -->
+## Session 05 — Workspace UI + routes `/w/[slug]` (2026-07-20)
+
+### Mục tiêu session
+
+Gắn CRUD server vào **UI tối thiểu** và route group `/w/[slug]` với membership gate ở layout.
+
+### Đã thêm
+
+```
+app/(app)/w/[slug]/
+  layout.tsx   # getWorkspaceBySlug → NOT_FOUND → notFound()
+  page.tsx     # shell (name, slug, role)
+
+components/features/workspace/
+  create-workspace-form.tsx
+  create-workspace-dialog.tsx
+  workspace-switcher.tsx
+  workspace-empty-state.tsx
+```
+
+- AppShell: switcher + CTA tạo
+- Dashboard: empty state hoặc list link vào `/w/[slug]`
+- `createWorkspace`: `revalidatePath` sau thành công
+- CONFLICT: toast + gợi ý slug (`slug-2`) + field error
+
+### Quyết định (Design Review + approve có điều kiện)
+
+1. **Không** wire `updateWorkspace` / `deleteWorkspace` UI (settings sau).
+2. Duplicate fetch layout + page — chấp nhận MVP.
+3. Switcher: list từ `AuthenticatedShell` (server) pass vào AppShell.
+4. CONFLICT phải có gợi ý — không chỉ báo lỗi suông.
+5. Manual test member / non-member nằm trong DoD / review.
+
+### Cố ý chưa làm
+
+- Dashboard widgets, Profile, Kanban, Calendar
+- Đổi slug, invite, schema mới
+- `React.cache` dedupe
+
+### Learning liên quan
+
+- `docs/learning/07-workspace-routes.md`
+
+---
+
+<!-- Session 06+ sẽ append bên dưới dòng này -->

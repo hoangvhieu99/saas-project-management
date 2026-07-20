@@ -9,17 +9,17 @@
 
 ## Session
 
-Session 05 — Workspace UI + routes `/w/[slug]`
+Session 06 — Dashboard summary widgets
 
 ## Goal
 
-Gắn CRUD server đã có vào **UI tối thiểu** và **route group** `/w/[slug]/...` (layout + membership gate), để user tạo/chọn workspace và vào không gian theo slug.
+Thêm **widget tóm tắt tối thiểu** trên Dashboard (đã có list workspace), dựa trên dữ liệu workspace/membership hiện có — không mở Kanban/Calendar/Profile.
 
 ## Why this session
 
-- Session 04 đã land Server Actions (queries/mutations) + authz trên mọi path dữ liệu.
-- Feature vẫn hoãn dialog/switcher/empty state và routes — đây là dependency trước Dashboard widgets / Profile.
-- Một goal rõ: **shell workspace trong app**, không nhét Kanban/Calendar.
+- Session 05 đã land shell workspace + `/w/[slug]`.
+- ROADMAP Phase 1 còn Dashboard summary widgets trước Profile.
+- Một goal rõ: **dashboard có giá trị tóm tắt**, không nhét board/task.
 
 ## Reading Order
 
@@ -28,52 +28,41 @@ Gắn CRUD server đã có vào **UI tối thiểu** và **route group** `/w/[sl
 3. `docs/ROADMAP.md` (context Phase — không tự mở rộng scope)
 4. `docs/features/workspace.md`
 5. `docs/explanations/workspace.md`
-6. `docs/learning/06-server-actions.md`
-7. `docs/decisions/ADR-008-workspace-membership-model.md`
-8. `docs/decisions/ADR-010-domain-oriented-module-architecture.md`
-9. `docs/ARCHITECTURE.md`
+6. `docs/ARCHITECTURE.md`
+7. `docs/learning/07-workspace-routes.md`
 
 ## Prerequisites
 
-- [x] Session 01 — Prisma `Workspace` + `Membership` + `WorkspaceRole`
-- [x] Session 02 — validators + WorkspaceContext authz
-- [x] Session 03 — Domain-Oriented `lib/` (ADR-010)
-- [x] Session 04 — Server Actions CRUD (`app/actions/workspace/`)
+- [x] Session 01–04 — schema, validators, authz, Server Actions
+- [x] Session 05 — UI + `/w/[slug]` + layout gate
 
 ## Scope
 
-- Route group `app/(app)/w/[slug]/...` + layout gọi authz (member gate)
-- UI tối thiểu:
-  - tạo workspace (form/dialog gọi `createWorkspace`)
-  - list / switcher (gọi `listWorkspaces`)
-  - empty state khi chưa có workspace
-- Dùng actions hiện có — không viết lại Prisma trong page
-- Map lỗi throw (`CONFLICT`, `FORBIDDEN`, …) ra UX hợp lý (toast / inline)
-- Cập nhật docs bắt buộc (feature, explanation, learning nếu có khái niệm mới, review, SESSION, overwrite NEXT)
+- Widget tóm tắt trên `/dashboard` (ví dụ: số workspace, workspace gần đây / role OWNER vs MEMBER — chốt ở Design Review)
+- Tái sử dụng `listWorkspaces` (và queries hiện có) — không Prisma trong Client Component
+- Cập nhật docs bắt buộc (feature nếu đụng contract, explanation, learning nếu khái niệm mới, review, SESSION, overwrite NEXT)
 
 ## Out of Scope
 
-- Dashboard widgets, Profile, Kanban, Calendar
-- Đổi Prisma schema / migration mới (trừ Design Review phát hiện thiếu — dừng hỏi)
-- Đổi slug workspace
-- Invite members, custom roles, settings xóa workspace phức tạp (có thể wire `deleteWorkspace` tối giản nếu Design Review duyệt; không bắt buộc)
+- Profile (name, avatar)
+- Kanban, Calendar, Project/Task models
+- Workspace settings rename/delete UI
+- Invite members
+- Schema / migration mới (trừ Design Review phát hiện thiếu — dừng hỏi)
 - Repository / Service / Clean Architecture
-- Viết lại CRUD trong `lib/workspace/` dưới dạng actions
 
 ## Expected Files
 
-- `app/(app)/w/[slug]/layout.tsx`, `page.tsx` (và route con tối thiểu nếu cần)
-- `components/features/workspace/...` — form create, switcher, empty state
-- Có thể chỉnh shell/sidebar để gắn switcher
-- `docs/features/workspace.md`, `docs/explanations/workspace.md`
-- `docs/learning/` (ví dụ routing theo slug nếu land lần đầu)
-- `docs/reviews/session-05-review.md`
+- `app/(app)/dashboard/page.tsx` và/hoặc `components/features/dashboard/...`
+- Có thể chỉnh nhẹ shell nếu cần entry
+- `docs/reviews/session-06-review.md`
 - `docs/SESSION.md`, `docs/NEXT_SESSION.md`
+- Feature/explanation/learning chỉ khi thực sự đụng
 
 ## Deliverables
 
 - [ ] Code trong Scope
-- [ ] Docs: feature / explanation / learning / review
+- [ ] Docs: review (+ feature/explanation/learning nếu cần)
 - [ ] ADR chỉ nếu có quyết định kiến trúc mới
 - [ ] `SESSION.md` cập nhật
 - [ ] `NEXT_SESSION.md` overwrite cho session kế (hoặc Waiting)
@@ -81,18 +70,13 @@ Gắn CRUD server đã có vào **UI tối thiểu** và **route group** `/w/[sl
 
 ## Risks
 
-- Scope creep sang Dashboard/Kanban — giữ UI workspace shell only
-- Quên gọi authz ở layout → leak trang theo slug
-- Duplicate fetch (layout + page) — chốt pattern ở Design Review
-- UX nuốt lỗi `CONFLICT` / validation — phải hiện được cho user
+- Scope creep sang Profile / Kanban — giữ widget summary only
+- Invent dữ liệu giả (task count) khi chưa có model Task — **không** bịa; chỉ aggregate từ Workspace/Membership
 
 ## Success Criteria
 
-- User login tạo được workspace từ UI và trở thành OWNER
-- Switcher/list chỉ hiện workspace user là member
-- Vào `/w/[slug]` với tư cách member được; non-member không xem được nội dung (gate server)
-- Empty state khi zero workspaces
-- Không có Kanban/Calendar/Profile trong session
+- Dashboard còn empty/list workspace **và** có summary widgets hữu ích từ dữ liệu thật
+- Không có Profile / Kanban / Calendar / settings workspace trong session
 - Docs + NEXT_SESSION đã cập nhật; STOP
 
 ## Completion Workflow
@@ -100,9 +84,9 @@ Gắn CRUD server đã có vào **UI tối thiểu** và **route group** `/w/[sl
 1. Verify TypeScript  
 2. Verify ESLint  
 3. Verify Build  
-4. Update Feature  
-5. Update Explanation  
-6. Update Learning  
+4. Update Feature (nếu cần)  
+5. Update Explanation (nếu cần)  
+6. Update Learning (nếu cần)  
 7. Update Review  
 8. Update ADR (nếu có)  
 9. Update SESSION.md  

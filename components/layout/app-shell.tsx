@@ -5,6 +5,11 @@ import { signOut } from "next-auth/react";
 import { LayoutDashboard, LogOut } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { CreateWorkspaceDialog } from "@/components/features/workspace/create-workspace-dialog";
+import {
+  WorkspaceSwitcher,
+  type WorkspaceListItem,
+} from "@/components/features/workspace/workspace-switcher";
 
 type ShellUser = {
   id: string;
@@ -15,9 +20,11 @@ type ShellUser = {
 
 export function AppShell({
   user,
+  workspaces,
   children,
 }: {
   user: ShellUser;
+  workspaces: WorkspaceListItem[];
   children: React.ReactNode;
 }) {
   return (
@@ -32,11 +39,25 @@ export function AppShell({
         <nav className="flex flex-1 flex-col gap-1 p-3">
           <Link
             href="/dashboard"
-            className="flex items-center gap-2 rounded-md bg-teal-50 px-3 py-2 text-sm font-medium text-teal-900"
+            className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100"
           >
             <LayoutDashboard className="h-4 w-4" />
             Dashboard
           </Link>
+
+          <div className="mt-4 space-y-2">
+            <div className="flex items-center justify-between px-3">
+              <p className="text-xs font-medium uppercase tracking-wide text-stone-400">
+                Workspaces
+              </p>
+              <CreateWorkspaceDialog
+                triggerLabel=""
+                triggerVariant="ghost"
+                triggerClassName="h-7 w-7 shrink-0 p-0"
+              />
+            </div>
+            <WorkspaceSwitcher items={workspaces} />
+          </div>
         </nav>
       </aside>
 

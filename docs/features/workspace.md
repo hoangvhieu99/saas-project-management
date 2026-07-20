@@ -1,6 +1,6 @@
 # Feature: Workspace
 
-> **Trạng thái:** Đang làm — Phase 1 (Session 04: CRUD server đã land; chưa UI/routes)
+> **Trạng thái:** Đang làm — Phase 1 (Session 05: UI + `/w/[slug]` đã land; settings rename/delete và widgets chưa)
 
 ## Mục tiêu feature
 
@@ -14,8 +14,8 @@ User đã đăng nhập tạo và chuyển workspace; mọi dữ liệu dự án
 | Zod validations (name, slug create; name-only update) | **Đã land** | Session 02 — `lib/workspace/validators.ts` |
 | Membership authz helpers (WorkspaceContext) | **Đã land** | Session 02 — `lib/workspace/authz.ts` |
 | CRUD (Server Actions) | **Đã land** | Session 04 — `app/actions/workspace/{queries,mutations}.ts` |
-| UI (create, switcher, empty state) | **Hoãn** | Cần session tường minh |
-| Routes `/w/[slug]/...` | **Hoãn** | Cần session tường minh |
+| UI (create, switcher, empty state) | **Đã land** | Session 05 — `components/features/workspace/` |
+| Routes `/w/[slug]/...` | **Đã land** | Session 05 — layout gate + shell page |
 
 ### Đã land (Session 01 — 2026-07-16)
 
@@ -48,12 +48,19 @@ User đã đăng nhập tạo và chuyển workspace; mọi dữ liệu dự án
 - [x] `api-helpers`: map `NOT_FOUND`, `CONFLICT`
 - [x] Learning: `06-server-actions.md`
 
+### Đã land (Session 05 — 2026-07-20)
+
+- [x] Route `app/(app)/w/[slug]/layout.tsx` — membership gate (`NOT_FOUND` → `notFound()`)
+- [x] Route `page.tsx` — workspace shell tối thiểu
+- [x] UI: create form/dialog, switcher, empty state
+- [x] AppShell + Dashboard gắn list / empty / create
+- [x] `revalidatePath` sau `createWorkspace`; CONFLICT → toast + gợi ý slug
+- [x] Learning: `07-workspace-routes.md`
+
 ### Hoãn
 
-- [ ] Dialog/form tạo workspace
-- [ ] List / switcher workspace
-- [ ] Empty state khi user chưa có workspace
-- [ ] Route group `/w/[slug]` + layout
+- [ ] OWNER rename / delete UI (settings)
+- [ ] Invite members
 
 ## User flow (mục tiêu sản phẩm)
 
@@ -72,9 +79,10 @@ User đã đăng nhập tạo và chuyển workspace; mọi dữ liệu dự án
 
 ## UI requirements
 
-- [ ] Dialog/form tạo workspace
-- [ ] List / switcher
-- [ ] Empty state zero workspaces
+- [x] Dialog/form tạo workspace
+- [x] List / switcher
+- [x] Empty state zero workspaces
+- [ ] Settings rename / delete (hoãn)
 
 ## API requirements
 
@@ -106,12 +114,13 @@ User đã đăng nhập tạo và chuyển workspace; mọi dữ liệu dự án
 | Update / delete workspace | ✓ | ✗ |
 | Invite members | ✓ | TBD |
 
-> Enforce trên Server Actions Session 04 qua `requireWorkspaceContext` / `requireWorkspaceOwner`.
+> Enforce trên Server Actions Session 04 qua `requireWorkspaceContext` / `requireWorkspaceOwner`.  
+> Route UI Session 05: layout gate bằng `getWorkspaceBySlug`.
 
 ## State management
 
-- List: RSC hoặc TanStack Query (UI chưa land)
-- Active slug: URL param (source of truth) — chờ routes
+- List: RSC (`listWorkspaces` trong shell + dashboard)
+- Active slug: URL param (source of truth)
 
 ## Pending tasks
 
@@ -119,15 +128,17 @@ User đã đăng nhập tạo và chuyển workspace; mọi dữ liệu dự án
 - [x] Tài liệu Session 01 (learning / ADR / explanations / review)
 - [x] Zod + WorkspaceContext authz helpers (Session 02)
 - [x] CRUD + check membership server-side (Session 04)
-- [ ] UI create + switcher + routes `/w/[slug]`
+- [x] UI create + switcher + routes `/w/[slug]`
+- [ ] Settings rename/delete (nếu product cần trước invite)
 
 ## Known issues
 
-- Chưa có (ở tầng schema + server CRUD)
+- Layout + page có thể fetch `getWorkspaceBySlug` hai lần (chấp nhận MVP)
 
 ## Future improvements
 
 - Custom roles, avatar workspace, transfer ownership
+- `React.cache` dedupe get-by-slug
 
 ## Checklist
 
@@ -135,13 +146,13 @@ User đã đăng nhập tạo và chuyển workspace; mọi dữ liệu dự án
 - [x] Migration `workspace_foundation` apply sạch
 - [x] Zod + WorkspaceContext authz (`lib/workspace`)
 - [x] Create + đọc theo slug (Server Actions)
-- [x] Non-member không đọc được (enforce trên actions)
-- [x] Chỉ OWNER được xóa (enforce trên actions)
-- [ ] UI create + switcher + `/w/[slug]`
+- [x] Non-member không đọc được (enforce trên actions + layout)
+- [x] Chỉ OWNER được xóa (enforce trên actions; chưa wire UI)
+- [x] UI create + switcher + `/w/[slug]`
 
 ## Tài liệu liên quan
 
 - Lịch sử: `docs/explanations/workspace.md`
 - ADR: `docs/decisions/ADR-008-workspace-membership-model.md`, `ADR-010-domain-oriented-module-architecture.md`
-- Học: `docs/learning/01-project-structure.md`, `02-prisma.md`, `03-validation.md`, `05-authorization.md`, `06-server-actions.md`
-- Review: `docs/reviews/session-01-review.md` … `session-04-review.md`
+- Học: `docs/learning/01-project-structure.md`, `02-prisma.md`, `03-validation.md`, `05-authorization.md`, `06-server-actions.md`, `07-workspace-routes.md`
+- Review: `docs/reviews/session-01-review.md` … `session-05-review.md`

@@ -1,6 +1,7 @@
 "use server";
 
 import { Prisma, WorkspaceRole } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 import { requireUser } from "@/lib/auth/authz";
 import {
   createWorkspaceSchema,
@@ -24,21 +25,27 @@ export async function createWorkspace(input: unknown) {
   const { name, slug } = parsed.data;
 
   try {
-    return await prisma.$transaction(async (tx) => {
-      const workspace = await tx.workspace.create({
+    const workspace = await prisma.$transaction(async (tx) => {
+      const created = await tx.workspace.create({
         data: { name, slug },
       });
 
       await tx.membership.create({
         data: {
           userId: user.id,
-          workspaceId: workspace.id,
+          workspaceId: created.id,
           role: WorkspaceRole.OWNER,
         },
       });
 
-      return workspace;
+      return created;
     });
+
+    revalidatePath("/dashboard");
+    revalidatePath(`/w/${workspace.slug}`);
+    revalidatePath("/", "layout");
+
+    return workspace;
   } catch (error) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&

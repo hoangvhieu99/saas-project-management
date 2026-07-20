@@ -21,7 +21,7 @@
 - [x] Auth: register, login, logout, protected `(app)` layout
 - [x] CI: lint + typecheck
 - [x] `lib/` Domain-Oriented modules (ADR-010) — Auth + Workspace + shared
-- [ ] Workspace CRUD + `w/[slug]` + OWNER/MEMBER
+- [x] Workspace CRUD + `w/[slug]` + OWNER/MEMBER
 - [ ] Dashboard summary widgets
 - [ ] Profile basics (name, avatar URL)
 
@@ -32,7 +32,8 @@
 - [x] Foundation cleanup (docs / ignore / dead paths)
 - [x] Session 01–02 Workspace schema + validators/authz
 - [x] Session 03 Architecture refactor (`lib/` domain modules)
-- [ ] Workspace CRUD + Dashboard widgets + Profile
+- [x] Session 04–05 Workspace CRUD server + UI `/w/[slug]`
+- [ ] Dashboard widgets + Profile
 
 ---
 

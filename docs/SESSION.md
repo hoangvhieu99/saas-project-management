@@ -14,7 +14,7 @@ Workspace Foundation
 
 ## Goal hiện tại
 
-Session 04 đã xong (Workspace CRUD server). Coding session tiếp theo xem `NEXT_SESSION.md` — **không tự advance**.
+Session 05 đã xong (Workspace UI + `/w/[slug]`). Coding session tiếp theo xem `NEXT_SESSION.md` — **không tự advance**.
 
 ## Feature đang làm
 
@@ -35,15 +35,16 @@ Không
 ## Files cấm sửa
 
 - Không tự advance roadmap / tự implement NEXT mà chưa approve
-- Không thêm Workspace UI / routes `/w/[slug]` nếu chưa được duyệt Design Review
+- Không tự thêm Dashboard widgets / Profile nếu chưa được duyệt Design Review
 
 ## Notes
 
 - Session 01: Prisma Workspace + Membership
 - Session 02: validators + WorkspaceContext authz
 - Session 03: Domain-Oriented `lib/` (ADR-010)
-- Session 04: Server Actions CRUD tại `app/actions/workspace/` (queries + mutations)
-- Docs (2026-07-20): learning `06-server-actions.md`
+- Session 04: Server Actions CRUD tại `app/actions/workspace/`
+- Session 05: UI create/switcher/empty + routes `/w/[slug]` + layout gate
+- Docs: learning `07-workspace-routes.md`
 
 ---
 
@@ -62,6 +63,7 @@ Không
 | 2026-07-20 | Session 03 Architecture refactor Domain Modules | Xong |
 | 2026-07-20 | Thêm `NEXT_SESSION.md` handoff | Xong |
 | 2026-07-20 | Session 04 Workspace CRUD (server) | Xong |
+| 2026-07-20 | Session 05 Workspace UI + `/w/[slug]` | Xong |
 
 ## TODO
 
@@ -73,4 +75,5 @@ Không
 - [x] Session 03 — Domain-Oriented `lib/` (ADR-010)
 - [x] `NEXT_SESSION.md` handoff
 - [x] Session 04 — Workspace CRUD (server)
-- [ ] Session 05 — xem `NEXT_SESSION.md`
+- [x] Session 05 — Workspace UI + routes
+- [ ] Session 06 — xem `NEXT_SESSION.md`

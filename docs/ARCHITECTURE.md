@@ -1,6 +1,6 @@
 # ARCHITECTURE
 
-## Current tree (Session 04 — Workspace CRUD server)
+## Current tree (Session 05 — Workspace UI + `/w/[slug]`)
 
 ```
 app/
@@ -8,13 +8,16 @@ app/
   (auth)/login|register
   (app)/layout.tsx         # AuthenticatedShell → AppShell
     (app)/dashboard
+    (app)/w/[slug]/         # membership gate layout + shell page
   actions/workspace/       # Server Actions (execution layer)
     queries.ts             # list, get-by-slug
     mutations.ts           # create, update, delete
   api/auth/[...nextauth]
   api/auth/register
 components/
-  features/auth/           # feature UI
+  features/
+    auth/                  # login / register forms
+    workspace/             # create, switcher, empty state
   layout/
   providers.tsx
   ui/                      # shared primitives
@@ -39,9 +42,9 @@ docs/
 
 ## Planned later (not in tree yet)
 
-- `app/(app)/w/[slug]/...` — Phase 1+ (Session 05 handoff)
-- `components/features/{workspace,kanban,calendar,…}` — by phase
-- `lib/project/`, `lib/task/`, … — same domain module pattern
+- Workspace settings UI (rename / delete)
+- `components/features/{kanban,calendar,…}` — by phase
+- `lib/project/`, `lib/task/` — same domain module pattern
 - `hooks/` — when feature queries need shared hooks
 - `e2e/`, `__tests__/` — Phase 5
 
@@ -74,26 +77,29 @@ Workflow: đọc SESSION → NEXT_SESSION → Design Review → approve → impl
 
 ```
 Browser → Auth forms / Auth.js
+       → Workspace UI (create / switcher)
        → Server Actions (`app/actions/workspace/...`)
             → requireUser + lib/workspace authz/validators
             → Prisma (`lib/shared/db`) → SQLite (local default)
+       → `/w/[slug]` layout gate → getWorkspaceBySlug → notFound if non-member
 ```
 
-Later: UI forms + TanStack Query; mọi path workspace-scoped gọi `lib/workspace/authz`.
+Active workspace = URL `slug` (không Zustand). Sau mutation: `revalidatePath` + client `router.refresh`.
 
 ## Component hierarchy
 
 ```
 RootLayout → Providers
   └─ (auth) pages
-  └─ (app)/layout → AuthenticatedShell → AppShell → page
+  └─ (app)/layout → AuthenticatedShell → AppShell (switcher) → page
+       └─ w/[slug]/layout (membership gate) → page
 ```
 
 ## Server Components vs Client Components
 
 | Use RSC when | Use Client when |
 |--------------|-----------------|
-| Protected layouts, simple server reads | Forms (RHF), browser APIs, local UI state |
+| Protected layouts, list workspaces, slug gate | Forms (RHF), dialog, switcher highlight via `useParams` |
 
 Default to Server; `"use client"` only at interaction boundaries.
 
@@ -101,8 +107,8 @@ Default to Server; `"use client"` only at interaction boundaries.
 
 | Layer | Tool | Scope |
 |-------|------|-------|
-| Server truth | Prisma / Auth.js | User session |
-| Server cache (client) | TanStack Query | Wired; unused until Phase 1+ |
+| Server truth | Prisma / Auth.js | User session, memberships |
+| Server cache (client) | TanStack Query | Wired; unused until heavier client lists |
 | UI ephemeral | Zustand | Sidebar open |
 | Forms | RHF + Zod | Domain validators |
 
@@ -127,8 +133,8 @@ Default to Server; `"use client"` only at interaction boundaries.
 - Zod failures → throw message (Server Action) hoặc 400 (Route Handler)
 - Unauthenticated → `UNAUTHORIZED` → 401 / redirect
 - Forbidden → `FORBIDDEN` → 403
-- Not found (workspace / non-member) → `NOT_FOUND` → 404
-- Unique conflict (slug) → `CONFLICT` → 409
+- Not found (workspace / non-member) → `NOT_FOUND` → 404 / `notFound()`
+- Unique conflict (slug) → `CONFLICT` → toast + slug suggestion in create form
 - Unexpected → log + 500
 
 ## File naming conventions

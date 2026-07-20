@@ -11,10 +11,10 @@ Tài liệu dạy Junior Developer. Mỗi khái niệm mới trong session → c
 | [03-validation.md](./03-validation.md) | Zod validation (Workspace schemas) | Session 02 |
 | [05-authorization.md](./05-authorization.md) | Authz membership / WorkspaceContext | Session 02 |
 | [06-server-actions.md](./06-server-actions.md) | Server Actions, queries/mutations, error throw | Session 04 |
+| [07-workspace-routes.md](./07-workspace-routes.md) | Dynamic `/w/[slug]`, layout gate, CONFLICT UX | Session 05 |
 
 ## Sẽ bổ sung khi session tương ứng land
 
 - `04-authentication.md` — Auth.js
-- `07-api.md`
-- `08-react-query.md`
+- `08-api.md` / react-query — khi hooks land
 - `09-clean-architecture.md` — so sánh với Domain Modules (ADR-010); chỉ khi cần đào sâu
