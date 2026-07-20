@@ -9,68 +9,70 @@
 
 ## Session
 
-Session 08 — Kanban foundation (Project + Task schema)
+Session 09 — Kanban validation + authz (`lib/project/`)
 
 ## Goal
 
-Đặt **nền dữ liệu Kanban** — Prisma models Project + Task (và quan hệ workspace-scoped) — tương tự Session 01 Workspace. **Không UI, không API, không DnD.**
+Thêm **Zod validators** và **authz helpers** cho Project/Task scoped workspace — mirror Session 02 Workspace. **Bắt buộc đóng nợ Session 08:** validate `assigneeId` theo workspace membership trước khi có CRUD.
 
 ## Why this session
 
-- Phase 1 (Workspace + Dashboard + Profile) đã xong.
-- ROADMAP Phase 2 bắt đầu bằng Project + board columns + task CRUD — schema trước, UI sau (pattern đã chứng minh Session 01→05).
+- Session 08 land schema; DB **không** enforce assignee ∈ workspace.
+- Pattern đã chứng minh: Session 02 authz trước Session 04 CRUD.
+- ROADMAP Phase 2 CRUD/DnD cần cửa authz project/task.
 
 ## Reading Order
 
 1. `docs/SESSION.md`
 2. `docs/NEXT_SESSION.md` (file này)
-3. `docs/ROADMAP.md`
-4. `docs/features/kanban.md`
-5. `docs/decisions/ADR-008-workspace-membership-model.md` (workspace scoping pattern)
-6. `docs/ARCHITECTURE.md`
-7. `prisma/schema.prisma`
+3. `docs/features/kanban.md`
+4. `docs/explanations/kanban.md`
+5. `docs/decisions/ADR-011-kanban-data-model.md`
+6. `docs/decisions/ADR-008-workspace-membership-model.md`
+7. `lib/workspace/` (pattern tham chiếu Session 02)
+8. `prisma/schema.prisma`
 
 ## Prerequisites
 
-- [x] Phase 1 complete (Sessions 01–07)
+- [x] Session 08 — Kanban schema + migration
 
 ## Scope
 
-- Chốt model fields + relations ở **Design Review** (Project, Task, column/status, workspaceId FK, indexes)
-- Migration mới
-- Docs: feature kanban, explanation append, review, SESSION, overwrite NEXT
-- **Không** Server Actions, routes, UI, DnD
+- Chốt chi tiết Design Review: `lib/project/validators.ts`, `authz.ts`, `index.ts`
+- **Bắt buộc:** helper/rule validate `assigneeId` (nullable) — assignee phải có Membership workspace của project
+- ProjectContext hoặc tương đương (member + project thuộc workspace slug)
+- **Không** Server Actions, routes, UI
 
 ## Out of Scope
 
-- Board UI, `@dnd-kit`, TanStack mutations
-- Calendar, comments, invite
+- CRUD project/task/columns
+- Board UI, DnD
+- Seed default columns
 - Repository / Service layer
-- Seed data (trừ Design Review approve)
 
 ## Expected Files
 
-- `prisma/schema.prisma` + migration
-- `docs/features/kanban.md`, `docs/explanations/kanban.md` (nếu chưa có)
-- `docs/reviews/session-08-review.md`
+- `lib/project/validators.ts`, `authz.ts`, `index.ts`
+- `docs/reviews/session-09-review.md`
 - `docs/SESSION.md`, `docs/NEXT_SESSION.md`
-- ADR nếu quyết định model đủ lớn
+- Feature/explanation/learning cập nhật nếu cần
 
 ## Deliverables
 
-- [ ] Schema + migration trong Scope
+- [ ] `lib/project/` trong Scope
 - [ ] Docs đầy đủ
-- [ ] `tsc` / lint / build xanh (Prisma generate)
+- [ ] `tsc` / lint / build xanh
 
 ## Risks
 
-- Scope creep sang UI/API — giữ DB-only
-- Task model thiếu field cho Calendar/DnD sau — Design Review phải đọc `kanban.md` + ROADMAP Phase 2
+- Scope creep sang CRUD/UI — giữ lib-only
+- Assignee validation thiếu edge case (null ok, user removed from workspace) — chốt Design Review
 
 ## Success Criteria
 
-- Migration apply sạch; models khớp feature contract draft
-- Không UI/API trong session
+- Validators + authz helpers khớp kanban contract
+- **assigneeId membership rule** có test/manual spec rõ trong review
+- Không CRUD/UI trong session
 - Docs + NEXT cập nhật; STOP
 
 ## Completion Workflow
@@ -78,7 +80,7 @@ Session 08 — Kanban foundation (Project + Task schema)
 1. Verify TypeScript  
 2. Verify ESLint  
 3. Verify Build  
-4. Update Feature / Explanation / Learning / Review / ADR (nếu có)  
+4. Update Feature / Explanation / Learning / Review  
 5. Update SESSION.md  
 6. Overwrite NEXT_SESSION.md  
 7. STOP  

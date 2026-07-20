@@ -1,78 +1,93 @@
 # Feature: Kanban
 
-> **Status:** Deferred — Phase 2 (not in codebase yet)
+> **Trạng thái:** Đang làm — Phase 2 (Session 08: schema Project/BoardColumn/Task đã land; UI/API chưa)
 
-## Feature Goal
+## Mục tiêu feature
 
-Core portfolio feature: project board with columns and tasks; drag-and-drop persists column + position across reload.
+Board Kanban portfolio: cột + task, DnD persist position sau reload; TaskDetail dùng chung Calendar sau.
 
-## User Flow
+## User flow
 
-1. Open project board in workspace
-2. Create task in a column
-3. Edit task in shared TaskDetail (sheet/drawer)
-4. Drag task across columns / reorder
-5. Reload — order and column unchanged
+1. Mở project board trong workspace
+2. Tạo task trong cột
+3. Sửa task trong TaskDetail (sheet/drawer)
+4. Kéo task giữa cột / reorder
+5. Reload — thứ tự và cột không đổi
 
-## Business Rules
+## Business rules
 
-- One board per project (MVP)
-- Position integer (or fractional later) per column
+- Một board / project (MVP)
+- Position integer trên cột (task) và project (column order)
 - Assignee optional; dueDate optional
-- Comments / attachments attach to Task (see ROADMAP)
+- Project slug unique trong workspace
+- Xóa user assignee → `assigneeId` null (`onDelete: SetNull`) — **chưa** validate assignee ∈ workspace tại schema (Session 09)
 
-## UI Requirements
+## UI requirements
 
 - [ ] Column list + task cards
-- [ ] DnD via `@dnd-kit`
-- [ ] Create task control per column
-- [ ] Loading / empty / error states
+- [ ] DnD `@dnd-kit`
+- [ ] Create task per column
+- [ ] Loading / empty / error
 - [ ] Drag overlay (Zustand UI ok)
 
-## API Requirements
+## API requirements
 
 - [ ] CRUD project / columns / tasks
-- [ ] `moveTask` mutation (columnId + position)
+- [ ] `moveTask` (columnId + position)
 - [ ] Membership-gated
 
-## Database Models
+## Database models
 
-- `Project`, `BoardColumn`, `Task` (title, description, dueDate, priority, position, columnId, assigneeId?)
+**Đã land (Session 08):**
 
-## Validation Rules
+- `TaskPriority` — `LOW`, `MEDIUM`, `HIGH`
+- `Project` — `id`, `workspaceId`, `name`, `slug`, timestamps; `@@unique([workspaceId, slug])`
+- `BoardColumn` — `id`, `projectId`, `name`, `position`
+- `Task` — `id`, `columnId`, `title`, `description?`, `position`, `dueDate?`, `priority`, `assigneeId?`; assignee FK **`onDelete: SetNull`**
 
-- Title required
-- Position non-negative
-- Priority enum TBD
+Migration: `20260720073433_kanban_foundation`
 
-## Permission Rules
+**Chưa có:** Comment, attachment, seed default columns
 
-- Members can CRUD tasks in their workspace
-- OWNER/MEMBER both can move tasks (MVP)
+## Validation rules
 
-## State Management
+- Title required (Session API sau)
+- Position non-negative (Session API sau)
+- Priority enum LOW|MEDIUM|HIGH
+- **Session 09:** assigneeId phải là member của workspace project
 
-- Board data: TanStack Query + server initial
-- Drag overlay / active id: Zustand only
-- Persist via mutation + invalidate
+## Permission rules
 
-## Pending Tasks
+- Member CRUD task trong workspace (MVP)
+- OWNER/MEMBER đều move task (MVP)
 
-- [ ] Models + default columns (Todo / Doing / Done)
-- [ ] Task CRUD UI
-- [ ] DnD + reorder helper (Jest)
-- [ ] Shared TaskDetail
+## State management
 
-## Known Issues
+- Board: TanStack Query + RSC initial
+- Drag overlay: Zustand only
+- Persist: mutation + invalidate
 
-- None yet
+## Pending tasks
 
-## Future Improvements
+- [x] Models + migration (Session 08)
+- [ ] Validation + authz assignee membership (Session 09)
+- [ ] Default columns Todo/Doing/Done (seed hoặc create-project)
+- [ ] Task CRUD UI + DnD
+- [ ] TaskDetail shared
 
-- Custom columns CRUD, swimlanes, filters, realtime presence
+## Known issues
+
+- **assigneeId chưa validate theo workspace membership ở DB** — chuyển Session 09 (`lib/project/` authz)
+
+## Future improvements
+
+- Custom columns CRUD, swimlanes, filters, realtime
 
 ## Checklist
 
-- [ ] Create task → appears in column
-- [ ] Drag → reload persists
-- [ ] TaskDetail reusable from Calendar later
+- [x] Schema khớp Project → BoardColumn → Task
+- [x] Project scoped `workspaceId`
+- [x] assignee `onDelete: SetNull`
+- [ ] Create task → column
+- [ ] Drag → reload persist
+- [ ] Assignee chỉ member workspace

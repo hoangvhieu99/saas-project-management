@@ -22,6 +22,16 @@ Architecture Decision Records (ADR). Newest first.
 
 ---
 
+### ADR-011: Mô hình dữ liệu Kanban (Project + BoardColumn + Task)
+
+- **Date:** 2026-07-20
+- **Decision:** Project scoped `workspaceId`; BoardColumn + Task; assignee `onDelete: SetNull`; chưa validate assignee membership (Session 09).
+- **Reason:** Nền Phase 2 DnD/Calendar; mirror ADR-008 scoping.
+- **Alternative:** Task.status enum; workspaceId trên Task; Cascade assignee.
+- **Impact:** Session 09 validators/authz; CRUD session sau.
+- **Status:** Accepted
+- **Chi tiết:** `docs/decisions/ADR-011-kanban-data-model.md`
+
 ### ADR-010: Lightweight Domain-Oriented Module Architecture
 
 - **Date:** 2026-07-20

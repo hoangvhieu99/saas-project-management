@@ -10,15 +10,15 @@ Cập nhật mỗi coding session. AI/dev: đọc file này trước, rồi **`d
 
 ## Sprint hiện tại
 
-Phase 1 hoàn tất — chuẩn bị Phase 2 (Kanban)
+Phase 2 — Kanban foundation
 
 ## Goal hiện tại
 
-Session 07 đã xong (Profile basics). Coding session tiếp theo xem `NEXT_SESSION.md` — **không tự advance**.
+Session 08 đã xong (Kanban schema). Coding session tiếp theo xem `NEXT_SESSION.md` — **không tự advance**.
 
 ## Feature đang làm
 
-Profile — `docs/features/profile.md` · lịch sử `docs/explanations/profile.md`
+Kanban — `docs/features/kanban.md` · lịch sử `docs/explanations/kanban.md`
 
 ## Task hiện tại
 
@@ -38,10 +38,9 @@ Không
 
 ## Notes
 
-- Session 06: Dashboard stat widgets
-- Session 07: Profile `/profile`, JWT `token.picture` merge, http(s) URL refine
-- Phase 1 deliverables: done (workspace, dashboard widgets, profile)
-- Learning: `08-profile-session-update.md`
+- Session 08: Project/BoardColumn/Task + `TaskPriority`; assignee `onDelete: SetNull`
+- ADR-011; migration `kanban_foundation`
+- **Nợ Session 09:** validate `assigneeId` theo workspace membership
 
 ---
 
@@ -63,11 +62,10 @@ Không
 | 2026-07-20 | Session 05 Workspace UI + `/w/[slug]` | Xong |
 | 2026-07-20 | Session 06 Dashboard summary widgets | Xong |
 | 2026-07-20 | Session 07 Profile basics | Xong |
+| 2026-07-20 | Session 08 Kanban schema | Xong |
 
 ## TODO
 
-- [x] Foundation cleanup
-- [x] Architecture freeze
-- [x] Session 01–06 (workspace + dashboard)
-- [x] Session 07 — Profile basics
-- [ ] Session 08 — xem `NEXT_SESSION.md`
+- [x] Phase 1 (Sessions 01–07)
+- [x] Session 08 — Kanban schema
+- [ ] Session 09 — xem `NEXT_SESSION.md`

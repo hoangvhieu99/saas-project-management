@@ -1,53 +1,39 @@
 # ARCHITECTURE
 
-## Current tree (Session 07 — Profile basics)
+## Current tree (Session 08 — Kanban schema)
 
 ```
 app/
   layout.tsx / page.tsx / globals.css
   (auth)/login|register
   (app)/layout.tsx         # AuthenticatedShell → AppShell
-    (app)/dashboard        # list + summary stat widgets
-    (app)/profile          # name + avatar URL form
-    (app)/w/[slug]/         # membership gate layout + shell page
+    (app)/dashboard
+    (app)/profile
+    (app)/w/[slug]/
   actions/
-    workspace/             # list, get-by-slug, create, update, delete
-    profile/               # getProfile, updateProfile
+    workspace/
+    profile/
   api/auth/[...nextauth]
   api/auth/register
 components/
   features/
-    auth/
-    dashboard/
-    profile/               # profile form
-    workspace/
-  layout/
-  providers.tsx
-  ui/                      # shared primitives
+    auth/ | dashboard/ | profile/ | workspace/
+  layout/ | ui/
 lib/
-  auth/                    # Auth domain
-    auth.ts                # NextAuth config
-    authz.ts               # requireUser
-    validators.ts          # login / register Zod
-  workspace/               # Workspace domain (no "use server")
-    authz.ts
-    validators.ts
-    index.ts               # barrel (re-exports)
-  shared/                  # infrastructure only
-    db.ts
-    api-client.ts
-    api-helpers.ts         # UNAUTHORIZED / FORBIDDEN / NOT_FOUND / CONFLICT
-    utils.ts               # cn, slugify
+  auth/ | workspace/ | shared/
+  project/                 # planned Session 09 — validators + authz
 stores/useUiStore.ts
 prisma/
+  schema.prisma            # + Project, BoardColumn, Task, TaskPriority
+  migrations/.../kanban_foundation/
 docs/
 ```
 
 ## Planned later (not in tree yet)
 
 - Workspace settings UI (rename / delete)
-- `components/features/{kanban,calendar,…}` — by phase
-- `lib/project/`, `lib/task/` — same domain module pattern
+- `components/features/kanban/` — board UI (Phase 2)
+- `app/actions/project/` — CRUD execution (after Session 09 authz)
 - `hooks/` — when feature queries need shared hooks
 - `e2e/`, `__tests__/` — Phase 5
 

@@ -13,6 +13,7 @@ Tài liệu dạy Junior Developer. Mỗi khái niệm mới trong session → c
 | [06-server-actions.md](./06-server-actions.md) | Server Actions, queries/mutations, error throw | Session 04 |
 | [07-workspace-routes.md](./07-workspace-routes.md) | Dynamic `/w/[slug]`, layout gate, CONFLICT UX | Session 05 |
 | [08-profile-session-update.md](./08-profile-session-update.md) | JWT `token.picture` vs `image`, `session.update()` | Session 07 |
+| [09-prisma-kanban-models.md](./09-prisma-kanban-models.md) | Project/BoardColumn/Task, SetNull assignee | Session 08 |
 
 ## Sẽ bổ sung khi session tương ứng land
 
