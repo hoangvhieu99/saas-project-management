@@ -1,0 +1,28 @@
+---
+description: Git workflow
+alwaysApply: true
+---
+
+# Git Rules
+
+Every completed Session should be ready for exactly ONE Git commit.
+
+Do not mix unrelated changes.
+
+Prefer:
+
+One Goal
+
+↓
+
+One Session
+
+↓
+
+One Commit
+
+If multiple concerns appear:
+
+Stop.
+
+Recommend splitting into multiple Sessions.

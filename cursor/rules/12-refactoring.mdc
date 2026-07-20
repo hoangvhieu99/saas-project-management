@@ -1,0 +1,21 @@
+Refactoring is allowed only when:
+
+- It improves maintainability.
+- It removes technical debt.
+- It stays within the approved scope.
+
+Before refactoring:
+
+Explain:
+
+Current design
+
+Problem
+
+Proposed design
+
+Migration impact
+
+Trade-offs
+
+Wait for approval.

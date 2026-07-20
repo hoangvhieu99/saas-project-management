@@ -1,75 +1,132 @@
 # Feature: Workspace
 
-> **Status:** Deferred — Phase 1 (not in codebase yet)
+> **Trạng thái:** Đang làm — Phase 1 (Session 02: validation + authz helpers đã land; chưa CRUD/UI)
 
-## Feature Goal
+## Mục tiêu feature
 
-Authenticated users create and switch workspaces; all project data is scoped by workspace slug with membership checks.
+User đã đăng nhập tạo và chuyển workspace; mọi dữ liệu dự án được scope theo `slug` workspace kèm kiểm tra membership.
 
-## User Flow
+## Trạng thái triển khai
 
-1. From dashboard → Create workspace (name → slug)
-2. Open `/w/[slug]/...`
-3. Switch workspace from sidebar/list
-4. OWNER can rename/delete (settings); MEMBER can view/contribute per rules
+| Khu vực | Trạng thái | Ghi chú |
+|---------|------------|---------|
+| Prisma models + migration | **Đã land** | Session 01 — `20260716062526_workspace_foundation` |
+| Zod validations (name, slug create; name-only update) | **Đã land** | Session 02 — `lib/workspace/validation.ts` |
+| Membership authz helpers (WorkspaceContext) | **Đã land** | Session 02 — `lib/workspace/authz.ts` |
+| CRUD (Server Actions / API) | **Hoãn** | Cần session tường minh |
+| UI (create, switcher, empty state) | **Hoãn** | Cần session tường minh |
+| Routes `/w/[slug]/...` | **Hoãn** | Cần session tường minh |
 
-## Business Rules
+### Đã land (Session 01 — 2026-07-16)
 
-- Creator becomes `OWNER`
-- Roles: `OWNER` | `MEMBER` only
-- Slug unique; membership required for every slug-scoped query
-- Guessing a slug without membership → 403/404 (no leak)
+- [x] Enum `WorkspaceRole` (`OWNER` | `MEMBER`)
+- [x] Model `Workspace` với `slug` unique
+- [x] Model `Membership` nối `User` ↔ `Workspace` kèm role
+- [x] Cascade delete khi xóa user/workspace
+- [x] Index: unique `(userId, workspaceId)`; index `workspaceId`
+- [x] Migration: `prisma/migrations/20260716062526_workspace_foundation/`
+- [x] Docs: ADR-008, learning Prisma, explanations, review Session 01 (2026-07-20)
 
-## UI Requirements
+### Đã land (Session 02 — 2026-07-20)
 
-- [ ] Create workspace dialog/form
-- [ ] Workspace list / switcher
-- [ ] Empty state when user has zero workspaces
+- [x] `lib/workspace/validation.ts` — create `{ name, slug }`; update `{ name }` only
+- [x] `lib/workspace/authz.ts` — `WorkspaceContext`, `requireWorkspaceContext`, `requireWorkspaceOwner`
+- [x] `lib/workspace/index.ts` — public exports
+- [x] Learning: `03-validation.md`, `05-authorization.md`
 
-## API Requirements
+### Hoãn
 
 - [ ] Create / list / get-by-slug / update / delete
-- [ ] Always verify membership server-side
+- [ ] Dialog/form tạo workspace
+- [ ] List / switcher workspace
+- [ ] Empty state khi user chưa có workspace
+- [ ] Route group `/w/[slug]` + layout
 
-## Database Models
+## User flow (mục tiêu sản phẩm)
 
-- `Workspace` (id, name, slug, createdAt)
-- `Membership` (userId, workspaceId, role)
+1. Từ dashboard → Tạo workspace (name → slug)
+2. Mở `/w/[slug]/...`
+3. Đổi workspace từ sidebar/list
+4. OWNER đổi tên/xóa (settings); MEMBER xem/đóng góp theo rule
 
-## Validation Rules
+## Business rules
 
-- Name: required
-- Slug: lowercase kebab, unique, URL-safe
+- Người tạo trở thành `OWNER`
+- Role: chỉ `OWNER` | `MEMBER`
+- Slug unique; mọi query theo slug phải có membership
+- Đoán slug mà không phải member → 403/404 (không leak tồn tại)
 
-## Permission Rules
+## UI requirements
+
+- [ ] Dialog/form tạo workspace
+- [ ] List / switcher
+- [ ] Empty state zero workspaces
+
+## API requirements
+
+- [ ] Create / list / get-by-slug / update / delete
+- [ ] Luôn verify membership phía server
+
+## Database models
+
+**Đã có trong `prisma/schema.prisma`:**
+
+- `WorkspaceRole` — `OWNER`, `MEMBER`
+- `Workspace` — `id` (cuid), `name`, `slug` (unique), `createdAt`; quan hệ `memberships`
+- `Membership` — `id`, `userId`, `workspaceId`, `role`, `createdAt`; `@@unique([userId, workspaceId])`
+
+**Chưa có:** projects, tasks, invites, entity khác scoped theo workspace.
+
+## Validation rules
+
+- Name: bắt buộc
+- Slug: kebab lowercase, unique, URL-safe
+
+> Validator: `lib/workspace/validation.ts` (Session 02). Uniqueness slug vẫn ở DB.
+
+## Permission rules
 
 | Action | OWNER | MEMBER |
 |--------|-------|--------|
-| Read workspace | ✓ | ✓ |
+| Đọc workspace | ✓ | ✓ |
 | Update / delete workspace | ✓ | ✗ |
 | Invite members | ✓ | TBD |
 
-## State Management
+> Helper sẵn: `requireWorkspaceContext` / `requireWorkspaceOwner`. Enforce trên CRUD/API vẫn chờ session sau.
 
-- List: RSC or TanStack Query
+## State management
+
+- List: RSC hoặc TanStack Query
 - Active slug: URL param (source of truth)
 
-## Pending Tasks
+## Pending tasks
 
-- [ ] Prisma models + migrate
-- [ ] CRUD + authz helpers
-- [ ] UI create + switcher
+- [x] Prisma models + migrate
+- [x] Tài liệu Session 01 (learning / ADR / explanations / review)
+- [x] Zod + WorkspaceContext authz helpers (Session 02)
+- [ ] CRUD + check membership server-side
+- [ ] UI create + switcher + routes `/w/[slug]`
 
-## Known Issues
+## Known issues
 
-- None yet
+- Chưa có (ở tầng schema)
 
-## Future Improvements
+## Future improvements
 
-- Custom roles, workspace avatars, transfer ownership
+- Custom roles, avatar workspace, transfer ownership
 
 ## Checklist
 
-- [ ] Create + open by slug
-- [ ] Non-member cannot read
-- [ ] OWNER-only delete
+- [x] Prisma schema khớp hợp đồng (Workspace + Membership + roles)
+- [x] Migration `workspace_foundation` apply sạch
+- [x] Zod + WorkspaceContext authz (`lib/workspace`)
+- [ ] Create + mở theo slug
+- [ ] Non-member không đọc được (enforce trên CRUD/API)
+- [ ] Chỉ OWNER được xóa (enforce trên CRUD/API)
+
+## Tài liệu liên quan
+
+- Lịch sử: `docs/explanations/workspace.md`
+- ADR: `docs/decisions/ADR-008-workspace-membership-model.md`
+- Học: `docs/learning/02-prisma.md`, `03-validation.md`, `05-authorization.md`
+- Review: `docs/reviews/session-01-review.md`, `docs/reviews/session-02-review.md`

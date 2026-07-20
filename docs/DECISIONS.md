@@ -2,9 +2,12 @@
 
 Architecture Decision Records (ADR). Newest first.
 
+> **Từ 2026-07-20:** ADR chi tiết (tiếng Việt, đủ template) nằm tại `docs/decisions/ADR-XXX-*.md`.  
+> File này giữ mục lục / bản tóm tắt. Không xóa ADR cũ.
+
 ---
 
-## Template
+## Template (tóm tắt — dùng khi ghi nhanh vào mục lục)
 
 ```
 ### ADR-XXX: Title
@@ -18,6 +21,26 @@ Architecture Decision Records (ADR). Newest first.
 ```
 
 ---
+
+### ADR-009: Bộ tài liệu mentorship tiếng Việt (learning / ADR file / explanations / reviews)
+
+- **Date:** 2026-07-20
+- **Decision:** Mỗi session bắt buộc cập nhật SESSION + learning + decisions/*.md + explanations + reviews + features; toàn bộ giải thích bằng tiếng Việt.
+- **Reason:** Junior onboard được từ docs; AI không phụ thuộc chat history; teaching = ngang coding.
+- **Alternative:** Chỉ SESSION.md tiếng Anh; hoặc chỉ code comment.
+- **Impact:** Session dài hơn nhưng knowledge base tích lũy; Definition of Done có checklist docs.
+- **Status:** Accepted
+- **Chi tiết:** `docs/decisions/ADR-009-documentation-vietnam-mentorship.md`
+
+### ADR-008: Workspace + Membership (multi-tenant mỏng)
+
+- **Date:** 2026-07-16
+- **Decision:** Thêm `Workspace`, `Membership`, `WorkspaceRole` (OWNER|MEMBER); slug unique; cascade; chưa CRUD/UI.
+- **Reason:** Nền tảng scope dữ liệu theo workspace trước validation/authz/UI.
+- **Alternative:** Chỉ `ownerId`; RBAC đầy đủ; JSON members.
+- **Impact:** Mọi feature sau phải check membership; Session 02 = Zod + authz helpers.
+- **Status:** Accepted
+- **Chi tiết:** `docs/decisions/ADR-008-workspace-membership-model.md`
 
 ### ADR-001: Full-stack Next.js (not FE-only mocks)
 

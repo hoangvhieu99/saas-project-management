@@ -1,0 +1,24 @@
+Group code by domain.
+
+Good
+
+auth/
+workspace/
+kanban/
+calendar/
+
+Bad
+
+helpers/
+
+utils/
+
+common/
+
+misc/
+
+Avoid dumping unrelated code into shared folders.
+
+Prefer cohesive modules.
+
+Each folder should represent one business domain.

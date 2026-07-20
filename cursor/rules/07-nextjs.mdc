@@ -1,0 +1,28 @@
+---
+description: Next.js App Router conventions
+globs:
+  - "app/**/*.ts"
+  - "app/**/*.tsx"
+---
+
+# Next.js Rules
+
+Prefer:
+
+- Server Components
+- Server Actions
+- Route Handlers
+
+Use Client Components only when required:
+
+- state
+- browser APIs
+- event handlers
+
+Avoid unnecessary "use client".
+
+Keep layouts thin.
+
+Keep pages simple.
+
+Move reusable logic into lib/.

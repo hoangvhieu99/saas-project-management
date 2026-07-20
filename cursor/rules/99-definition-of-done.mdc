@@ -1,0 +1,28 @@
+---
+description: Definition of Done — checklist bắt buộc trước khi kết thúc session
+alwaysApply: true
+---
+
+# Definition of Done
+
+Một Session chỉ hoàn thành khi:
+
+- Yêu cầu đã implement đủ scope đã duyệt
+- TypeScript không lỗi
+- ESLint không lỗi
+- Build không gãy
+- Thay đổi nằm trong scope đã duyệt
+- Sẵn sàng cho một Git commit
+
+Và **toàn bộ tài liệu tiếng Việt** đã cập nhật:
+
+- [ ] `docs/SESSION.md`
+- [ ] `docs/learning/` (khái niệm mới)
+- [ ] `docs/decisions/ADR-*.md` (nếu có quyết định kiến trúc)
+- [ ] `docs/explanations/<feature>.md` (append)
+- [ ] `docs/reviews/session-XX-review.md`
+- [ ] `docs/features/<feature>.md`
+
+Nếu thiếu bất kỳ điều kiện nào:
+
+Session **CHƯA** hoàn thành. Dừng và báo phần còn thiếu.

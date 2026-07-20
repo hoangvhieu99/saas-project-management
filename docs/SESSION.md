@@ -1,61 +1,74 @@
 # SESSION
 
-Updated every coding session. AI assistants: read this first, then the relevant `features/*.md`.
+Cập nhật mỗi coding session. AI/dev: đọc file này trước, rồi `features/*.md` + `explanations/*.md`.
+
+**Ngôn ngữ tài liệu: tiếng Việt.**
 
 ---
 
-## Current Sprint
+## Sprint hiện tại
 
-Phase 0 — Foundation
+Workspace Foundation
 
-## Current Goal
+## Goal hiện tại
 
-Architecture freeze complete. Awaiting review.
+Session 02 đã xong: `lib/workspace` (Zod + WorkspaceContext authz). Chờ session tường minh tiếp theo (CRUD hoặc architecture refactor — không tự advance).
 
-## Working Feature
+## Feature đang làm
 
-Architecture alignment (shell ownership + login schema SSOT + docs)
+Workspace — `docs/features/workspace.md` · lịch sử `docs/explanations/workspace.md`
 
-## Current Task
+## Task hiện tại
 
-None — session complete.
+Không — Session 02 đã STOP.
 
 ## Blocked
 
-None
+Không
 
-## Next Task
+## Task tiếp theo
 
-Only when explicitly requested (e.g. Phase 1 Workspace).
+- Session CRUD workspace **hoặc** session refactor Domain-Oriented cho Auth/shared — **chỉ khi được yêu cầu rõ**
+- Không tự mở UI/API/routes
 
-## Files Allowed To Change
+## Files được phép sửa
 
-- None until next session is approved
+- Không — session đã đóng
 
-## Files Forbidden To Change
+## Files cấm sửa
 
-- Do not auto-advance roadmap
-- Do not touch Auth / Workspace / Dashboard / business logic / testing without an explicit session
+- Không tự advance roadmap
+- Không thêm Workspace CRUD / UI / API nếu chưa có session tường minh
+- Không migrate `lib/auth*` / `lib/shared` nếu chưa có session refactor tường minh
 
 ## Notes
 
-- Session 02 2026-07-16: `(app)/layout` owns AuthenticatedShell; single `loginSchema`; ARCHITECTURE aligned
-- Working contract: one session = one goal = STOP after task
+- Session 01 (2026-07-16): `Workspace` + `Membership` + `WorkspaceRole`; migration `workspace_foundation`
+- Session docs (2026-07-20): khung learning / decisions / explanations / reviews
+- Session 02 (2026-07-20): `lib/workspace/{validation,authz,index}.ts`; learning 03 + 05; **không** ADR; **không** đổi `api-helpers`
+- Hybrid tạm: Auth flat, Workspace theo domain — chấp nhận đến session refactor
 
 ---
 
 ## Session log
 
-| Date | Goal | Outcome |
+| Ngày | Goal | Kết quả |
 |------|------|---------|
-| 2026-07-16 | Docs SSOT | Done |
-| 2026-07-16 | Phase 0 freeze | Done |
-| 2026-07-16 | Foundation cleanup | Done — awaiting review |
-| 2026-07-16 | Session 01 architecture review | Done |
-| 2026-07-16 | Session 02 architecture freeze | Done — awaiting review |
+| 2026-07-16 | Docs SSOT | Xong |
+| 2026-07-16 | Phase 0 freeze | Xong |
+| 2026-07-16 | Foundation cleanup | Xong — chờ review |
+| 2026-07-16 | Architecture review + freeze | Xong |
+| 2026-07-16 | Workspace Sprint planning | Đã duyệt |
+| 2026-07-16 | Session 01 Workspace Prisma models | Xong |
+| 2026-07-20 | Khung tài liệu TV + backfill Session 01 | Xong |
+| 2026-07-20 | Session 02 validation + authz (`lib/workspace`) | Xong |
 
 ## TODO
 
 - [x] Foundation cleanup
-- [x] Architecture freeze (Session 02)
-- [ ] Await next explicit session goal
+- [x] Architecture freeze
+- [x] Session 01 Workspace Prisma models
+- [x] Backfill docs Session 01 (learning, ADR-008, explanations, review)
+- [x] Session 02 — validations + authz helpers
+- [ ] Session CRUD / UI / routes (khi được giao)
+- [ ] Session architecture refactor Auth/shared (khi được giao)

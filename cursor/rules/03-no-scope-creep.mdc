@@ -1,0 +1,28 @@
+---
+description: Prevent scope creep
+alwaysApply: true
+---
+
+# Scope Rules
+
+One Session = One Goal.
+
+Never implement:
+
+- multiple roadmap phases
+- multiple unrelated features
+- hidden improvements
+- speculative refactors
+
+Never:
+
+- create unnecessary files
+- rename folders
+- optimize unrelated code
+- rewrite existing architecture
+
+If another issue is discovered:
+
+Mention it.
+
+Do not fix it unless requested.

@@ -1,0 +1,40 @@
+---
+description: Architecture rules
+alwaysApply: true
+---
+
+# Architecture
+
+The architecture is defined in:
+
+docs/ARCHITECTURE.md
+
+Follow it strictly.
+
+Do not change the architecture without approval.
+
+If the current architecture becomes difficult to maintain:
+
+STOP.
+
+Explain:
+
+- Problem
+- Why it no longer scales
+- Proposed architecture
+- Trade-offs
+- Migration impact
+
+Wait for approval.
+
+Architecture improvements are encouraged.
+
+Architecture changes are not.
+
+If implementation conflicts with architecture:
+
+Stop.
+
+Explain the conflict.
+
+Wait for approval.

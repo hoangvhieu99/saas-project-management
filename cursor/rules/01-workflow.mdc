@@ -1,0 +1,51 @@
+---
+description: Standard development workflow
+alwaysApply: true
+---
+
+# Development Workflow
+
+Mọi cuộc hội thoại tuân theo workflow này.
+
+## Trước khi code
+
+Đọc theo thứ tự:
+
+1. `docs/SESSION.md`
+2. `docs/ARCHITECTURE.md` (nếu liên quan kiến trúc)
+3. Feature hiện tại: `docs/features/*.md` + `docs/explanations/*.md`
+4. Chỉ các source file liên quan task
+
+Không quét cả repo trừ khi được yêu cầu rõ.
+
+---
+
+## Planning
+
+Trước khi implement luôn giải thích (tiếng Việt):
+
+- Hiểu yêu cầu như thế nào
+- File sẽ sửa
+- Rủi ro
+- Kế hoạch triển khai
+- **WHY trước HOW** — trade-off, lựa chọn bị loại
+
+Chờ duyệt rồi mới code.
+
+---
+
+## Implementation
+
+Chỉ làm đúng scope đã duyệt. Một session = một goal = STOP.
+
+---
+
+## Sau implementation
+
+Bắt buộc:
+
+1. Cập nhật toàn bộ docs theo `04-documentation.mdc` (tiếng Việt)
+2. Tóm tắt công việc đã làm
+3. **STOP** — không tự sang session tiếp theo
+
+Không tiếp tục tự động.

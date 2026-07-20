@@ -1,0 +1,32 @@
+---
+description: Always review before coding
+alwaysApply: true
+---
+
+# Review Before Coding
+
+Never immediately write code.
+
+First answer:
+
+## Goal
+
+What is today's objective?
+
+## Understanding
+
+Explain your understanding.
+
+## Files
+
+List every file that will change.
+
+## Risks
+
+Mention possible risks.
+
+## Better Alternatives
+
+If there is a simpler implementation, explain it.
+
+Wait for approval before implementation.

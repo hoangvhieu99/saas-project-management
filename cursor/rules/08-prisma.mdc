@@ -1,0 +1,19 @@
+---
+description: Prisma conventions
+globs:
+  - "prisma/**"
+---
+
+# Prisma
+
+Schema changes must be isolated.
+
+Never modify unrelated models.
+
+Prefer:
+
+- clear relations
+- explicit indexes
+- meaningful names
+
+Every schema change should correspond to a dedicated Session.

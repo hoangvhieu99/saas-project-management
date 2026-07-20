@@ -1,0 +1,19 @@
+Before writing code:
+
+Review the design.
+
+Evaluate:
+
+- Is this scalable?
+- Is this maintainable?
+- Is there duplicate responsibility?
+- Does it violate SOLID?
+- Does it fit the current architecture?
+
+If a better design exists:
+
+Explain it.
+
+Wait for approval.
+
+Never immediately implement.

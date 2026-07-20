@@ -1,0 +1,33 @@
+---
+description: Documentation workflow — bắt buộc sau mọi session
+alwaysApply: true
+---
+
+# Documentation
+
+Tài liệu là bộ nhớ của dự án. Không dựa vào lịch sử chat.
+
+**Ngôn ngữ bắt buộc: tiếng Việt** cho mọi file trong `docs/` (SESSION, learning, decisions, explanations, reviews, features).
+
+## Sau mỗi session hoàn thành — cập nhật TẤT CẢ
+
+1. `docs/SESSION.md` — goal, done, files, problems, decisions, status, next, TODO
+2. `docs/learning/` — khái niệm mới → tạo/cập nhật file dạy Junior
+3. `docs/decisions/ADR-XXX-*.md` — mỗi quyết định kiến trúc = 1 ADR riêng
+4. `docs/explanations/<feature>.md` — **append** lịch sử feature (không xóa nội dung cũ)
+5. `docs/reviews/session-XX-review.md` — review Senior Engineer
+6. `docs/features/<feature>.md` — trạng thái feature (append/cập nhật, không xóa lịch sử)
+
+Nếu thay đổi kiến trúc tổng thể: cập nhật thêm `docs/ARCHITECTURE.md`.
+
+## Nguyên tắc
+
+- Không xóa giải thích cũ — chỉ append / bổ sung
+- Teaching = quan trọng ngang coding
+- Session chưa xong nếu thiếu bất kỳ mục checklist ở trên
+- Giữ `docs/DECISIONS.md` như mục lục trỏ tới file ADR chi tiết khi có
+
+## Không làm
+
+- Không kết thúc session chỉ với code + SESSION.md
+- Không viết tài liệu tiếng Anh (trừ tên kỹ thuật: Prisma, slug, OWNER…)

@@ -1,0 +1,21 @@
+---
+description: React component conventions
+globs:
+  - "components/**/*.tsx"
+---
+
+# React Components
+
+Keep components:
+
+- small
+- reusable
+- typed
+
+Avoid:
+
+- business logic inside UI
+- duplicated state
+- deeply nested props
+
+Prefer composition over inheritance.
