@@ -23,7 +23,7 @@
 - [x] `lib/` Domain-Oriented modules (ADR-010) — Auth + Workspace + shared
 - [x] Workspace CRUD + `w/[slug]` + OWNER/MEMBER
 - [x] Dashboard summary widgets
-- [ ] Profile basics (name, avatar URL)
+- [x] Profile basics (name, avatar URL)
 
 ### Completed
 
@@ -34,7 +34,7 @@
 - [x] Session 03 Architecture refactor (`lib/` domain modules)
 - [x] Session 04–05 Workspace CRUD server + UI `/w/[slug]`
 - [x] Session 06 Dashboard summary widgets
-- [ ] Profile basics
+- [x] Session 07 Profile basics
 
 ---
 

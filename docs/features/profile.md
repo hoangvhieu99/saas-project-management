@@ -1,65 +1,75 @@
 # Feature: Profile
 
-> **Status:** Deferred — Phase 1 / 4 (not in codebase yet)
+> **Trạng thái:** Đã land — Phase 1 (Session 07: name + avatar URL; email read-only)
 
-## Feature Goal
+## Mục tiêu feature
 
-Users view and update their own profile (name, image URL) used across assignees and topbar.
+User xem và cập nhật profile (name, avatar URL) dùng trong topbar và assignee sau này.
 
-## User Flow
+## User flow
 
-1. Open Profile from user menu
-2. Edit name / avatar URL
-3. Save → session/UI reflects change
+1. Click avatar/name trên header → `/profile`
+2. Sửa name / avatar URL (http:// hoặc https://)
+3. Save → DB + JWT session cập nhật → header phản ánh ngay
 
-## Business Rules
+## Business rules
 
-- Users edit only their own profile
-- Email change out of scope for MVP (or read-only)
+- User chỉ sửa profile của chính mình (`requireUser()` — không nhận `userId` từ client)
+- Email read-only Phase 1
+- Avatar URL: chỉ `http://` hoặc `https://`; empty → `null` (initials)
 
-## UI Requirements
+## UI requirements
 
-- [ ] Profile form (RHF + Zod)
-- [ ] Avatar preview
-- [ ] Success / error toast
+- [x] Profile form (RHF + Zod) tại `/profile`
+- [x] Avatar preview live
+- [x] Email read-only
+- [x] Success / error toast
+- [x] Header link → profile
 
-## API Requirements
+## API requirements
 
-- [ ] `PATCH` current user profile
-- [ ] Auth required
+- [x] `getProfile()` — Server Action query
+- [x] `updateProfile()` — Server Action mutation (không REST PATCH — ADR-010)
+- [x] Auth required
 
-## Database Models
+## Database models
 
-- `User` name, image fields
+- `User.name`, `User.image` — đã có, không migration Session 07
 
-## Validation Rules
+## Validation rules
 
-- Name: required, max length TBD
-- Image: URL optional / empty allowed
+- Name: bắt buộc, trim, max 80 (khớp register)
+- Image: empty hoặc URL max 2048, **refine** protocol `http:` / `https:` only
 
-## Permission Rules
+## Permission rules
 
 - Authenticated; self only
 
-## State Management
+## State management
 
-- Form local; on success update session/query cache
+- Form local (RHF)
+- Sau success: `session.update({ name, image })` + `router.refresh()`
+- JWT callback map `session.image` → `token.picture` → `session.user.image` (xem learning 08)
 
-## Pending Tasks
+## Pending tasks
 
-- [ ] Profile page + action
-- [ ] Topbar avatar binding
-- [ ] Extend in Phase 3 polish
+- [x] Profile page + actions
+- [x] Topbar avatar/name link + session sync
+- [ ] Avatar file upload (Phase 3)
+- [ ] Email change + verification (out of scope MVP)
 
-## Known Issues
+## Known issues
 
-- None yet
+- Không có
 
-## Future Improvements
+## Future improvements
 
-- Avatar file upload, email change with verification
+- Upload file, email change, profile settings tab
 
 ## Checklist
 
-- [ ] Update name persists after refresh
-- [ ] Cannot edit another user
+- [x] Update name persist sau refresh
+- [x] Update avatar URL + clear empty
+- [x] Header cập nhật sau save (kể cả navigate route khác)
+- [x] Không sửa user khác
+- [x] Reject URL non-http(s) (e.g. `javascript:`, `data:`)

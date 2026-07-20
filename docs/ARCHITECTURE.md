@@ -1,6 +1,6 @@
 # ARCHITECTURE
 
-## Current tree (Session 06 — Dashboard summary widgets)
+## Current tree (Session 07 — Profile basics)
 
 ```
 app/
@@ -8,17 +8,19 @@ app/
   (auth)/login|register
   (app)/layout.tsx         # AuthenticatedShell → AppShell
     (app)/dashboard        # list + summary stat widgets
+    (app)/profile          # name + avatar URL form
     (app)/w/[slug]/         # membership gate layout + shell page
-  actions/workspace/       # Server Actions (execution layer)
-    queries.ts             # list, get-by-slug
-    mutations.ts           # create, update, delete
+  actions/
+    workspace/             # list, get-by-slug, create, update, delete
+    profile/               # getProfile, updateProfile
   api/auth/[...nextauth]
   api/auth/register
 components/
   features/
-    auth/                  # login / register forms
-    dashboard/             # summary stat widgets
-    workspace/             # create, switcher, empty state
+    auth/
+    dashboard/
+    profile/               # profile form
+    workspace/
   layout/
   providers.tsx
   ui/                      # shared primitives

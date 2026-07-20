@@ -53,15 +53,30 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   providers,
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) {
         token.sub = user.id;
+        token.name = user.name;
+        // Auth.js JWT uses `picture`; session.user.image maps from token.picture (not token.image).
+        token.picture = user.image ?? null;
       }
+
+      if (trigger === "update" && session) {
+        if ("name" in session && session.name !== undefined) {
+          token.name = session.name as string | null;
+        }
+        if ("image" in session) {
+          token.picture = (session.image as string | null | undefined) ?? null;
+        }
+      }
+
       return token;
     },
     async session({ session, token }) {
       if (session.user && token.sub) {
         session.user.id = token.sub;
+        session.user.name = (token.name as string | null | undefined) ?? null;
+        session.user.image = (token.picture as string | null | undefined) ?? null;
       }
       return session;
     },

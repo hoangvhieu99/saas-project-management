@@ -9,89 +9,79 @@
 
 ## Session
 
-Session 07 — Profile basics (name, avatar URL)
+Session 08 — Kanban foundation (Project + Task schema)
 
 ## Goal
 
-Cho phép user đã đăng nhập **xem và cập nhật profile cơ bản** (name, avatar URL) — Phase 1 ROADMAP item còn lại trước Phase 2 Kanban.
+Đặt **nền dữ liệu Kanban** — Prisma models Project + Task (và quan hệ workspace-scoped) — tương tự Session 01 Workspace. **Không UI, không API, không DnD.**
 
 ## Why this session
 
-- Session 06 đã land dashboard summary widgets.
-- ROADMAP Phase 1 còn Profile basics sau Dashboard widgets.
-- Profile là nền cho assignee display sau này (Phase 2+).
+- Phase 1 (Workspace + Dashboard + Profile) đã xong.
+- ROADMAP Phase 2 bắt đầu bằng Project + board columns + task CRUD — schema trước, UI sau (pattern đã chứng minh Session 01→05).
 
 ## Reading Order
 
 1. `docs/SESSION.md`
 2. `docs/NEXT_SESSION.md` (file này)
-3. `docs/ROADMAP.md` (context Phase — không tự mở rộng scope)
-4. `docs/features/profile.md`
-5. `docs/ARCHITECTURE.md`
-6. `prisma/schema.prisma` (User model hiện tại)
+3. `docs/ROADMAP.md`
+4. `docs/features/kanban.md`
+5. `docs/decisions/ADR-008-workspace-membership-model.md` (workspace scoping pattern)
+6. `docs/ARCHITECTURE.md`
+7. `prisma/schema.prisma`
 
 ## Prerequisites
 
-- [x] Session 01–05 — workspace foundation + UI
-- [x] Session 06 — dashboard summary widgets
+- [x] Phase 1 complete (Sessions 01–07)
 
 ## Scope
 
-- Chốt chi tiết ở **Design Review** (route `/profile` hoặc modal, form RHF + Zod, Server Action update user)
-- User chỉ sửa profile của chính mình
-- Avatar: URL string (không upload file trong session này trừ Design Review approve khác)
-- Cập nhật docs bắt buộc (feature, explanation, review, SESSION, overwrite NEXT)
+- Chốt model fields + relations ở **Design Review** (Project, Task, column/status, workspaceId FK, indexes)
+- Migration mới
+- Docs: feature kanban, explanation append, review, SESSION, overwrite NEXT
+- **Không** Server Actions, routes, UI, DnD
 
 ## Out of Scope
 
-- Email change
-- Kanban, Calendar, Task models
-- Workspace settings / invite
-- File upload / S3
-- Schema migration lớn (trừ Design Review phát hiện thiếu field — dừng hỏi)
-- Repository / Service / Clean Architecture
+- Board UI, `@dnd-kit`, TanStack mutations
+- Calendar, comments, invite
+- Repository / Service layer
+- Seed data (trừ Design Review approve)
 
 ## Expected Files
 
-- Route hoặc page profile + `components/features/profile/...`
-- Server Action hoặc route handler update (chốt Design Review)
-- `docs/reviews/session-07-review.md`
+- `prisma/schema.prisma` + migration
+- `docs/features/kanban.md`, `docs/explanations/kanban.md` (nếu chưa có)
+- `docs/reviews/session-08-review.md`
 - `docs/SESSION.md`, `docs/NEXT_SESSION.md`
-- Feature/explanation/learning chỉ khi thực sự đụng
+- ADR nếu quyết định model đủ lớn
 
 ## Deliverables
 
-- [ ] Code trong Scope
-- [ ] Docs: review (+ feature/explanation/learning nếu cần)
-- [ ] ADR chỉ nếu có quyết định kiến trúc mới
-- [ ] `SESSION.md` cập nhật
-- [ ] `NEXT_SESSION.md` overwrite cho session kế (hoặc Waiting)
-- [ ] `tsc` / lint / build xanh
+- [ ] Schema + migration trong Scope
+- [ ] Docs đầy đủ
+- [ ] `tsc` / lint / build xanh (Prisma generate)
 
 ## Risks
 
-- Scope creep sang avatar upload / email change
-- Session refresh sau update name — chốt UX ở Design Review
+- Scope creep sang UI/API — giữ DB-only
+- Task model thiếu field cho Calendar/DnD sau — Design Review phải đọc `kanban.md` + ROADMAP Phase 2
 
 ## Success Criteria
 
-- User đăng nhập sửa được name + avatar URL; hiển thị cập nhật trong shell/menu
-- Không Kanban / workspace settings trong session
-- Docs + NEXT_SESSION đã cập nhật; STOP
+- Migration apply sạch; models khớp feature contract draft
+- Không UI/API trong session
+- Docs + NEXT cập nhật; STOP
 
 ## Completion Workflow
 
 1. Verify TypeScript  
 2. Verify ESLint  
 3. Verify Build  
-4. Update Feature (nếu cần)  
-5. Update Explanation (nếu cần)  
-6. Update Learning (nếu cần)  
-7. Update Review  
-8. Update ADR (nếu có)  
-9. Update SESSION.md  
-10. Overwrite NEXT_SESSION.md (session kế **hoặc** `Waiting for human assignment`)  
-11. STOP — không tự mở session mới  
+4. Update Feature / Explanation / Learning / Review / ADR (nếu có)  
+5. Update SESSION.md  
+6. Overwrite NEXT_SESSION.md  
+7. STOP  
 
 ## Status
 

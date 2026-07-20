@@ -63,13 +63,16 @@ export function AppShell({
 
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="flex h-14 items-center justify-end gap-2 border-b border-stone-200 bg-white px-4">
-          <div className="flex items-center gap-2 rounded-md px-2 py-1">
+          <Link
+            href="/profile"
+            className="flex items-center gap-2 rounded-md px-2 py-1 hover:bg-stone-50"
+          >
             <Avatar name={user.name} image={user.image} />
             <div className="hidden sm:block">
               <p className="text-sm font-medium leading-none">{user.name ?? "User"}</p>
               <p className="text-xs text-stone-500">{user.email}</p>
             </div>
-          </div>
+          </Link>
           <Button
             type="button"
             variant="ghost"

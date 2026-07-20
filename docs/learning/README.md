@@ -12,9 +12,9 @@ Tài liệu dạy Junior Developer. Mỗi khái niệm mới trong session → c
 | [05-authorization.md](./05-authorization.md) | Authz membership / WorkspaceContext | Session 02 |
 | [06-server-actions.md](./06-server-actions.md) | Server Actions, queries/mutations, error throw | Session 04 |
 | [07-workspace-routes.md](./07-workspace-routes.md) | Dynamic `/w/[slug]`, layout gate, CONFLICT UX | Session 05 |
+| [08-profile-session-update.md](./08-profile-session-update.md) | JWT `token.picture` vs `image`, `session.update()` | Session 07 |
 
 ## Sẽ bổ sung khi session tương ứng land
 
-- `04-authentication.md` — Auth.js
-- `08-api.md` / react-query — khi hooks land
-- `09-clean-architecture.md` — so sánh với Domain Modules (ADR-010); chỉ khi cần đào sâu
+- `04-authentication.md` — Auth.js (login/register)
+- `09-api.md` / react-query — khi hooks land
