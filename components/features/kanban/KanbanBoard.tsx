@@ -1,5 +1,5 @@
 import type { TaskPriority } from "@prisma/client";
-import { KanbanColumn } from "@/components/features/kanban/KanbanColumn";
+import { KanbanBoardDnd } from "@/components/features/kanban/KanbanBoardDnd";
 
 type KanbanBoardColumn = {
   id: string;
@@ -37,7 +37,7 @@ export function KanbanBoard({
       <div className="space-y-1">
         <h1 className="text-2xl font-semibold tracking-tight text-stone-900">{projectName}</h1>
         <p className="text-sm text-stone-500">
-          Add tasks per column — drag and drop lands in a later session.
+          Drag tasks between columns — order persists after reload.
         </p>
       </div>
 
@@ -46,18 +46,11 @@ export function KanbanBoard({
           This project has no columns yet.
         </p>
       ) : (
-        <div className="flex gap-4 overflow-x-auto pb-2">
-          {columns.map((column) => (
-            <KanbanColumn
-              key={column.id}
-              workspaceSlug={workspaceSlug}
-              projectId={projectId}
-              columnId={column.id}
-              name={column.name}
-              tasks={column.tasks}
-            />
-          ))}
-        </div>
+        <KanbanBoardDnd
+          workspaceSlug={workspaceSlug}
+          projectId={projectId}
+          columns={columns}
+        />
       )}
     </div>
   );

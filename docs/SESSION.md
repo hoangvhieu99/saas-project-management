@@ -14,7 +14,7 @@ Phase 2 — Kanban execution + UI
 
 ## Goal hiện tại
 
-Session 12 đã xong (Kanban create project + create task UI). Coding session tiếp theo xem `NEXT_SESSION.md` — **không tự advance**.
+Session 13 đã xong (Kanban DnD + moveTask). Coding session tiếp theo xem `NEXT_SESSION.md` — **không tự advance**.
 
 ## Feature đang làm
 
@@ -38,10 +38,8 @@ Không
 
 ## Notes
 
-- Session 09: `lib/project/` validators + authz
-- Session 10: `app/actions/project/` CRUD; `requireColumnInProject`; seed columns trong createProject
-- Session 11: board UI read-only; route `/w/[slug]/projects/[projectSlug]`; assignee include trong query
-- Session 12: create project dialog + create task inline; position append client-side; nullable payload gửi `null`
+- Session 12: create project dialog + create task inline
+- Session 13: `@dnd-kit` DnD; `moveTask` all-in-one tx; `resolveDropTarget` cột rỗng; Zustand overlay only
 
 ---
 
@@ -68,11 +66,10 @@ Không
 | 2026-07-20 | Session 10 Kanban CRUD Server Actions | Xong |
 | 2026-07-20 | Session 11 Kanban board UI read-only | Xong |
 | 2026-07-20 | Session 12 Kanban create project + create task UI | Xong |
+| 2026-07-20 | Session 13 Kanban DnD + moveTask | Xong |
 
 ## TODO
 
-- [x] Session 08–09 Kanban foundation
-- [x] Session 10 — Kanban CRUD actions
-- [x] Session 11 — Kanban board UI read-only
-- [x] Session 12 — Kanban create project/task UI
-- [ ] Session 13 — xem `NEXT_SESSION.md`
+- [x] Session 08–12 Kanban foundation + UI
+- [x] Session 13 — DnD + moveTask
+- [ ] Session 14 — xem `NEXT_SESSION.md`

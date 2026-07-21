@@ -9,17 +9,17 @@
 
 ## Session
 
-Session 13 — Kanban DnD + `moveTask`
+Session 14 — TaskDetail drawer (Kanban)
 
 ## Goal
 
-Thêm **drag-and-drop** giữa cột / reorder trong cột với `@dnd-kit`, mutation `moveTask` persist position, reload-safe. **Không TaskDetail, không optimistic phức tạp** — chốt chi tiết Design Review.
+Thêm **TaskDetail sheet/drawer** trên board: click task card → xem/sửa fields cơ bản qua `updateTask`. **Không Calendar, không comments** — chốt chi tiết Design Review.
 
 ## Why this session
 
-- Session 12 đã có board + create task UI — board có data thật để kéo.
-- Feature contract `kanban.md` yêu cầu DnD persist position sau reload.
-- ROADMAP Phase 2 hero: interactive Kanban.
+- Session 13 DnD hero xong — user flow step 3 trong `kanban.md`: sửa task trong TaskDetail.
+- `updateTask` action đã có từ Session 10; chưa có UI.
+- Chuẩn bị shared TaskDetail cho Calendar session sau.
 
 ## Reading Order
 
@@ -27,53 +27,50 @@ Thêm **drag-and-drop** giữa cột / reorder trong cột với `@dnd-kit`, mut
 2. `docs/NEXT_SESSION.md` (file này)
 3. `docs/features/kanban.md`
 4. `docs/explanations/kanban.md`
-5. `docs/reviews/session-12-review.md`
-6. `app/actions/project/mutations.ts`
-7. `lib/project/validators.ts` + `authz.ts`
+5. `docs/reviews/session-13-review.md`
+6. `app/actions/project/mutations.ts` (`updateTask`)
+7. `lib/project/validators.ts` (`updateTaskSchema`)
 8. `components/features/kanban/`
 
 ## Prerequisites
 
-- [x] Session 08–12 — schema, authz, CRUD, board UI, create forms
+- [x] Session 08–13 — schema, CRUD, board UI, create forms, DnD
 
 ## Scope
 
-- Chốt Design Review: `moveTask` Server Action + validator
-- `@dnd-kit` drag overlay (Zustand UI ok per feature spec)
-- Reorder within column + move between columns
-- Position normalize strategy (chốt trong Design Review)
-- **Không** TaskDetail drawer
+- Chốt Design Review: drawer/sheet component, wire `updateTask`
+- Fields tối thiểu: title, description, priority, dueDate (optional)
+- **Không** assignee picker phức tạp nếu chưa có member list API (chốt Design Review)
+- Board vẫn DnD + create task hoạt động
 
 ## Out of Scope
 
-- TaskDetail / update task UI
-- Delete project/task/column
-- Calendar, comments
-- Full TanStack Query optimistic pipeline (có thể defer)
+- Calendar view
+- Comments
+- Delete task
+- TanStack Query cache layer
 
 ## Expected Files
 
-- `app/actions/project/mutations.ts` — `moveTask`
-- `lib/project/validators.ts` — move schema (nếu cần)
-- `components/features/kanban/` — DnD wrappers
+- `components/features/kanban/task-detail-drawer.tsx` (hoặc tương đương)
+- Sửa `KanbanTaskCard` / sortable wrapper — open drawer on click (không conflict DnD)
 - Docs review, SESSION, NEXT
 
 ## Deliverables
 
-- [ ] UI + action trong Scope
+- [ ] UI trong Scope
 - [ ] Docs đầy đủ
 - [ ] `tsc` / lint / build xanh
 
 ## Risks
 
-- Scope creep TaskDetail — giữ DnD only
-- Position collision — cần chốt normalize helper trong Design Review
-- Client/server boundary với RSC board — chốt wrapper pattern
+- Click vs drag conflict — activation constraint / separate handle (chốt Design Review)
+- Scope creep Calendar/comments
 
 ## Success Criteria
 
-- Kéo task giữa cột / reorder → reload giữ thứ tự
-- Không TaskDetail trong session
+- Click task → drawer mở, sửa title → save → reload card updated
+- DnD vẫn hoạt động
 - Docs + NEXT cập nhật; STOP
 
 ## Completion Workflow

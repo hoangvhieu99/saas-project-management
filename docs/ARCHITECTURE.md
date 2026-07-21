@@ -1,40 +1,21 @@
 # ARCHITECTURE
 
-## Current tree (Session 12 — Kanban create project/task UI)
+## Current tree (Session 13 — Kanban DnD + moveTask)
 
 ```
 app/
-  layout.tsx / page.tsx / globals.css
-  (auth)/login|register
-  (app)/layout.tsx         # AuthenticatedShell → AppShell
-    (app)/dashboard
-    (app)/profile
-    (app)/w/[slug]/
-      projects/[projectSlug]/   # board page + create task
-  actions/
-    workspace/
-    profile/
-    project/               # list, get-by-slug, create project/task
-  api/auth/[...nextauth]
-  api/auth/register
-components/
-  features/
-    auth/ | dashboard/ | profile/ | workspace/ | kanban/
-      # create-project-form/dialog, create-task-form, board/column/card
-  layout/ | ui/
-lib/
-  auth/ | workspace/ | project/ | shared/
-stores/useUiStore.ts
-prisma/
-  schema.prisma            # + Project, BoardColumn, Task, TaskPriority
-  migrations/.../kanban_foundation/
-docs/
+  ...
+  actions/project/         # + moveTask
+components/features/kanban/
+  KanbanBoardDnd.tsx, KanbanSortableTaskCard.tsx, KanbanDragOverlay.tsx
+  kanban-dnd-utils.ts, ...
+lib/project/positions.ts
+stores/useKanbanDragStore.ts
 ```
 
 ## Planned later (not in tree yet)
 
 - Workspace settings UI (rename / delete)
-- Kanban DnD (`@dnd-kit`, `moveTask`)
 - TaskDetail drawer
 - `hooks/` — when feature queries need shared hooks
 - `e2e/`, `__tests__/` — Phase 5

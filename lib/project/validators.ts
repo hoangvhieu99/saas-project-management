@@ -92,8 +92,14 @@ export const updateTaskSchema = z.object({
   assigneeId: nullableAssigneeSchema.optional(),
 });
 
+export const moveTaskSchema = z.object({
+  columnId: cuidSchema,
+  position: nonNegativePositionSchema,
+});
+
 export type CreateProjectInput = z.infer<typeof createProjectSchema>;
 export type UpdateProjectInput = z.infer<typeof updateProjectSchema>;
 export type CreateBoardColumnInput = z.infer<typeof createBoardColumnSchema>;
 export type CreateTaskInput = z.infer<typeof createTaskSchema>;
 export type UpdateTaskInput = z.infer<typeof updateTaskSchema>;
+export type MoveTaskInput = z.infer<typeof moveTaskSchema>;

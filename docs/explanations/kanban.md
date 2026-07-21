@@ -210,3 +210,42 @@ app/(app)/w/[slug]/page.tsx   # CreateProjectDialog + empty CTA
 - DnD, `moveTask`, TaskDetail, update task UI
 - Assignee picker, due date picker
 
+---
+
+## Session 13 — Kanban DnD + moveTask (2026-07-20)
+
+### Mục tiêu session
+
+Thêm drag-and-drop `@dnd-kit` + `moveTask` persist position, reload-safe. Không TaskDetail, không TanStack optimistic.
+
+### Đã thêm
+
+```
+lib/project/positions.ts
+lib/project/validators.ts     # moveTaskSchema
+app/actions/project/mutations.ts  # moveTask (single interactive tx)
+stores/useKanbanDragStore.ts
+components/features/kanban/
+  kanban-dnd-utils.ts
+  KanbanBoardDnd.tsx
+  KanbanSortableTaskCard.tsx
+  KanbanDragOverlay.tsx
+```
+
+- `moveTask`: nested-where verify task + column trong tx; reindex cột affected
+- `resolveDropTarget`: cột rỗng → position 0; column body → append
+- Zustand overlay only; persist via `moveTask` + `router.refresh()`
+
+### Quyết định (Design Review + approve)
+
+1. **All-in-one transaction** — không đọc authz ngoài rồi ghi trong
+2. **Verify column mirror `requireColumnInProject`** — 1 query nested trong tx
+3. **`computeColumnPositions`** pure helper trong `lib/project/`
+4. **Không TanStack optimistic** — dnd-kit visual + server refresh
+
+### Cố ý chưa làm
+
+- TaskDetail drawer
+- Column reorder DnD
+- Delete task/project
+

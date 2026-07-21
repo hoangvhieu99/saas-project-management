@@ -5,8 +5,11 @@ import { revalidatePath } from "next/cache";
 import { requireUser } from "@/lib/auth/authz";
 import {
   assertAssigneeInWorkspace,
+  computeColumnPositions,
   createProjectSchema,
   createTaskSchema,
+  moveTaskSchema,
+  reindexAfterRemove,
   requireColumnInProject,
   requireTaskInProject,
   updateTaskSchema,
@@ -145,4 +148,103 @@ export async function updateTask(
   revalidatePath(`/w/${workspaceSlug}`);
 
   return updated;
+}
+
+/**
+ * Move task to a column index. All verify, read, compute, and write run in one interactive transaction.
+ * Task/column verify mirrors requireTaskInProject / requireColumnInProject nested-where (via tx).
+ */
+export async function moveTask(
+  workspaceSlug: string,
+  projectId: string,
+  taskId: string,
+  input: unknown,
+) {
+  const user = await requireUser();
+  const workspaceContext = await requireWorkspaceContext(user.id, workspaceSlug);
+
+  const parsed = moveTaskSchema.safeParse(input);
+  if (!parsed.success) {
+    throw new Error(parsed.error.issues[0]?.message ?? "Validation failed");
+  }
+
+  const { columnId: targetColumnId, position: targetIndex } = parsed.data;
+  const workspaceId = workspaceContext.workspace.id;
+
+  const moved = await prisma.$transaction(async (tx) => {
+    const task = await tx.task.findFirst({
+      where: {
+        id: taskId,
+        column: {
+          projectId,
+          project: { workspaceId },
+        },
+      },
+    });
+
+    if (!task) {
+      throw new Error("NOT_FOUND");
+    }
+
+    const targetColumn = await tx.boardColumn.findFirst({
+      where: {
+        id: targetColumnId,
+        projectId,
+        project: { workspaceId },
+      },
+    });
+
+    if (!targetColumn) {
+      throw new Error("NOT_FOUND");
+    }
+
+    const sourceColumnId = task.columnId;
+
+    const targetTasks = await tx.task.findMany({
+      where: { columnId: targetColumnId },
+      orderBy: { position: "asc" },
+      select: { id: true },
+    });
+
+    const targetIds = targetTasks.map((row) => row.id);
+    const targetPositions = computeColumnPositions(targetIds, taskId, targetIndex);
+
+    const updates: { id: string; columnId: string; position: number }[] = targetPositions.map(
+      ({ id, position }) => ({
+        id,
+        columnId: targetColumnId,
+        position,
+      }),
+    );
+
+    if (sourceColumnId !== targetColumnId) {
+      const sourceTasks = await tx.task.findMany({
+        where: { columnId: sourceColumnId },
+        orderBy: { position: "asc" },
+        select: { id: true },
+      });
+
+      const sourceIds = sourceTasks.map((row) => row.id).filter((id) => id !== taskId);
+      const sourcePositions = reindexAfterRemove(sourceIds);
+
+      for (const { id, position } of sourcePositions) {
+        updates.push({ id, columnId: sourceColumnId, position });
+      }
+    }
+
+    await Promise.all(
+      updates.map(({ id, columnId, position }) =>
+        tx.task.update({
+          where: { id },
+          data: { columnId, position },
+        }),
+      ),
+    );
+
+    return task;
+  });
+
+  revalidatePath(`/w/${workspaceSlug}`);
+
+  return moved;
 }

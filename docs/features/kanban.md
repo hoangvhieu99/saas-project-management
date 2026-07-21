@@ -1,6 +1,6 @@
 # Feature: Kanban
 
-> **Trạng thái:** Đang làm — Phase 2 (Session 12: create project/task UI; DnD chưa)
+> **Trạng thái:** Đang làm — Phase 2 (Session 13: DnD + moveTask; TaskDetail chưa)
 
 ## Mục tiêu feature
 
@@ -26,16 +26,15 @@ Board Kanban portfolio: cột + task, DnD persist position sau reload; TaskDetai
 ## UI requirements
 
 - [x] Column list + task cards (read-only board)
-- [ ] DnD `@dnd-kit`
+- [x] DnD `@dnd-kit`
 - [x] Create task per column
 - [x] Loading / empty / error (empty per column + notFound gate)
-- [ ] Drag overlay (Zustand UI ok)
+- [x] Drag overlay (Zustand UI ok)
 
 ## API requirements
 
 - [x] Queries: `listProjects`, `getProjectBySlug`
-- [x] Mutations: `createProject`, `createTask`, `updateTask`
-- [ ] `moveTask` (columnId + position) — session sau
+- [x] Mutations: `createProject`, `createTask`, `updateTask`, `moveTask`
 - [x] Membership-gated qua `lib/project/` authz
 
 ## Database models
@@ -73,7 +72,7 @@ Migration: `20260720073433_kanban_foundation`
 - [x] Default columns seed trong `createProject`
 - [x] Board UI read-only (Session 11)
 - [x] Task create UI (Session 12)
-- [ ] DnD
+- [x] DnD (Session 13)
 - [ ] TaskDetail shared
 
 ## Known issues
@@ -92,4 +91,4 @@ Migration: `20260720073433_kanban_foundation`
 - [x] Assignee chỉ member workspace (create/update task)
 - [x] Board read-only UI + assignee display
 - [x] Create task → column (UI)
-- [ ] Drag → reload persist
+- [x] Drag → reload persist
