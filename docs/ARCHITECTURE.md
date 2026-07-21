@@ -1,22 +1,23 @@
 # ARCHITECTURE
 
-## Current tree (Session 13 — Kanban DnD + moveTask)
+## Current tree (Session 14 — TaskDetail drawer)
 
 ```
 app/
   ...
-  actions/project/         # + moveTask
+  actions/project/         # create/update/moveTask
 components/features/kanban/
+  task-detail-drawer.tsx
   KanbanBoardDnd.tsx, KanbanSortableTaskCard.tsx, KanbanDragOverlay.tsx
   kanban-dnd-utils.ts, ...
 lib/project/positions.ts
-stores/useKanbanDragStore.ts
+stores/useKanbanDragStore.ts  # overlay + KanbanDragTask (+ description)
 ```
 
 ## Planned later (not in tree yet)
 
 - Workspace settings UI (rename / delete)
-- TaskDetail drawer
+- Calendar reuse TaskDetail
 - `hooks/` — when feature queries need shared hooks
 - `e2e/`, `__tests__/` — Phase 5
 

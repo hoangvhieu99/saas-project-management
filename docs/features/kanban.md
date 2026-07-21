@@ -1,6 +1,6 @@
 # Feature: Kanban
 
-> **Trạng thái:** Đang làm — Phase 2 (Session 13: DnD + moveTask; TaskDetail chưa)
+> **Trạng thái:** Đang làm — Phase 2 (Session 14: TaskDetail drawer; Calendar chưa)
 
 ## Mục tiêu feature
 
@@ -30,6 +30,7 @@ Board Kanban portfolio: cột + task, DnD persist position sau reload; TaskDetai
 - [x] Create task per column
 - [x] Loading / empty / error (empty per column + notFound gate)
 - [x] Drag overlay (Zustand UI ok)
+- [x] TaskDetail drawer (title, description, priority, dueDate; assignee read-only)
 
 ## API requirements
 
@@ -63,6 +64,7 @@ Migration: `20260720073433_kanban_foundation`
 - Board: TanStack Query + RSC initial (session UI sau)
 - Drag overlay: Zustand only
 - Persist: mutation + invalidate
+- TaskDetail open: local `useState` trên board (không Zustand)
 
 ## Pending tasks
 
@@ -73,15 +75,18 @@ Migration: `20260720073433_kanban_foundation`
 - [x] Board UI read-only (Session 11)
 - [x] Task create UI (Session 12)
 - [x] DnD (Session 13)
-- [ ] TaskDetail shared
+- [x] TaskDetail shared (Kanban wire — Session 14)
 
 ## Known issues
 
 - Stale assignee nếu user bị remove khỏi workspace — read hiển thị tùy UI session sau
+- Assignee edit chưa có — chờ member list API
 
 ## Future improvements
 
 - Custom columns CRUD, swimlanes, filters, realtime
+- Assignee picker khi có Team/members API
+- Calendar reuse cùng `TaskDetailDrawer`
 
 ## Checklist
 
@@ -92,3 +97,4 @@ Migration: `20260720073433_kanban_foundation`
 - [x] Board read-only UI + assignee display
 - [x] Create task → column (UI)
 - [x] Drag → reload persist
+- [x] Click card → TaskDetail → `updateTask` → refresh

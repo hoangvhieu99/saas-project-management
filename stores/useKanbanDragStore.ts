@@ -4,6 +4,7 @@ import { create } from "zustand";
 export type KanbanDragTask = {
   id: string;
   title: string;
+  description: string | null;
   position: number;
   priority: TaskPriority;
   dueDate: Date | null;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   DndContext,
   DragStartEvent,
@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { moveTask } from "@/app/actions/project/mutations";
 import { KanbanColumn } from "@/components/features/kanban/KanbanColumn";
 import { KanbanDragOverlay } from "@/components/features/kanban/KanbanDragOverlay";
+import { TaskDetailDrawer } from "@/components/features/kanban/task-detail-drawer";
 import {
   isNoOpMove,
   resolveDropTarget,
@@ -49,12 +50,28 @@ export function KanbanBoardDnd({ workspaceSlug, projectId, columns }: KanbanBoar
   const setActiveTask = useKanbanDragStore((state) => state.setActiveTask);
   const clearActiveTask = useKanbanDragStore((state) => state.clearActiveTask);
   const [isMoving, setIsMoving] = useState(false);
+  const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
+  const suppressOpenRef = useRef(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 8 },
     }),
   );
+
+  const selectedTask = selectedTaskId ? findTask(columns, selectedTaskId) : null;
+
+  function armSuppressOpen() {
+    suppressOpenRef.current = true;
+    setTimeout(() => {
+      suppressOpenRef.current = false;
+    }, 0);
+  }
+
+  function handleTaskOpen(taskId: string) {
+    if (suppressOpenRef.current) return;
+    setSelectedTaskId(taskId);
+  }
 
   function handleDragStart(event: DragStartEvent) {
     const task = findTask(columns, String(event.active.id));
@@ -63,6 +80,7 @@ export function KanbanBoardDnd({ workspaceSlug, projectId, columns }: KanbanBoar
 
   async function handleDragEnd(event: DragEndEvent) {
     clearActiveTask();
+    armSuppressOpen();
 
     const activeId = String(event.active.id);
     const overId = event.over ? String(event.over.id) : undefined;
@@ -98,30 +116,43 @@ export function KanbanBoardDnd({ workspaceSlug, projectId, columns }: KanbanBoar
 
   function handleDragCancel() {
     clearActiveTask();
+    armSuppressOpen();
   }
 
+  const dragDisabled = isMoving || selectedTaskId !== null;
+
   return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCorners}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      onDragCancel={handleDragCancel}
-    >
-      <div className="flex gap-4 overflow-x-auto pb-2">
-        {columns.map((column) => (
-          <KanbanColumn
-            key={column.id}
-            workspaceSlug={workspaceSlug}
-            projectId={projectId}
-            columnId={column.id}
-            name={column.name}
-            tasks={column.tasks}
-            dragDisabled={isMoving}
-          />
-        ))}
-      </div>
-      <KanbanDragOverlay />
-    </DndContext>
+    <>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCorners}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        onDragCancel={handleDragCancel}
+      >
+        <div className="flex gap-4 overflow-x-auto pb-2">
+          {columns.map((column) => (
+            <KanbanColumn
+              key={column.id}
+              workspaceSlug={workspaceSlug}
+              projectId={projectId}
+              columnId={column.id}
+              name={column.name}
+              tasks={column.tasks}
+              dragDisabled={dragDisabled}
+              onTaskOpen={handleTaskOpen}
+            />
+          ))}
+        </div>
+        <KanbanDragOverlay />
+      </DndContext>
+
+      <TaskDetailDrawer
+        workspaceSlug={workspaceSlug}
+        projectId={projectId}
+        task={selectedTask}
+        onClose={() => setSelectedTaskId(null)}
+      />
+    </>
   );
 }

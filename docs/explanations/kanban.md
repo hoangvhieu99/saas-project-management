@@ -249,3 +249,43 @@ components/features/kanban/
 - Column reorder DnD
 - Delete task/project
 
+---
+
+## Session 14 — TaskDetail drawer (2026-07-21)
+
+### Mục tiêu session
+
+Thêm **TaskDetail side drawer** trên board: click card → xem/sửa fields qua `updateTask`. Không Calendar, comments, delete, assignee picker.
+
+### Đã thêm
+
+```
+components/features/kanban/
+  task-detail-drawer.tsx
+  KanbanBoardDnd.tsx          # selectedTaskId + suppressOpenRef
+  KanbanSortableTaskCard.tsx  # onOpen click
+  KanbanColumn.tsx            # pass description + onTaskOpen
+  KanbanBoard.tsx             # description trên task type
+stores/useKanbanDragStore.ts  # KanbanDragTask.description
+```
+
+- Fields editable: title, description, priority, dueDate
+- Assignee: **read-only** (chưa có member list API)
+- Payload `updateTask` chỉ gồm **dirtyFields** — omit = không đổi; `null` = xoá description/dueDate
+- Click-sau-kéo: `suppressOpenRef` + **`setTimeout(0)`** clear (không microtask/rAF)
+- Giữ `PointerSensor` `distance: 8`; disable drag khi drawer mở
+
+### Quyết định (Design Review + approve có điều kiện)
+
+1. **Custom side drawer** — mirror overlay Create Project; không thêm Sheet/Radix
+2. **dirtyFields partial payload** — tránh transform `undefined`→`null` xoá nhầm field
+3. **suppressOpenRef + setTimeout(0)** — chặn click synthetic sau `dragEnd`
+4. **Extend board types + `description`** — không thêm `getTaskById`
+
+### Cố ý chưa làm
+
+- Calendar reuse drawer
+- Comments, delete task
+- Assignee picker / member list
+- TanStack optimistic
+

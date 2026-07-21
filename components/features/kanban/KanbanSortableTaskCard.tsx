@@ -7,6 +7,7 @@ import type { KanbanDragTask } from "@/stores/useKanbanDragStore";
 
 type KanbanSortableTaskCardProps = KanbanDragTask & {
   dragDisabled?: boolean;
+  onOpen?: () => void;
 };
 
 export function KanbanSortableTaskCard({
@@ -16,6 +17,7 @@ export function KanbanSortableTaskCard({
   dueDate,
   assignee,
   dragDisabled = false,
+  onOpen,
 }: KanbanSortableTaskCardProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id,
@@ -29,7 +31,17 @@ export function KanbanSortableTaskCard({
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="cursor-pointer"
+      {...attributes}
+      {...listeners}
+      onClick={() => {
+        if (isDragging) return;
+        onOpen?.();
+      }}
+    >
       <KanbanTaskCard title={title} priority={priority} dueDate={dueDate} assignee={assignee} />
     </div>
   );

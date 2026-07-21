@@ -8,6 +8,7 @@ type KanbanBoardColumn = {
   tasks: {
     id: string;
     title: string;
+    description: string | null;
     position: number;
     priority: TaskPriority;
     dueDate: Date | null;
@@ -37,7 +38,7 @@ export function KanbanBoard({
       <div className="space-y-1">
         <h1 className="text-2xl font-semibold tracking-tight text-stone-900">{projectName}</h1>
         <p className="text-sm text-stone-500">
-          Drag tasks between columns — order persists after reload.
+          Drag tasks between columns — click a card to edit details.
         </p>
       </div>
 

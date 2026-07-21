@@ -1,34 +1,22 @@
 "use client";
 
-import type { TaskPriority } from "@prisma/client";
 import { useDroppable } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CreateTaskForm } from "@/components/features/kanban/create-task-form";
 import { KanbanSortableTaskCard } from "@/components/features/kanban/KanbanSortableTaskCard";
-
-type KanbanColumnTask = {
-  id: string;
-  title: string;
-  position: number;
-  priority: TaskPriority;
-  dueDate: Date | null;
-  assignee: {
-    id: string;
-    name: string | null;
-    image: string | null;
-  } | null;
-};
+import type { KanbanDragTask } from "@/stores/useKanbanDragStore";
 
 type KanbanColumnProps = {
   workspaceSlug: string;
   projectId: string;
   columnId: string;
   name: string;
-  tasks: KanbanColumnTask[];
+  tasks: KanbanDragTask[];
   dragDisabled?: boolean;
+  onTaskOpen?: (taskId: string) => void;
 };
 
-function nextTaskPosition(tasks: KanbanColumnTask[]): number {
+function nextTaskPosition(tasks: KanbanDragTask[]): number {
   if (tasks.length === 0) return 0;
   return Math.max(...tasks.map((task) => task.position)) + 1;
 }
@@ -40,6 +28,7 @@ export function KanbanColumn({
   name,
   tasks,
   dragDisabled = false,
+  onTaskOpen,
 }: KanbanColumnProps) {
   const { setNodeRef, isOver } = useDroppable({ id: columnId });
 
@@ -67,11 +56,13 @@ export function KanbanColumn({
                 key={task.id}
                 id={task.id}
                 title={task.title}
+                description={task.description}
                 position={task.position}
                 priority={task.priority}
                 dueDate={task.dueDate}
                 assignee={task.assignee}
                 dragDisabled={dragDisabled}
+                onOpen={() => onTaskOpen?.(task.id)}
               />
             ))
           )}

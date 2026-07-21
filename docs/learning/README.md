@@ -16,6 +16,7 @@ Tài liệu dạy Junior Developer. Mỗi khái niệm mới trong session → c
 | [09-prisma-kanban-models.md](./09-prisma-kanban-models.md) | Project/BoardColumn/Task, SetNull assignee | Session 08 |
 | [10-project-authz.md](./10-project-authz.md) | Project/task authz, assignee membership, IDOR guard | Session 09 |
 | [11-project-server-actions.md](./11-project-server-actions.md) | Kanban CRUD actions + nested column verify | Session 10 |
+| [12-task-detail-partial-update.md](./12-task-detail-partial-update.md) | dirtyFields omit vs null; suppressOpenRef + setTimeout(0) | Session 14 |
 
 ## Sẽ bổ sung khi session tương ứng land
 

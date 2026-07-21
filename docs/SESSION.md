@@ -14,7 +14,7 @@ Phase 2 — Kanban execution + UI
 
 ## Goal hiện tại
 
-Session 13 đã xong (Kanban DnD + moveTask). Coding session tiếp theo xem `NEXT_SESSION.md` — **không tự advance**.
+Session 14 đã xong (TaskDetail drawer + `updateTask` UI). Coding session tiếp theo xem `NEXT_SESSION.md` — **không tự advance**.
 
 ## Feature đang làm
 
@@ -38,8 +38,8 @@ Không
 
 ## Notes
 
-- Session 12: create project dialog + create task inline
 - Session 13: `@dnd-kit` DnD; `moveTask` all-in-one tx; `resolveDropTarget` cột rỗng; Zustand overlay only
+- Session 14: TaskDetail side drawer; dirtyFields omit vs null; `suppressOpenRef` + `setTimeout(0)`; assignee read-only
 
 ---
 
@@ -67,9 +67,10 @@ Không
 | 2026-07-20 | Session 11 Kanban board UI read-only | Xong |
 | 2026-07-20 | Session 12 Kanban create project + create task UI | Xong |
 | 2026-07-20 | Session 13 Kanban DnD + moveTask | Xong |
+| 2026-07-21 | Session 14 Kanban TaskDetail drawer | Xong |
 
 ## TODO
 
-- [x] Session 08–12 Kanban foundation + UI
-- [x] Session 13 — DnD + moveTask
-- [ ] Session 14 — xem `NEXT_SESSION.md`
+- [x] Session 08–13 Kanban foundation + UI + DnD
+- [x] Session 14 — TaskDetail drawer
+- [ ] Session tiếp — xem `NEXT_SESSION.md`
